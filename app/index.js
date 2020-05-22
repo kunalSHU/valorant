@@ -26,13 +26,16 @@ app.use(
   })
 );
 
-app
+var server = app
   .listen(PORT, () =>
     console.log(
       `Express GraphQL Server Now Running On localhost:${PORT}/graphql`
     )
   )
-  .on("error", () => {
+  .on("error", (error) => {
     console.log("Port in use. Existing program");
+    console.error(error);
     process.exit(1);
   });
+
+module.exports = server;

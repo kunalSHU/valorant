@@ -10,7 +10,7 @@ describe("Testing basic endpoint", () => {
   it("Can fetch the test endpoint", async () => {
     try {
       const { data: response } = await axios.post(
-        "http://localhost:8080/graphql",
+        "http://localhost:8085/graphql",
         { query: gqlQuery },
         { headers: { "Content-Type": "application/json" } }
       );

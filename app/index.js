@@ -2,6 +2,8 @@ var express = require("express");
 var express_graphql = require("express-graphql");
 var { buildSchema } = require("graphql");
 var cors = require("cors");
+
+const PORT = process.env.APP_PORT || 8085;
 // GraphQL schema
 var schema = buildSchema(`
     type Query {
@@ -23,6 +25,14 @@ app.use(
     graphiql: true,
   })
 );
-app.listen(8080, () =>
-  console.log("Express GraphQL Server Now Running On localhost:8080/graphql")
-);
+
+app
+  .listen(PORT, () =>
+    console.log(
+      `Express GraphQL Server Now Running On localhost:${PORT}/graphql`
+    )
+  )
+  .on("error", () => {
+    console.log("Port in use. Existing program");
+    process.exit(1);
+  });

@@ -1,12 +1,12 @@
-axios = require("axios");
+const axios = require("axios");
+
+const gqlQuery = `
+query {
+  message
+}
+  `;
 
 describe("Testing basic endpoint", () => {
-  const gqlQuery = `
-  query {
-    message
-  }
-    `;
-
   it("Can fetch the test endpoint", async () => {
     try {
       const { data: response } = await axios.post(

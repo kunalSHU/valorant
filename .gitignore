@@ -2,6 +2,7 @@
 ### CI Files ###
 ################
 ci-pipeline/ci-pipeline-data/*
+*/tests/report/
 ################
 
 # Logs

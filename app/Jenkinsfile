@@ -1,24 +1,36 @@
 #!/usr/bin/env groovy
 pipeline {
   agent any
-  tools {nodejs "latest"}
+  tools {nodejs "nodejs"}
   stages {
-    stage('Preflight') {
+    stage('Cloning Repository') {
       steps {
-        echo sh(returnStdout: true, script: 'env')
-        sh 'node -v'
+        git branch: 'jenkins-pipeline-setup', credentialsId: 'valorant-jenkins-repo-auth-token', url: 'https://github.com/ShabazBadshah/valorant'
+        sh "ls -la"
       }
-    }
+    } 
     stage('Installing Dependencies') {
       steps {
         sh 'npm --version'
-        sh 'git log --reverse -1'
-        sh 'npm install'
+        dir('app') {
+            echo 'Installing app dependencies' 
+            sh 'npm install'
+            sh "pwd"
+        }
       }
     }
-    stage('Test') {
+    stage('Testing') {
+      options {
+         timeout(time: 5, unit: 'MINUTES')   // timeout on this stage
+      }
       steps {
-        sh 'npm test'
+        dir('app') {
+          sh 'pwd'
+          sh "APP_PORT=8080 node index.js &"
+          sh 'npm run test:ci'
+          sh 'npm prune'
+          sh 'rm node_modules -rf'
+        }
       }
     }
   }

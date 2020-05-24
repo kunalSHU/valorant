@@ -8,7 +8,8 @@ module.exports = {
     es6: true,
     node: true,
     browser: true,
-    amd: true
+    amd: true,
+    mocha: true
   },
   globals: {
     require: true,
@@ -18,7 +19,7 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly'
   },
-  plugins: ['security', 'jsdoc'],
+  plugins: ['security', 'mocha', 'jsdoc'],
   extends: [
     'plugin:security/recommended'
   ],
@@ -104,8 +105,6 @@ module.exports = {
     // disallow mixed 'LF' and 'CRLF' as linebreaks
     'linebreak-style': 0,
     // specify the maximum length of a line in your program
-    // https://github.com/eslint/eslint/blob/master/docs/rules/max-len.md
-    'max-len': 0,
     // specify the maximum depth callbacks can be nested
     'max-nested-callbacks': 0,
     // require a capital letter for constructors

@@ -5,7 +5,7 @@ const describe = require('mocha').describe;
 const it = require('mocha').it;
 const after = require('mocha').after;
 
-const app = require('../src/index.js');
+const app = require('../../src/index.js');
 
 const gqlQuery = `
   query {

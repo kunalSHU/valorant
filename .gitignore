@@ -2,6 +2,8 @@
 ### CI Files ###
 ################
 ci-pipeline/ci-pipeline-data/*
+# Ignore generated test reports
+**/__tests__/**/report
 ################
 
 # Logs

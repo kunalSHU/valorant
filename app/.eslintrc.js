@@ -18,11 +18,39 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly'
   },
-  plugins: ['security'],
+  plugins: ['security', 'jsdoc'],
   extends: [
     'plugin:security/recommended'
   ],
   rules: {
+    // DOCUMENTATION
+    'jsdoc/check-alignment': 2, // Recommended
+    'jsdoc/check-examples': 0,
+    'jsdoc/require-example': 0,
+    'jsdoc/check-indentation': 2,
+    'jsdoc/check-param-names': 2, // Recommended
+    'jsdoc/check-syntax': 1,
+    'jsdoc/check-tag-names': 2, // Recommended
+    'jsdoc/check-types': 2, // Recommended
+    'jsdoc/implements-on-classes': 2, // Recommended
+    'jsdoc/match-description': 1,
+    'jsdoc/newline-after-description': 2, // Recommended
+    'jsdoc/no-types': 0,
+    'jsdoc/no-undefined-types': 2, // Recommended
+    'jsdoc/require-description': 1,
+    'jsdoc/require-description-complete-sentence': 1,
+    'jsdoc/require-hyphen-before-param-description': 1,
+    'jsdoc/require-jsdoc': 2, // Recommended
+    'jsdoc/require-param': 2, // Recommended
+    'jsdoc/require-param-description': 2, // Recommended
+    'jsdoc/require-param-name': 2, // Recommended
+    'jsdoc/require-param-type': 2, // Recommended
+    'jsdoc/require-returns': 2, // Recommended
+    'jsdoc/require-returns-check': 2, // Recommended
+    'jsdoc/require-returns-description': 2, // Recommended
+    'jsdoc/require-returns-type': 2, // Recommended
+    'jsdoc/valid-types': 2, // Recommended
+
     // SECURITY
     // do not allow the use of eval() with a variable
     'security/detect-eval-with-expression': 2,
@@ -335,6 +363,15 @@ module.exports = {
     'no-unreachable': 2,
     // disallow comparisons with the value NaN
     'use-isnan': 2,
+    'require-jsdoc': [2, {
+      require: {
+          FunctionDeclaration: true,
+          MethodDefinition: true,
+          ClassDeclaration: true,
+          ArrowFunctionExpression: true,
+          FunctionExpression: true
+      }
+  }],
     // ensure JSDoc comments are valid
     'valid-jsdoc': 2,
     // ensure that the results of typeof are compared against a valid string

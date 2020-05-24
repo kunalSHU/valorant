@@ -1,4 +1,3 @@
-# Image based off https://stackoverflow.com/questions/47208009/create-docker-image-with-latest-jenkins
 FROM jenkins/jenkins:lts
 
 USER root
@@ -6,6 +5,7 @@ USER root
 # Skip setup wizard
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
 
+# Copy Jenkins initialization scripts instance
 COPY scripts/*.groovy /usr/share/jenkins/ref/init.groovy.d/
 
 # # Install plugins

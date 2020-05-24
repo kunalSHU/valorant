@@ -19,7 +19,15 @@ pipeline {
         }
       }
     }
-    stage('Testing') {
+    stage('Checking Code Quality') {
+      steps {
+        dir('app') {
+          sh 'pwd'
+          sh 'npm run eslint'
+        }
+      }
+    }
+    stage('Running Tests') {
       options {
          timeout(time: 5, unit: 'MINUTES')   // timeout on this stage
       }
@@ -28,8 +36,6 @@ pipeline {
           sh 'pwd'
           sh "APP_PORT=8080 node index.js &"
           sh 'npm run test:ci'
-          sh 'npm prune'
-          sh 'rm node_modules -rf'
         }
       }
     }

@@ -38,16 +38,4 @@ const server = app
     process.exit(1);
   });
 
-/**
- * Returns the thing.
- *
- * @param {string} a - The string.
- * @returns {string} The other thing.
- */
-function foo(a) {
-  return a;
-}
-
-foo('a');
-
 module.exports = server;

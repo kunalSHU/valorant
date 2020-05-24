@@ -1,7 +1,7 @@
 // prettier-ignore
 module.exports = {
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2018,
     sourceType: 'module'
   },
   env: {
@@ -12,10 +12,41 @@ module.exports = {
   },
   globals: {
     require: true,
-    process: true
+    process: true,
+    // spectre and meltdown prevention
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly'
   },
+  plugins: ['security'],
+  extends: [
+    'plugin:security/recommended'
+  ],
   rules: {
+    // SECURITY
+    // do not allow the use of eval() with a variable
+    'security/detect-eval-with-expression': 2,
+    'security/detect-unsafe-regex': 2,
+    'security/detect-buffer-noassert': 2,
+    'security/detect-child-process': 2,
+    'security/detect-disable-mustache-escape': 2,
+    'security/detect-no-csrf-before-method-override': 2,
+    'security/detect-non-literal-fs-filename': 2,
+    'security/detect-non-literal-regexp': 2,
+    'security/detect-non-literal-require': 2,
+    'security/detect-object-injection': 2,
+    'security/detect-possible-timing-attacks': 2,
+    'security/detect-pseudoRandomBytes': 2,
     // STYLE
+    // use template strings instead of string concatanation
+    'prefer-template': 2,
+    // call super before remaining class properties
+    'no-this-before-super': 2,
+    // prevent modification of const variables once they've been declared
+    'no-const-assign': 2,
+    // classes that inherit must call super
+    'constructor-super': 2,
+    'arrow-parens': [2, 'always'],
     // enforce spacing inside array brackets
     'array-bracket-spacing': [2, 'never'],
     // enforce one true brace style
@@ -144,8 +175,6 @@ module.exports = {
     'no-use-before-define': 2,
 
     // BEST PRACTICE
-    // require use of parentheses for arrow function arguments
-    'arrow-parens': 2,
     // use arrow functions instad of explicit function call syntax
     'prefer-arrow-callback': 2,
     // Enforces getter/setter pairs in objects
@@ -307,7 +336,7 @@ module.exports = {
     // disallow comparisons with the value NaN
     'use-isnan': 2,
     // ensure JSDoc comments are valid
-    'valid-jsdoc': 0,
+    'valid-jsdoc': 2,
     // ensure that the results of typeof are compared against a valid string
     'valid-typeof': 2,
     // Avoid code that looks like two expressions but is actually one

@@ -1,10 +1,14 @@
-################
+#################################
+
 ### CI Files ###
-################
 ci-pipeline/ci-pipeline-data/*
+
+### Development Files ###
+
 # Ignore generated test reports
 **/__tests__/**/report
-################
+container-data/
+#################################
 
 # Logs
 logs

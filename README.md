@@ -4,7 +4,7 @@ A medical logistics app that assists family doctos manage their practices
 
 ## 📘 Directory Breakdown
 
-```
+```text
 ├── api-gateway: API gateway src
 ├── ci-pipeline: Jenkins pipeline (can be deployed locally, will require configuration)
 │   ├── ci-pipeline-data: Jenkins container data
@@ -28,11 +28,15 @@ A medical logistics app that assists family doctos manage their practices
 
 ## 🔨 Installation
 
+### Development Environment
+
+1. Run ```./setup-dev-environment.sh``` to install development environment prerequisites
+
 ### Microservices
 
 1. ```cd``` into microservice directory
 2. Run ```npm i``` in service directory to install all dependencies
-3. Run ```npm start:dev``` to start
+3. Run ```npm start:dev``` to start microservice in development mode
 
 ## ⚙️ NPM Tasks
 

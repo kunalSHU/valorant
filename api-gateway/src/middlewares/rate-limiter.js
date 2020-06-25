@@ -5,7 +5,8 @@ const httpStatus = require('../utils/http-status-code.js');
 /**
  * Allows a maximum number of requests to the server from a client within a certain timeframe.
  *
- * E.g. Only allow 10 requests per minute (MAX_REQUESTS_WINDOW_MS = 1000, MAX_REQUESTS_ALLOWED_PER_WINDOW = 10).
+ * @example
+ * Only allow 10 requests per minute: rateLimiter(60000, 10)
  *
  * @param {number} maxRequestWindowMs - The length of the rate limiting time window in milliseconds.
  * @param {number} maxRequestsAllowedPerWindow - The maximum amount of requests that can be made within the time window.

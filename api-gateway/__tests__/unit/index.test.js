@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable require-jsdoc */
 const request = require('supertest');
 const expect = require('chai').expect;
 const express = require('express');
@@ -14,32 +12,34 @@ const gatewayServer = require('../../src/index.js').server;
 const rateLimiter = require('../../src/middlewares/rate-limiter.js');
 
 describe('Can rate limit requests', () => {
-  const tooManyRequestsMessage = 'Too many requests. Please try again later';
-  const maxRequestWindowMs = 10000;
-  const maxRequestsAllowedPerWindow = 2;
+  // eslint-disable-next-line require-jsdoc
+  const createMockRateLimitedApp = (maxRequestWindowMs, maxRequestsAllowedPerWindow, tooManyRequestsMessage) => {
+    const app = express();
+    app.use(
+      rateLimiter(maxRequestWindowMs, maxRequestsAllowedPerWindow, (req, res) => {
+        res.json({ message: tooManyRequestsMessage });
+      })
+    );
 
-  const app = express();
-  app.use(
-    rateLimiter(maxRequestWindowMs, maxRequestsAllowedPerWindow, (req, res) => {
-      res.json({ message: tooManyRequestsMessage });
-    })
-  );
+    app.get('/', (req, res) => {
+      res.status(httpStatusCode.OK).json({ message: 'Test endpoint reached' });
+    });
 
-  app.get('/', (req, res) => {
-    res.status(httpStatusCode.OK).json('Test endpoint');
-  });
+    return app;
+  };
 
   it('should allow the first request through', (done) => {
-    request(app).get('/').expect(httpStatusCode.OK);
+    const app = createMockRateLimitedApp(10000, 1, 'Too many requests. Please try again later');
     request(app).get('/').expect(httpStatusCode.OK);
     done();
   });
 
   it('should refuse any additional requests', async () => {
-    await request(app).get('/').expect(httpStatusCode.OK);
+    const app = createMockRateLimitedApp(10000, 1, 'Too many requests. Please try again later');
+    // Make requests to get
     await request(app).get('/').expect(httpStatusCode.OK);
     const rateLimitedResponse = await request(app).get('/').expect(httpStatusCode.CLIENT_TOO_MANY_REQUESTS);
-    expect(rateLimitedResponse.body.message).to.be.a('string').to.be.equal(tooManyRequestsMessage);
+    expect(rateLimitedResponse.body.message).to.be.a('string').to.be.equal('Too many requests. Please try again later');
   });
 });
 

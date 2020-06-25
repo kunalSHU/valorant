@@ -10,6 +10,7 @@ const describe = require('mocha').describe;
 const it = require('mocha').it;
 const after = require('mocha').after;
 
+const gatewayServer = require('../../src/index.js').server;
 const rateLimiter = require('../../src/middlewares/rate-limiter.js');
 
 describe('Can rate limit requests', () => {
@@ -39,6 +40,18 @@ describe('Can rate limit requests', () => {
     await request(app).get('/').expect(httpStatusCode.OK);
     const rateLimitedResponse = await request(app).get('/').expect(httpStatusCode.CLIENT_TOO_MANY_REQUESTS);
     expect(rateLimitedResponse.body.message).to.be.a('string').to.be.equal(tooManyRequestsMessage);
+  });
+});
+
+describe('Can be pinged', () => {
+  it("should get a response from '/' route", (done) => {
+    request(gatewayServer)
+      .get('/')
+      .expect(httpStatusCode.OK)
+      .end((err, res) => {
+        expect(res.body.message).to.be.a('string').to.be.equal('Test endpoint reached');
+        done();
+      });
   });
 });
 

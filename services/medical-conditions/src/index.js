@@ -2,14 +2,35 @@ const express = require('express');
 const express_graphql = require('express-graphql');
 const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
-
-const PORT = process.env.APP_PORT || 8085;
+const { Pool, Client } = require('pg');
+//pg_ctl -D /var/lib/postgresql/data -l logfile start
+const PORT = 8080;
 // GraphQL schema
 const schema = buildSchema(`
 type Query {
         message: String
     }
 `);
+
+const client = new Client({
+  user: 'postgres',
+  password: 'postgres',
+  host: 'Kunals-MacBook-Pro.local',
+  port: 5432,
+  database: 'medical-conditions-db'
+})
+
+const queryFunction = function () {
+  client.connect()
+  .then(() => {console.log('Connected Successfully')})
+  .then(() => client.query('SELECT * FROM people'))
+  .then((result) => {console.table(result.rows)})
+  .catch(e => console.log(e))
+  .finally(() => client.end())
+}
+  
+// timeout used so connection to db happens after it is started
+setTimeout(queryFunction , 5000)
 
 // Root resolver
 const root = {

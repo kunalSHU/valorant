@@ -1,23 +1,21 @@
-FROM node:10.15.0-alpine
+# Building the image from Node version 12
+FROM node:latest
 
-WORKDIR /home/app
+# Set the application directory
+WORKDIR /usr/src/app
 
-COPY package.json /home/app/
-COPY package-lock.json /home/app/
+# Install App deåpendencies
+# Image just uses the dependencies in the package json file
+COPY package*.json ./
 
-# Copying directories into Docker image
-# https://stackoverflow.com/questions/26504846/copy-directory-to-other-directory-at-docker-using-add-command
-COPY src src
+RUN npm install
 
-# Install all non development dependencies
-RUN npm install --only=prod
+# Bundle App
+COPY . .
 
-# Define app port from environment variables or use the default 8085
-ARG APP_PORT=8085
-ENV APP_PORT=${APP_PORT}
+EXPOSE 8080
+#ADD https://raw.githubusercontent.com/nickjj/wait-until/v0.1.0/wait-until /usr/local/bin
+#RUN chmod +x /usr/local/bin/wait-until
 
-RUN npm start
+CMD ["node", "src/index.js"]
 
-EXPOSE ${APP_PORT}
-
-# Include a shell script for anything more advanced that needs to be completed in the image 

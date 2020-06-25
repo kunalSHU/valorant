@@ -1,33 +1,20 @@
-version: '2'
-
-services:
-  app:
-    container_name: medical-conditions-app
-    build: 
-      context: .
-      dockerfile: ./Dockerfile
-      environment: :
-        # Pass APP_PORT to container
-        - APP_PORT=${APP_PORT}
-    volumes:
-      - ./container-data/app/:/home/app
-    ports:
-      - ${APP_PORT}:${APP_PORT}
-    depends_on:
-      - postgres-db
-    restart: always
-  postgres-db:
-    container_name: medical-conditions-db
-    image: "postgres:latest"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=medical-conditions-database
-    volumes:
-      - ./container-data/postgresql-db:/var/lib/postgresql/data/
-    ports:
-      - 5432:5432
-
-volumes:
-  app-data:
-  db-data:
+version: "3.7"
+services: 
+    db: 
+        image: postgres
+        environment: 
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: medical-conditions-db
+        volumes: 
+            - ./pgdata:/var/lib/postgresql/data
+        ports:
+            - '5432:5432'
+    web:
+        image: medical-conditions-web
+        depends_on: 
+            - db
+        ports: 
+            - '8080:8080'
+        volumes:
+            - .:/usr/src/app

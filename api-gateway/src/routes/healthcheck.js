@@ -1,4 +1,6 @@
-const router = require('express').Router();
+// TODO remove repetitive usage of Router() in route files
+
+const router = require('express').Router({ mergeParams: true });
 const process = require('process');
 const os = require('os');
 
@@ -12,8 +14,7 @@ router.get('/', (req, res) => {
     message: `Pinging /healthcheck on ${environmentConfig.application.serviceName}`,
     data: {
       serviceName: environmentConfig.application.serviceName,
-      date: new Date(),
-      time: Date.now(),
+      serverDateTimeUtc: new Date().toUTCString(),
       processId: process.pid,
       protocol: req.protocol,
       method: req.method,

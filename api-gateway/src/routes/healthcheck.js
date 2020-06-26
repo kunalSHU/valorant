@@ -1,6 +1,6 @@
 // TODO remove repetitive usage of Router() in route files
 
-const router = require('express').Router({ mergeParams: true });
+const router = require('express').Router();
 const process = require('process');
 const os = require('os');
 
@@ -18,11 +18,12 @@ router.get('/', (req, res) => {
       processId: process.pid,
       protocol: req.protocol,
       method: req.method,
-      routeRequested: req.path,
+      routeRequested: `${req.originalUrl}${req.path}`,
       processUptimeSeconds: process.uptime(),
       requestOriginIpInfo: networkInfo.getRequestOriginIpInfo(req),
       serverLocalIp: networkInfo.getServerIpInfo(),
       os: {
+        osArch: os.arch(),
         osUptimeSeconds: os.uptime(),
         osType: os.type(),
         osRelease: os.release(),
@@ -31,8 +32,8 @@ router.get('/', (req, res) => {
       },
       hardware: {
         cpuModel: os.cpus()[0].model,
-        totalMem: os.totalmem(),
-        freeMem: os.freemem(),
+        totalMemBytes: os.totalmem(),
+        freeMemBytes: os.freemem(),
         systemLoadAvg: os.loadavg() // See https://nodejs.org/api/os.html#os_os_loadavg
       }
     }

@@ -1,5 +1,6 @@
 {
   "application": {
+    "serviceName": "API Gateway",
     "port": 8085,
     "whitelistedCorsDomains": [
       "http://localhost:9000",

@@ -1,14 +1,13 @@
 // prettier-ignore
 module.exports = {
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 11,
     sourceType: 'module'
   },
   env: {
-    es6: true,
+    es2020: true,
     node: true,
     browser: true,
-    amd: true,
     mocha: true
   },
   globals: {
@@ -37,7 +36,7 @@ module.exports = {
     'jsdoc/match-description': 1,
     'jsdoc/newline-after-description': 2, // Recommended
     'jsdoc/no-types': 0,
-    'jsdoc/no-undefined-types': 2, // Recommended
+    'jsdoc/no-undefined-types': 0, // Recommended
     'jsdoc/require-description': 1,
     'jsdoc/require-description-complete-sentence': 1,
     'jsdoc/require-hyphen-before-param-description': 1,
@@ -371,8 +370,6 @@ module.exports = {
           FunctionExpression: true
       }
   }],
-    // ensure JSDoc comments are valid
-    'valid-jsdoc': 2,
     // ensure that the results of typeof are compared against a valid string
     'valid-typeof': 2,
     // Avoid code that looks like two expressions but is actually one

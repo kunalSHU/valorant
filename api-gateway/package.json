@@ -7,6 +7,7 @@
     "start": "NODE_ENV=production node ./src/index.js",
     "start:dev": "NODE_ENV=development ./node_modules/.bin/nodemon ./src/index.js",
     "test:all": "./node_modules/.bin/nyc ./node_modules/.bin/mocha --exit __tests__/**/*.js",
+    "generate-docs": "./node_modules/.bin/doxdox 'src/**/*.js' --layout bootstrap --output docs/api/index.html",
     "test:unit": "./node_modules/.bin/nyc --reporter=text mocha ./node_modules/.bin/mocha __tests__/unit/*.js --exit --timeout=30000",
     "eslint": "./node_modules/.bin/eslint --config ./.eslintrc.js src/ __tests__/",
     "eslint:fix": "./node_modules/.bin/eslint --config ./.eslintrc.js --fix src/ __tests__/"

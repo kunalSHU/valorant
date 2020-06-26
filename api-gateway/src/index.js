@@ -3,14 +3,11 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const process = require('process');
-const os = require('os');
 const expressIp = require('express-ip');
 
 const environmentConfig = require('./environment-config.json');
 
 const rateLimiter = require('./middlewares/rate-limiter.js');
-const networkUtils = require('./utils/network-info.js');
-const httpStatusCode = require('./utils/http-status-code.js');
 
 const PORT = environmentConfig.application.port || 8085;
 const whitelistedCorsDomains = environmentConfig.application.whitelistedCorsDomains;
@@ -52,40 +49,7 @@ app.use(
   )
 );
 
-app.get('/', (req, res) => {
-  res.status(httpStatusCode.OK).json({ message: 'Test endpoint reached' });
-});
-
-app.get('/healthcheck', (req, res) => {
-  res.status(httpStatusCode.OK).json({
-    message: `Pinging /healthcheck on ${environmentConfig.application.serviceName}`,
-    data: {
-      serviceName: environmentConfig.application.serviceName,
-      date: new Date(),
-      time: Date.now(),
-      processId: process.pid,
-      protocol: req.protocol,
-      method: req.method,
-      routeRequested: req.path,
-      processUptimeSeconds: process.uptime(),
-      os: {
-        osUptimeSeconds: os.uptime(),
-        osType: os.type(),
-        osRelease: os.release(),
-        osPlatform: os.platform(),
-        osUserInfo: os.userInfo()
-      },
-      hardware: {
-        cpuModel: os.cpus()[0].model,
-        totalMem: os.totalmem(),
-        freeMem: os.freemem(),
-        systemLoadAvg: os.loadavg() // See https://nodejs.org/api/os.html#os_os_loadavg
-      },
-      requestOriginIpInfo: networkUtils.getRequestOriginIpInfo(req),
-      serverLocalIp: networkUtils.getServerIpInfo()
-    }
-  });
-});
+app.use('/', require('./routes/routes.js'));
 
 const server = app
   .listen(PORT, () => {

@@ -1,46 +1,24 @@
 const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+const bodyParserMiddleware = require('body-parser');
+const cookieParserMiddleware = require('cookie-parser');
 const process = require('process');
-const expressIp = require('express-ip');
+
+const expressIpMiddleware = require('express-ip');
+const corsMiddleware = require('./middlewares/cors.js');
+const rateLimiterMiddleware = require('./middlewares/rate-limiter.js');
 
 const environmentConfig = require('./environment-config.json');
 
-const rateLimiter = require('./middlewares/rate-limiter.js');
-
 const PORT = environmentConfig.application.port || 8085;
-const whitelistedCorsDomains = environmentConfig.application.whitelistedCorsDomains;
-
-const corsOptions = {
-  /**
-   * Checks the request's origin URL against a whitelist of domains to determine if its allowed to send CORS requests.
-   *
-   * @param {string} origin - The requester UrL.
-   * @param {Function} onOriginWhitelistCheck - The function that will called when the origin check has occured. It will return an error (if origin is not whitelisted) and a boolean indicating whether the origin is allowed to send CORS requests.
-   * @returns {boolean} - Whether the origin exists in the whitelisted or not.
-   */
-  origin: function isCorsAccessAllowedForOrigin(origin, onOriginWhitelistCheck) {
-    if (!origin) return onOriginWhitelistCheck(null, true);
-    if (whitelistedCorsDomains.indexOf(origin) === -1) {
-      return onOriginWhitelistCheck(
-        new Error('The CORS policy for this origin does not allow access from the particular origin'),
-        false
-      );
-    }
-    return onOriginWhitelistCheck(null, true);
-  }
-};
-
 const app = express();
 
-app.use(cors(corsOptions));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(expressIp().getIpInfoMiddleware);
+app.use(corsMiddleware);
+app.use(bodyParserMiddleware.urlencoded({ extended: false }));
+app.use(bodyParserMiddleware.json());
+app.use(cookieParserMiddleware());
+app.use(expressIpMiddleware().getIpInfoMiddleware);
 app.use(
-  rateLimiter(
+  rateLimiterMiddleware(
     environmentConfig.middlewares.rateLimiter.maxRequestWindowMs,
     environmentConfig.middlewares.rateLimiter.maxRequestsAllowedPerWindow,
     (req, res) => {

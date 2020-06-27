@@ -3,13 +3,13 @@ const rateLimit = require('express-rate-limit');
 const httpStatus = require('../utils/http-status-code.js');
 
 /**
- * Allows a maximum number of requests to the server from a client within a certain timeframe.
+ * Allows a maximum number of requests to the server from a client within a certain timeframe. Uses defaults of (maxRequestWindowMs = 1000, maxRequestsAllowedPerWindow=200)
  *
  * @example
  * Only allow 10 requests per minute: rateLimiter(60000, 10, onMaxRequestsExceeded)
  *
- * @param {number} maxRequestWindowMs - The length of the rate limiting time window in milliseconds.
- * @param {number} maxRequestsAllowedPerWindow - The maximum amount of requests that can be made within the time window.
+ * @param {number} [maxRequestWindowMs] - The length of the rate limiting time window in milliseconds.
+ * @param {number} [maxRequestsAllowedPerWindow] - The maximum amount of requests that can be made within the time window.
  * @param {Function} onMaxRequestsExceeded - The function that will run when the maximum number of requests have been exceeded by the client.
  * @returns {void}
  */

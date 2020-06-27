@@ -9,7 +9,7 @@ const rateLimiterMiddleware = require('./middlewares/rate-limiter.js');
 
 const environmentConfig = require('./environment-config.json');
 
-const PORT = environmentConfig.application.port || 8085;
+const PORT = process.env.PORT || environmentConfig.application.port;
 const app = express();
 
 app.use(corsMiddleware);

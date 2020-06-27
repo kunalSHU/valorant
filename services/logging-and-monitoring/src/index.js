@@ -2,6 +2,7 @@ const express = require('express');
 const express_graphql = require('express-graphql');
 const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
+const { Pool, Client } = require('pg');
 
 const PORT = process.env.APP_PORT || 8085;
 // GraphQL schema
@@ -15,6 +16,28 @@ type Query {
 const root = {
   message: () => 'Hello World!'
 };
+
+/** NOTE: Change to bookings-db once created.. Change port as well*/
+const client = new Client({
+  user: 'postgres',
+  password: 'postgres',
+  host: 'Kunals-MacBook-Pro.local',
+  port: 5432,
+  database: 'medical-conditions-db'
+})
+
+// Will query the tables here
+const queryFunction = function () {
+  client.connect()
+  .then(() => {console.log('Connected Successfully')})
+  .then(() => client.query('SELECT * FROM people'))
+  .then((result) => {console.table(result.rows)})
+  .catch(e => console.log(e))
+  .finally(() => client.end())
+}
+  
+// timeout used so connection to db happens after it is started
+setTimeout(queryFunction , 5000)
 
 // Create an express server and a GraphQL endpoint
 const app = express();

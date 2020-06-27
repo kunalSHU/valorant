@@ -21,14 +21,14 @@ const client = new Client({
 })
 
 // Will query the tables here
-/*const queryFunction = function () {
+const queryFunction = function () {
   client.connect()
   .then(() => {console.log('Connected Successfully')})
   .then(() => client.query('SELECT * FROM people'))
   .then((result) => {console.table(result.rows)})
   .catch(e => console.log(e))
   .finally(() => client.end())
-}*/
+}
   
 // timeout used so connection to db happens after it is started
 setTimeout(queryFunction , 5000)

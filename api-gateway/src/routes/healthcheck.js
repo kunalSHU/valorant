@@ -18,10 +18,10 @@ router.get('/', (req, res) => {
       processId: process.pid,
       protocol: req.protocol,
       method: req.method,
-      routeRequested: `${req.originalUrl}${req.path}`,
+      routeRequested: `${req.originalUrl}`,
       processUptimeSeconds: process.uptime(),
       requestOriginIpInfo: networkInfo.getRequestOriginIpInfo(req),
-      serverLocalIp: networkInfo.getServerIpInfo(),
+      serverIpInfo: networkInfo.getServerIpInfo(),
       os: {
         osArch: os.arch(),
         osUptimeSeconds: os.uptime(),

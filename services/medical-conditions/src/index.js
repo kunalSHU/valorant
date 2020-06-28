@@ -3,6 +3,7 @@ const express_graphql = require('express-graphql');
 const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
 const Client = require('pg');
+
 const PORT = 8080;
 // GraphQL schema
 const schema = buildSchema(`
@@ -10,7 +11,7 @@ type Query {
         message: String
     }
 `);
- 
+
 const credentials = require('../client-model')
 credentials.database = 'medical-conditions-db';
 const client = new Client(credentials)

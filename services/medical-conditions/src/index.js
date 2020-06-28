@@ -2,7 +2,7 @@ const express = require('express');
 const express_graphql = require('express-graphql');
 const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
-const { Pool, Client } = require('pg');
+const Client = require('pg');
 const PORT = 8080;
 // GraphQL schema
 const schema = buildSchema(`

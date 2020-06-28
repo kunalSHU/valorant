@@ -4,13 +4,12 @@ const bcrypt = require('bcrypt');
 
 const { validationResult, body } = require('express-validator');
 
+const authenticationMiddleware = require('../middlewares/authentication.js');
 const authenticationController = require('../controllers/authentication-controller.js');
-
 const httpStatusCode = require('../utils/http-status-code.js');
-const jwtSecret = require('../environment-config.json').middlewares.authentication.jwtSecret;
-
 const validateNewUserInput = require('../input-validators/new-user-validator.js');
 
+const jwtSecret = require('../environment-config.json').middlewares.authentication.jwtSecret;
 const defaultTokenExpiryTimeMs = require('../environment-config.json').middlewares.authentication
   .defaultTokenExpiryTimeMs;
 
@@ -43,19 +42,34 @@ router.post('/register', validateNewUserInput, (req, res) => {
   }
 });
 
-router.delete('/delete', [body('email', 'Email must be a valid address').isEmail().normalizeEmail()], (req, res) => {
-  const inputValidationErrors = validationResult(req);
-  if (inputValidationErrors.errors.length !== 0) {
-    res.status(httpStatusCode.CLIENT_UNPROCESSABLE_ENTINTY).json({ errors: inputValidationErrors.array() });
-  } else {
-    const { email } = req.body;
-
-    if (authenticationController.deleteUser(email) === true) {
-      res.status(httpStatusCode.OK).json({ message: 'User has been deleted' });
+router.delete(
+  '/delete',
+  [
+    body('email', 'Please provide a valid email address')
+      .notEmpty()
+      .withMessage('Empty email provided')
+      .isEmail()
+      .normalizeEmail(),
+    body('sessionJwtToken', 'Invalid token provided')
+      .notEmpty()
+      .withMessage('Empty session JWT token provided')
+      .isString()
+  ],
+  authenticationMiddleware,
+  (req, res) => {
+    const inputValidationErrors = validationResult(req);
+    if (inputValidationErrors.errors.length !== 0) {
+      res.status(httpStatusCode.CLIENT_UNPROCESSABLE_ENTINTY).json({ errors: inputValidationErrors.array() });
     } else {
-      res.status(httpStatusCode.OK).json({ message: 'User was not found in DB' });
+      const { email } = req.body;
+
+      if (authenticationController.deleteUser(email) === true) {
+        res.status(httpStatusCode.OK).json({ message: 'User has been deleted' });
+      } else {
+        res.status(httpStatusCode.OK).json({ message: 'User was not found in DB' });
+      }
     }
   }
-});
+);
 
 module.exports = router;

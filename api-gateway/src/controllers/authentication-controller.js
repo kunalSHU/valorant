@@ -4,6 +4,18 @@ const isObjectEmpty = require('../utils/is-object-empty.js');
 /* eslint-disable require-jsdoc */
 const users = [];
 
+const findUserWithJwtToken = (email, sessionJwtToken) => {
+  let i = users.length;
+  while (i--) {
+    const { email: userEmail, sessionJwtToken: userSessionJwtToken, ...user } = users[parseInt(i)];
+
+    if (email.localeCompare(userEmail) === 0 && userSessionJwtToken.localeCompare(sessionJwtToken) === 0) {
+      return { userFoudIdx: i, user: { userEmail, userSessionJwtToken, ...user } };
+    }
+  }
+  return { userFoundIdx: -1, user: {} };
+};
+
 const findUser = (email) => {
   let i = users.length;
   while (i--) {
@@ -31,4 +43,4 @@ const addUser = (name, email, hashedPassword, sessionJwtToken) => {
   return true;
 };
 
-module.exports = { findUser, addUser, deleteUser };
+module.exports = { findUser, addUser, deleteUser, findUserWithJwtToken };

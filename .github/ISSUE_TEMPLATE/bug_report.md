@@ -23,14 +23,11 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Environment (please complete the following information):**
- - Build #: [#12]
+**Device (please complete the following information):**
  - Device: [e.g. macbook, pixel]
- - Device OS and Version: [e.g. iOS 12/Android P]
+ - OS: [e.g. iOS]
  - Browser [e.g. chrome, safari]
-
-**Logs**
-- Link to logs on Google Drive or Jenkins 
+ - Version [e.g. 22]
 
 **Additional context**
 Add any other context about the problem here.

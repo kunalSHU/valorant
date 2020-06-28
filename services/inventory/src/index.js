@@ -4,8 +4,6 @@ const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
 const Client = require('pg');
 
-//import credentials from "../../client-model";
-
 const PORT = process.env.APP_PORT || 8085;
 // GraphQL schema
 const schema = buildSchema(`

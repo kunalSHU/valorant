@@ -2,7 +2,7 @@ const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const { validationResult } = require('express-validator');
+const { validationResult, body } = require('express-validator');
 
 const authenticationController = require('../controllers/authentication-controller.js');
 
@@ -39,6 +39,21 @@ router.post('/register', validateNewUserInput, (req, res) => {
       res.status(httpStatusCode.CREATED).json({ message: 'User has been registered', newUser });
     } else {
       res.status(httpStatusCode.OK).json({ message: 'User already exists in DB' });
+    }
+  }
+});
+
+router.delete('/delete', [body('email', 'Email must be a valid address').isEmail().normalizeEmail()], (req, res) => {
+  const inputValidationErrors = validationResult(req);
+  if (inputValidationErrors.errors.length !== 0) {
+    res.status(httpStatusCode.CLIENT_UNPROCESSABLE_ENTINTY).json({ errors: inputValidationErrors.array() });
+  } else {
+    const { email } = req.body;
+
+    if (authenticationController.deleteUser(email) === true) {
+      res.status(httpStatusCode.OK).json({ message: 'User has been deleted' });
+    } else {
+      res.status(httpStatusCode.OK).json({ message: 'User was not found in DB' });
     }
   }
 });

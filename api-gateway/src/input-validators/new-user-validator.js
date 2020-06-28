@@ -3,9 +3,13 @@ const { check } = require('express-validator');
 const validatePassword = require('./password-validator.js');
 
 module.exports = [
-  check('name').isAlpha().notEmpty().isLength({ min: 2 }),
-  check('email', 'Please enter a valid email').isEmail().normalizeEmail(),
-  check('password').custom((password) => {
+  check('name', 'Please enter a valid name')
+    .isAlpha()
+    .withMessage('Name must be alphabetic')
+    .isLength({ min: 2 })
+    .withMessage('Name must be atleast two characters'),
+  check('email', 'Email must be a valid address').isEmail().normalizeEmail(),
+  check('password', 'Invalid password entry').custom((password) => {
     const passwordValidationErrors = validatePassword(password, {
       minLength: 6,
       maxLength: 128,
@@ -18,7 +22,7 @@ module.exports = [
     if (passwordValidationErrors.length !== 0) {
       return Promise.reject(passwordValidationErrors);
     } else {
-      return Promise.resolve(passwordValidationErrors);
+      return Promise.resolve(true);
     }
   })
 ];

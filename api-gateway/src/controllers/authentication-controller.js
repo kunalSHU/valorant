@@ -15,12 +15,12 @@ const findUser = (email) => {
 };
 
 const deleteUser = (email) => {
-  const { userFoundIdx, user } = this.findUser(email);
+  const { userFoundIdx, user } = findUser(email);
   if (isObjectEmpty(user)) {
-    return {};
+    return false;
   }
   users.slice(userFoundIdx, 1);
-  return { userFoundIdx, user };
+  return true;
 };
 
 const addUser = (name, email, hashedPassword, sessionJwtToken) => {

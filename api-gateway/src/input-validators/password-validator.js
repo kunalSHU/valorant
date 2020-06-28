@@ -61,13 +61,6 @@ const validatePassword = (password, passwordRules = defaultPasswordRules) => {
       ? defaultPasswordRules.minUppercaseLetters
       : minUppercaseLetters;
 
-  console.log(minLength);
-  console.log(maxLength);
-  console.log(minDigits);
-  console.log(minSpecialCharacters);
-  console.log(minLowercaseLetters);
-  console.log(minUppercaseLetters);
-
   if (!password || password.length === 0 || password.localeCompare('') === 0) {
     validationErrors.push('Password is required');
   }

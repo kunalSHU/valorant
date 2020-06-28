@@ -18,7 +18,7 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly'
   },
-  plugins: ['security', 'mocha', 'jsdoc'],
+  plugins: ['security', 'mocha', 'jsdoc', 'apidoc'],
   extends: [
     'plugin:security/recommended'
   ],
@@ -78,8 +78,7 @@ module.exports = {
     // enforce spacing inside array brackets
     'array-bracket-spacing': [2, 'never'],
     // enforce one true brace style
-    'brace-style': [2, 'stroustrup'],
-    // enforce spacing before and after comma
+    'brace-style': [2, '1tbs', { 'allowSingleLine': true }],    // enforce spacing before and after comma
     'comma-spacing': [2, { before: false, after: true }],
     // enforce one true comma style
     'comma-style': [2, 'last'],

@@ -67,13 +67,12 @@ describe('Can be pinged', () => {
       .set({ 'X-Forwarded-For': '1.2.3.4' }) // Mocking a random IP address so valid geolocation data can be retrieved
       .expect(httpStatusCode.OK)
       .end((err, res) => {
-        const { message } = res.body;
+        const { serviceName, message } = res.body;
         const {
-          serviceName,
           protocol,
           method,
           routeRequested,
-          requestOriginIpInfo: { ip, timezone, country },
+          requestOriginInfo: { ip, ianaTimezone, isoCountryCode },
           serverIpInfo: { publicIpv4, privateIpv4 }
         } = res.body.data;
 
@@ -83,8 +82,8 @@ describe('Can be pinged', () => {
         expect(method).to.be.a('string').to.be.equal('GET');
         expect(routeRequested).to.be.a('string').to.be.equal('/healthcheck');
         expect(ip).to.be.a('string').to.match(ipv4Regex);
-        expect(timezone).to.be.a('string').and.to.match(timezoneRegex);
-        expect(country).to.be.a('string').and.to.match(isoCountryCodeRegex);
+        expect(ianaTimezone).to.be.a('string').and.to.match(timezoneRegex);
+        expect(isoCountryCode).to.be.a('string').and.to.match(isoCountryCodeRegex);
         expect(publicIpv4).to.be.a('string').to.match(ipv4Regex);
         expect(privateIpv4).to.be.a('string').to.match(ipv4Regex);
 

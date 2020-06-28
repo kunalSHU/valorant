@@ -23,6 +23,7 @@ app.use(
     environmentConfig.middlewares.rateLimiter.maxRequestsAllowedPerWindow,
     (req, res) => {
       res.json({ message: 'Too many requests. Please try again later' });
+      return;
     }
   )
 );

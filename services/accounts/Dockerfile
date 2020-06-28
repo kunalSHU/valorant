@@ -4,7 +4,7 @@ FROM node:latest
 # Set the application directory
 WORKDIR /usr/src/app
 
-# Install App deåpendencies
+# Install App dependencies
 # Image just uses the dependencies in the package json file
 COPY package*.json ./
 

@@ -4,15 +4,15 @@ const bcrypt = require('bcrypt');
 
 const { validationResult } = require('express-validator');
 
-const httpStatusCode = require('../utils/http-status-code');
+const authenticationController = require('../controllers/authentication-controller.js');
+
+const httpStatusCode = require('../utils/http-status-code.js');
 const jwtSecret = require('../environment-config.json').middlewares.authentication.jwtSecret;
 
 const validateNewUserInput = require('../input-validators/new-user-validator.js');
 
 const defaultTokenExpiryTimeMs = require('../environment-config.json').middlewares.authentication
   .defaultTokenExpiryTimeMs;
-
-const users = [];
 
 router.post('/register', validateNewUserInput, (req, res) => {
   const inputValidationErrors = validationResult(req);
@@ -26,6 +26,8 @@ router.post('/register', validateNewUserInput, (req, res) => {
       expiresIn: defaultTokenExpiryTimeMs
     });
 
+    const wasUserAdded = authenticationController.addUser(name, email, hashedPassword, sessionJwtToken);
+
     const newUser = {
       name,
       email,
@@ -33,8 +35,11 @@ router.post('/register', validateNewUserInput, (req, res) => {
       sessionJwtToken
     };
 
-    users.push(newUser);
-    res.status(httpStatusCode.OK).json({ auth: true, ...newUser });
+    if (wasUserAdded === true) {
+      res.status(httpStatusCode.CREATED).json({ message: 'User has been registered', newUser });
+    } else {
+      res.status(httpStatusCode.OK).json({ message: 'User already exists in DB' });
+    }
   }
 });
 

@@ -11,15 +11,9 @@ type Query {
         message: String
     }
 `);
-
-/** NOTE: Change to bookings-db once created.. Change port as well*/
-const client = new Client({
-  user: 'postgres',
-  password: 'postgres',
-  host: '198.91.129.107',
-  port: 8080,
-  database: 'medical-conditions-db'
-})
+const credentials = require('../client-model')
+credentials.database = 'accounts-db';
+const client = new Client(credentials)
 
 // Will query the tables here
 const queryFunction = function () {

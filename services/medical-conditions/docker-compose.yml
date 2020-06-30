@@ -8,6 +8,8 @@ services:
             POSTGRES_DB: medical-conditions-db
         volumes: 
             - ./pgdata:/var/lib/postgresql/data
+        build:
+            dockerfile: ./db/Dockerfile
         ports:
             - '5432:5432'
     web:

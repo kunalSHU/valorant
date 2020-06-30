@@ -9,6 +9,7 @@ services:
         volumes: 
             - ./pgdata:/var/lib/postgresql/data
         build:
+            context: ./postgres
             dockerfile: ./db/Dockerfile
         ports:
             - '5432:5432'

@@ -4,7 +4,7 @@ SET search_path TO PATIENT_INFO;
 
 CREATE TABLE patient_basic_info_tbl(
     userid         INTEGER     NOT NULL PRIMARY KEY,
-    addressid      INTEGER     NOT NULL FOREIGN KEY REFERENCES address_info_tbl(addressid),
+    addressid      INTEGER     NOT NULL,
     username       VARCHAR     NOT NULL,
     first_name     VARCHAR     NOT NULL,
     last_name      VARCHAR     NOT NULL,
@@ -12,7 +12,8 @@ CREATE TABLE patient_basic_info_tbl(
     email          VARCHAR     NOT NULL,
     birthdate      DATE        NOT NULL,
     date_became_patient DATE   NOT NULL,
-    gender         TEXT(1)     NOT NULL
+    gender         TEXT(1)     NOT NULL,
+    FOREIGN KEY (addressid) REFERENCES address_info_tbl(addressid)
 );
 
 CREATE TABLE address_info_tbl(

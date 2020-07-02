@@ -4,8 +4,8 @@ const cookieParserMiddleware = require('cookie-parser');
 const process = require('process');
 
 const expressIpMiddleware = require('express-ip');
-const corsMiddleware = require('./middlewares/cors.js');
-const rateLimiterMiddleware = require('./middlewares/rate-limiter.js');
+const corsMiddleware = require('./middlewares/cors-middleware.js');
+const rateLimiterMiddleware = require('./middlewares/rate-limiter-middleware.js');
 
 const environmentConfig = require('./environment-config.json');
 

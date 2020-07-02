@@ -11,7 +11,7 @@ const httpStatusCode = require('../../src/utils/http-status-code.js');
 const environmentConfig = require('../../src/environment-config.json');
 
 const gatewayServer = require('../../src/index.js').server;
-const rateLimiter = require('../../src/middlewares/rate-limiter.js');
+const rateLimiter = require('../../src/middlewares/rate-limiter-middleware.js');
 
 describe('Can rate limit requests', () => {
   // eslint-disable-next-line require-jsdoc

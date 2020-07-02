@@ -1,18 +1,13 @@
 const { check } = require('express-validator');
 
-const validatePassword = require('./password-validator.js');
+const validatePassword = require('../password-validator.js');
 
 module.exports = [
-  check('firstName', 'Please enter a valid name')
+  check('name', 'Please enter a valid name')
     .isAlpha()
-    .withMessage('First name must be alphabetic')
+    .withMessage('Name must be alphabetic')
     .isLength({ min: 2 })
-    .withMessage('First name must be atleast two characters'),
-  check('lastName', 'Please enter a valid name')
-    .isAlpha()
-    .withMessage('Last name must be alphabetic')
-    .isLength({ min: 2 })
-    .withMessage('Last name must be atleast two characters'),
+    .withMessage('Name must be atleast two characters'),
   check('email', 'Email must be a valid address').isEmail().normalizeEmail(),
   check('password', 'Invalid password entry').custom((password) => {
     const passwordValidationErrors = validatePassword(password, {

@@ -1,75 +1,86 @@
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-
 const { validationResult, body } = require('express-validator');
 
-const authenticationMiddleware = require('../middlewares/authentication.js');
-const authenticationController = require('../controllers/authentication-controller.js');
+const accountsController = require('../controllers/accounts-controller.js');
+
 const httpStatusCode = require('../utils/http-status-code.js');
 const validateNewUserInput = require('../input-validators/new-user-validator.js');
-
-const jwtSecret = require('../environment-config.json').middlewares.authentication.jwtSecret;
-const defaultTokenExpiryTimeMs = require('../environment-config.json').middlewares.authentication
-  .defaultTokenExpiryTimeMs;
 
 router.post('/register', validateNewUserInput, (req, res) => {
   const inputValidationErrors = validationResult(req);
   if (inputValidationErrors.errors.length !== 0) {
     res.status(httpStatusCode.CLIENT_UNPROCESSABLE_ENTINTY).json({ errors: inputValidationErrors.array() });
   } else {
-    const { name, email, password } = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 8);
-    const currDate = new Date().getTime();
-    const sessionJwtToken = jwt.sign({ currDate }, process.env.JWT_SECRET || jwtSecret, {
-      expiresIn: defaultTokenExpiryTimeMs
-    });
+    const { firstName, lastName, email, password } = req.body;
 
-    const wasUserAdded = authenticationController.addUser(name, email, hashedPassword, sessionJwtToken);
-
-    const newUser = {
-      name,
-      email,
-      hashedPassword,
-      sessionJwtToken
-    };
-
-    if (wasUserAdded === true) {
-      res.status(httpStatusCode.CREATED).json({ message: 'User has been registered', newUser });
-    } else {
-      res.status(httpStatusCode.OK).json({ message: 'User already exists in DB' });
-    }
+    accountsController
+      .addUser(firstName, lastName, email, password)
+      .then((result) => {
+        const { sessionJwtToken } = result;
+        if (sessionJwtToken) {
+          res.status(httpStatusCode.CREATED).json({ message: `User ${email} has been registered`, sessionJwtToken });
+        } else {
+          res.status(httpStatusCode.OK).json({ message: `User ${email} already exists in DB` });
+        }
+      })
+      .catch((err) => {
+        res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ message: 'Something went wrong', err });
+      });
   }
 });
 
-router.delete(
-  '/delete',
-  [
-    body('email', 'Please provide a valid email address')
-      .notEmpty()
-      .withMessage('Empty email provided')
-      .isEmail()
-      .normalizeEmail(),
-    body('sessionJwtToken', 'Invalid token provided')
-      .notEmpty()
-      .withMessage('Empty session JWT token provided')
-      .isString()
-  ],
-  authenticationMiddleware,
+router.get('/findAll', (req, res) => {
+  const { email } = req.body;
+  accountsController
+    .findAll(email)
+    .then((allAccounts) => {
+      res.status(httpStatusCode.OK).json(allAccounts);
+    })
+    .catch((err) => {
+      res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ message: 'Something went wrong', err });
+    });
+});
+
+router.get(
+  '/find',
+  [body('email', 'Please provide a valid email address').notEmpty().withMessage('Email should not be empty').isEmail()],
   (req, res) => {
     const inputValidationErrors = validationResult(req);
+
     if (inputValidationErrors.errors.length !== 0) {
       res.status(httpStatusCode.CLIENT_UNPROCESSABLE_ENTINTY).json({ errors: inputValidationErrors.array() });
     } else {
       const { email } = req.body;
-
-      if (authenticationController.deleteUser(email) === true) {
-        res.status(httpStatusCode.OK).json({ message: 'User has been deleted' });
-      } else {
-        res.status(httpStatusCode.OK).json({ message: 'User was not found in DB' });
-      }
+      accountsController
+        .findUserViaEmail(email)
+        .then((foundUser) => {
+          res.status(httpStatusCode.OK).json(foundUser);
+        })
+        .catch((err) => {
+          res.status(httpStatusCode.CLIENT_NOT_FOUND).json({ message: `User with ${email} not found`, err });
+        });
     }
   }
 );
+
+router.delete('/delete', [body('email', 'Please provide a valid email address').notEmpty().isEmail()], (req, res) => {
+  const inputValidationErrors = validationResult(req);
+
+  if (inputValidationErrors.errors.length !== 0) {
+    res.status(httpStatusCode.CLIENT_UNPROCESSABLE_ENTINTY).json({ errors: inputValidationErrors.array() });
+  } else {
+    const { email } = req.body;
+
+    accountsController
+      .deleteUserViaEmail(email)
+      .then((result) => {
+        const { message } = result;
+        res.status(httpStatusCode.OK).json(message);
+      })
+      .catch((err) => {
+        res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ message: 'Something went wrong', err });
+      });
+  }
+});
 
 module.exports = router;

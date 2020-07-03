@@ -1,3 +1,4 @@
+ \connect PATIENT_DB;
 DROP SCHEMA IF EXISTS PATIENT_INFO CASCADE;
 CREATE SCHEMA PATIENT_INFO;
 SET search_path TO PATIENT_INFO;
@@ -12,7 +13,7 @@ CREATE TABLE patient_basic_info_tbl(
     email          VARCHAR     NOT NULL,
     birthdate      DATE        NOT NULL,
     date_became_patient DATE   NOT NULL,
-    gender         TEXT(1)     NOT NULL,
+    gender         TEXT     NOT NULL,
     FOREIGN KEY (addressid) REFERENCES address_info_tbl(addressid)
 );
 

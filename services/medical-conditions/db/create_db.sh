@@ -2,9 +2,10 @@
 POSTGRES="psql --username postgres"
 
 $POSTGRES <<EOSQL
-CREATE DATABASE patient_db OWNER postgres;
+DROP DATABASE IF EXISTS PATIENT_DB;
+CREATE DATABASE PATIENT_DB;
 EOSQL
 
 echo "Creating schema and populating database..."
-psql -d patient_db -a -U postgres -f patient_info.sql
-psql -d patient_db -a -U postgres -f data.sql
+psql -d PATIENT_DB -a -U postgres -f patient_info.sql
+psql -d PATIENT_DB -a -U postgres -f data.sql

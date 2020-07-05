@@ -1,0 +1,44 @@
+version: "3.3"
+
+services:
+  db:
+    container_name: api_gateway_db
+    build:
+      context: . # Context is the project root directory
+      dockerfile: ./docker/db/Dockerfile
+    ports:
+      - 9090:5432
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - db-data-volume:/var/lib/postgresql/data/
+    restart: always
+    
+  app:
+    container_name: api_gateway_app
+    build:
+      context: . # Context is the project root directory
+      dockerfile: ./docker/app/Dockerfile
+    ports: 
+      - ${APP_PORT}:${APP_PORT}
+    environment:
+      - APP_PORT=${APP_PORT}
+      - NODE_ENV=${NODE_ENV}
+      - POSTGRES_DB_HOST=${POSTGRES_DB_HOST}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - WAIT_HOSTS=db:5432 # Wait for DB to start
+    volumes:
+      - app-data-volume:/app/
+    restart: always
+    depends_on:
+      - db
+    links: 
+      - db
+
+volumes:
+  app-data-volume:
+  db-data-volume:

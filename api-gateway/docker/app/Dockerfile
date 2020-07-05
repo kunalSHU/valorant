@@ -1,16 +1,18 @@
-FROM node
+FROM node:14.5.0-alpine3.12
 
-RUN mkdir -p /app/src/
-WORKDIR /app/
+# Add bash for use by the wait-for-it dependency
+RUN apk update
+RUN apk upgrade
+RUN apk add bash
 
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
-RUN chmod +x /wait
+# APP SETUP
+WORKDIR /app
+COPY . /app
+RUN npm install
 
-COPY ./package.json ./package-lock.json ./
-COPY ./src/ ./src/
-
-RUN npm install --prod
+COPY ./docker/app/wait-for-it.sh /usr/local
+RUN chmod +x /usr/local/wait-for-it.sh
 
 EXPOSE ${APP_PORT}
 
-CMD /wait && npm start
+CMD ["npm", "start"]

@@ -1,6 +1,6 @@
 const cors = require('cors');
 
-const environmentConfig = require('../environment-config.json');
+const environmentConfig = require('../../environment-config.json');
 const whitelistedCorsDomains = environmentConfig.application.whitelistedCorsDomains;
 
 const corsOptions = {

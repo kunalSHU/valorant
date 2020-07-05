@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 
 const isObjectEmpty = require('../../utils/is-object-empty.js');
 
-const jwtSecret = require('../../environment-config.json').middlewares.authentication.jwtSecret;
-const defaultTokenExpiryTimeMs = require('../../environment-config.json').middlewares.authentication
+const jwtSecret = require('../../../environment-config.json').middlewares.authentication.jwtSecret;
+const defaultTokenExpiryTimeMs = require('../../../environment-config.json').middlewares.authentication
   .defaultTokenExpiryTimeMs;
 
 // TODO move from in-memory to persistnace (PSQL)

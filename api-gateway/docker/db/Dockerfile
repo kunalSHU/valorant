@@ -1,4 +1,3 @@
-# Via https://hub.docker.com/_/postgres/
 FROM postgres
 
 ENV POSTGRES_DB=${POSTGRES_DB_NAME}

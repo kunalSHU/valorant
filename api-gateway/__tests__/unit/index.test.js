@@ -8,7 +8,7 @@ const after = require('mocha').after;
 
 const httpStatusCode = require('../../src/utils/http-status-code.js');
 
-const environmentConfig = require('../../src/environment-config.json');
+const environmentConfig = require('../../environment-config.json');
 
 const gatewayServer = require('../../src/index.js').server;
 const rateLimiter = require('../../src/middlewares/rate-limiter-middleware.js');

@@ -1,5 +1,5 @@
 #!/bin/bash
-POSTGRES="psql --username postgres"
+POSTGRES="psql posrgres -U postgres"
 
 $POSTGRES <<EOSQL
 DROP DATABASE IF EXISTS PATIENT_DB;

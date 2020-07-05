@@ -1,13 +1,11 @@
 import React from "react";
-import StickyHeadTable from '../components/billingTable';
+import StickyHeadTable from '../components/appointmentsTable';
 
-const BillingPage = () => {
+const AppointmentsPage = () => {
   return (
     <div>
         <div style={{padding: "0px 0px 0px 25px"}}>
-            <label style={{color: "#905EAF", fontSize: "72px"}}> Billing</label>
-            <p />
-            <label style={{color: "#905EAF", fontSize: "30px"}}>2 Unpaid bills</label>
+            <label style={{color: "#905EAF", fontSize: "72px"}}> Appointments</label>
             <p />
             <StickyHeadTable />
             {/* <label style={{color: "#905EAF", fontSize: "20px"}}>Date</label>
@@ -19,4 +17,4 @@ const BillingPage = () => {
   );
 }
 
-export default BillingPage;
+export default AppointmentsPage;

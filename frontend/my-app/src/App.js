@@ -10,6 +10,7 @@ import {
 import LoginPage from "./pages/loginPage";
 import GeneralPage from "./pages/generalPage";
 import BillingPage from "./pages/billingPage";
+import AppointmentsPage from "./pages/appointmentsPage";
 
 
 import "./App.css";
@@ -22,6 +23,7 @@ class App extends Component {
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/general" component={GeneralPage} />
           <Route exact path="/billing" component={BillingPage} />
+          <Route exact path="/appointments" component={AppointmentsPage} />
         </Switch>
       </Router>
     );

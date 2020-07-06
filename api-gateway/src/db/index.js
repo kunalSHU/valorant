@@ -52,4 +52,4 @@ const connect = (POSTGRES_DB_HOST, POSTGRES_DB_NAME, POSTGRES_USER, POSTGRES_PAS
   return dbConnection;
 };
 
-module.exports = connect;
+module.exports = { connect };

@@ -1,7 +1,7 @@
 version: "3.3"
 services: 
     db: 
-        image: postgres
+        container_name: postgres
         environment: 
             POSTGRES_PASSWORD: postgres
             POSTGRES_USER: postgres
@@ -9,7 +9,7 @@ services:
         volumes: 
             - ./pgdata:/var/lib/postgresql/data
         build:
-            context: ./postgres
+            context: .
             dockerfile: ./db/Dockerfile
         ports:
             - '5432:5432'

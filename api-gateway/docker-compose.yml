@@ -21,7 +21,7 @@ services:
     
   app:
     container_name: api_gateway_app
-    hostname: app
+    hostname: gateway
     networks:
       - gatewaynet
     build:

@@ -1,12 +1,7 @@
 {
   "application": {
     "serviceName": "API Gateway",
-    "whitelistedCorsDomains": [
-      "http://localhost:9000",
-      "http://127.0.0.1:9000",
-      "http://localhost:8011",
-      "http://127.0.0.1:801"
-    ]
+    "whitelistedCorsDomains": ["http://localhost:8085"]
   },
   "middlewares": {
     "authentication": {

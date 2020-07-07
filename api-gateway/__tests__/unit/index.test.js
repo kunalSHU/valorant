@@ -10,7 +10,7 @@ const httpStatusCode = require('../../src/utils/http-status-code.js');
 
 const environmentConfig = require('../../environment-config.json');
 
-const gatewayServer = require('../../src/index.js').server;
+const gatewayServer = require('../../index.js').server;
 const rateLimiter = require('../../src/middlewares/rate-limiter-middleware.js');
 
 describe('Can rate limit requests', () => {
@@ -45,17 +45,7 @@ describe('Can rate limit requests', () => {
   });
 });
 
-describe('Can be pinged', () => {
-  it("should get a response from '/' endpoint", (done) => {
-    request(gatewayServer)
-      .get('/')
-      .expect(httpStatusCode.OK)
-      .end((err, res) => {
-        expect(res.body.message).to.be.a('string').to.be.equal('Valorant API Gateway reached');
-        done();
-      });
-  });
-
+describe('Can return healthcheck information', () => {
   it('should get appropriate basic network information from the /healthcheck endpoint', (done) => {
     const ipv4Regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 

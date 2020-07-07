@@ -1,9 +1,15 @@
+/* eslint-disable require-jsdoc */
 const express = require('express');
+const expressGraphQL = require('express-graphql');
 const process = require('process');
 
 const loadMiddlewareStack = require('./src/middlewares');
-const allRoutes = require('./src/routes');
 const database = require('./src/db');
+const { GraphQLSchema, GraphQLObjectType, GraphQLString } = require('graphql');
+
+const environmentConfig = require('./environment-config.json');
+const healthcheckController = require('./src/controllers/healthcheck-controller.js');
+const httpStatusCode = require('./src/utils/http-status-code.js');
 
 const APP_PORT = process.env.APP_PORT || 8085;
 
@@ -17,12 +23,42 @@ database.connect(
 const app = express();
 
 loadMiddlewareStack(app);
-app.use('/', allRoutes);
+
+const rootQuery = new GraphQLObjectType({
+  name: 'RootQueryType',
+  fields: () => ({
+    name: {
+      type: GraphQLString,
+      description: 'Say hello',
+      resolve() {
+        return 'Hello World!';
+      }
+    }
+  })
+});
+
+const schema = new GraphQLSchema({ query: rootQuery });
+
+app.use(
+  '/api',
+  expressGraphQL({
+    schema: schema,
+    graphiql: true
+  })
+);
+
+app.use('/healthcheck', (req, res) => {
+  res.status(httpStatusCode.OK).json({
+    serviceName: environmentConfig.application.serviceName,
+    message: `Pinging /healthcheck on ${environmentConfig.application.serviceName}`,
+    data: healthcheckController.getHealthcheckInfo(req)
+  });
+});
 
 // Match any route if it is not found within allRoutes
 app.use('*', (req, res, next) => {
   res.status(404).json({
-    message: 'Not found',
+    message: 'Route does not exist',
     method: req.method,
     routeRequested: req.originalUrl
   });

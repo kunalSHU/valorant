@@ -1,4 +1,4 @@
-const countSpecialCharacters = require('../utils/count-special-characters.js');
+const countSpecialCharacters = require('../../utils/count-special-characters.js');
 
 //TODO add unit tests
 

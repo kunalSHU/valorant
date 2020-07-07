@@ -1,7 +1,6 @@
 const cors = require('cors');
 
-const environmentConfig = require('../../environment-config.json');
-const whitelistedCorsDomains = environmentConfig.application.whitelistedCorsDomains;
+const { whitelistedCorsDomains } = require('./middleware-config.js').cors;
 
 const corsOptions = {
   /**

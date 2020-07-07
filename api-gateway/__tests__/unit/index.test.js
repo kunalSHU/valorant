@@ -2,13 +2,9 @@ const request = require('supertest');
 const express = require('express');
 const expect = require('chai').expect;
 
-const describe = require('mocha').describe;
-const it = require('mocha').it;
-const after = require('mocha').after;
+const { describe, it, after } = require('mocha');
 
 const httpStatusCode = require('../../src/utils/http-status-code.js');
-
-const environmentConfig = require('../../environment-config.json');
 
 const gatewayServer = require('../../index.js').server;
 const rateLimiter = require('../../src/middlewares/rate-limiter-middleware.js');
@@ -67,7 +63,7 @@ describe('Can return healthcheck information', () => {
         } = res.body.data;
 
         expect(message).to.be.a('string').to.be.equal('Pinging /healthcheck on API Gateway');
-        expect(serviceName).to.be.a('string').to.be.equal(environmentConfig.application.serviceName);
+        expect(serviceName).to.be.a('string').to.be.equal('API Gateway');
         expect(protocol).to.be.a('string').to.be.equal('http');
         expect(method).to.be.a('string').to.be.equal('GET');
         expect(routeRequested).to.be.a('string').to.be.equal('/healthcheck');

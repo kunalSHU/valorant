@@ -5,7 +5,7 @@ const expressIpMiddleware = require('express-ip');
 const corsMiddleware = require('./cors-middleware.js');
 const rateLimiterMiddleware = require('./rate-limiter-middleware.js');
 
-const environmentConfig = require('../../environment-config.json');
+const middlewareConfig = require('./middleware-config.js');
 
 /**
  * Attaches middlewares to the given Express app.
@@ -21,8 +21,8 @@ const loadMiddlewareStack = (app) => {
   app.use(expressIpMiddleware().getIpInfoMiddleware);
   app.use(
     rateLimiterMiddleware(
-      environmentConfig.middlewares.rateLimiter.maxRequestWindowMs,
-      environmentConfig.middlewares.rateLimiter.maxRequestsAllowedPerWindow,
+      middlewareConfig.rateLimiter.maxRequestWindowMs,
+      middlewareConfig.rateLimiter.maxRequestsAllowedPerWindow,
       (req, res) => {
         res.json({ message: 'Too many requests. Please try again later' });
         return;

@@ -1,13 +1,12 @@
 /* eslint-disable require-jsdoc */
 const express = require('express');
 const expressGraphQL = require('express-graphql');
+const { GraphQLSchema, GraphQLObjectType, GraphQLString } = require('graphql');
 const process = require('process');
 
 const loadMiddlewareStack = require('./src/middlewares');
 const database = require('./src/db');
-const { GraphQLSchema, GraphQLObjectType, GraphQLString } = require('graphql');
 
-const environmentConfig = require('./environment-config.json');
 const healthcheckController = require('./src/controllers/healthcheck-controller.js');
 const httpStatusCode = require('./src/utils/http-status-code.js');
 
@@ -39,18 +38,19 @@ const rootQuery = new GraphQLObjectType({
 
 const schema = new GraphQLSchema({ query: rootQuery });
 
+// Create GraphQL endpoint
 app.use(
   '/api',
   expressGraphQL({
     schema: schema,
-    graphiql: true
+    graphiql: process.env.NODE_ENV === 'development' ? true : false
   })
 );
 
 app.use('/healthcheck', (req, res) => {
   res.status(httpStatusCode.OK).json({
-    serviceName: environmentConfig.application.serviceName,
-    message: `Pinging /healthcheck on ${environmentConfig.application.serviceName}`,
+    serviceName: 'API Gateway',
+    message: `Pinging /healthcheck on API Gateway`,
     data: healthcheckController.getHealthcheckInfo(req)
   });
 });

@@ -13,4 +13,3 @@ INSERT INTO patient_info.patient_basic_info_tbl VALUES (
 INSERT INTO patient_info.patient_basic_info_tbl VALUES (
     2, 2, 'kunkun', 'Kunal', 'Shukla', 0000000000, 'kunkun@gmail.com', '04-01-1996', '06-30-2020', 'O'
 );
-

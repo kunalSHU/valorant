@@ -1,4 +1,4 @@
- \connect bookings_db;
+ \connect bookings-db;
 DROP SCHEMA IF EXISTS BOOKINGS_INFO CASCADE;
 CREATE SCHEMA BOOKINGS_INFO;
 SET search_path TO BOOKINGS_INFO;
@@ -20,7 +20,7 @@ CREATE TABLE questionaire_tbl (
     jointPain        VARCHAR     NOT NULL,
     troubleSleeping  VARCHAR     NOT NULL,
     shortnessOfBreath  VARCHAR     NOT NULL,
-    nausea           VARCHAR     NOT NULL,
+    nausea           VARCHAR     NOT NULL
 );
 
 CREATE TABLE appointments_info_basic_tbl (
@@ -28,14 +28,14 @@ CREATE TABLE appointments_info_basic_tbl (
     userid         INTEGER     NOT NULL,
     questionaireid INTEGER     NOT NULL, 
     doctorid       INTEGER     NOT NULL,
-    created_at     DATETIME    NOT NULL,
-    begins_at      DATETIME    NOT NULL,
-    ends_at        DATETIME    NOT NULL,
+    created_at     TIMESTAMP    NOT NULL,
+    begins_at      TIMESTAMP    NOT NULL,
+    ends_at        TIMESTAMP    NOT NULL,
     appt_type      VARCHAR     NOT NULL,
     status_appt    VARCHAR     NOT NULL,
     medicationid   INTEGER,
     quantity       INTEGER,
     derivedCost    VARCHAR,
-    FOREIGN KEY (medicationid) REFERENCES medication_tbl(medicationid)
+    FOREIGN KEY (medicationid) REFERENCES medication_tbl(medicationid),
     FOREIGN KEY (questionaireid) REFERENCES questionaire_tbl(questionaireid)
 );

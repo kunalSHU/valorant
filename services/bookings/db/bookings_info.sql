@@ -1,4 +1,4 @@
- \connect bookings-db;
+ \connect bookings_db;
 DROP SCHEMA IF EXISTS BOOKINGS_INFO CASCADE;
 CREATE SCHEMA BOOKINGS_INFO;
 SET search_path TO BOOKINGS_INFO;

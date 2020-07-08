@@ -10,12 +10,11 @@ INSERT INTO bookings_info.medication_tbl VALUES (
 3, 'Dodooacid', 25, 'wery dodo'
 );
 
-INSERT INTO bookings_info.questionaire_tbl VALUES (1, 'yes', 'yes', 'yes',  'yes', 'no', 'no','no','no','yes');
+INSERT INTO bookings_info.questionaire_tbl VALUES (1, 'yes', 'yes', 'yes',  'yes', 'no', 'no','no','no');
 
-INSERT INTO bookings_info.questionaire_tbl VALUES(2, 'no', 'yes', 'yes',  'yes', 'yes', 'no','yes','no','yes');
+INSERT INTO bookings_info.questionaire_tbl VALUES(2, 'no', 'yes', 'yes',  'yes', 'yes', 'no','yes','no');
 
-INSERT INTO bookings_info.questionaire_tbl VALUES (3, 'no', 'no', 'yes',  'no', 'yes', 'no','yes','no','yes');
-
+INSERT INTO bookings_info.questionaire_tbl VALUES (3, 'no', 'no', 'yes',  'no', 'yes', 'no','yes','no');
 
 INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (1, 1, 1, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
         '2020-04-12 05:05:25', 'In-Person', 'Upcoming', NULL, NULL, NULL);

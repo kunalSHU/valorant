@@ -12,9 +12,9 @@ type Query {
     }
 `);
 
-const credentials = require('../client-model')
+const credentials = require('../client-model');
 credentials.database = 'patient-record-db';
-const client = new Client(credentials)
+const client = new Client(credentials);
 
 // Will query the tables here
 const queryFunction = function () {

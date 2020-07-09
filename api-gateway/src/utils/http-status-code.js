@@ -1,4 +1,4 @@
-/*
+/**
  * HTTP status codes.
  * Retrieved from: https://httpstatuses.com/.
  */

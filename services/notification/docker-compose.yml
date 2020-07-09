@@ -9,7 +9,7 @@ services:
         volumes: 
             - ./pgdata:/var/lib/postgresql/data
         ports:
-            - '5438:5432'
+            - '8087:5432'
     web:
         image: notification-web
         depends_on: 

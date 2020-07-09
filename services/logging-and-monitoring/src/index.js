@@ -2,7 +2,7 @@ const express = require('express');
 const express_graphql = require('express-graphql');
 const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
-const { Pool, Client } = require('pg');
+const {Client} = require('pg');
 
 const PORT = process.env.APP_PORT || 8085;
 // GraphQL schema
@@ -17,14 +17,9 @@ const root = {
   message: () => 'Hello World!'
 };
 
-/** NOTE: Change to bookings-db once created.. Change port as well*/
-const client = new Client({
-  user: 'postgres',
-  password: 'postgres',
-  host: '198.91.129.107',
-  port: 8080,
-  database: 'medical-conditions-db'
-})
+const credentials = require('../client-model')
+credentials.database = 'logging-and-monitoring-db';
+const client = new Client(credentials)
 
 // Will query the tables here
 const queryFunction = function () {

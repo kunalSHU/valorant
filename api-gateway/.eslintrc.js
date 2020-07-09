@@ -78,7 +78,7 @@ module.exports = {
     // enforce spacing inside array brackets
     'array-bracket-spacing': [2, 'never'],
     // enforce one true brace style
-    'brace-style': [2, '1tbs', { 'allowSingleLine': true }],    // enforce spacing before and after comma
+    'brace-style': [2, '1tbs', { allowSingleLine: true }], // enforce spacing before and after comma
     'comma-spacing': [2, { before: false, after: true }],
     // enforce one true comma style
     'comma-style': [2, 'last'],

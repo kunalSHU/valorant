@@ -9,7 +9,7 @@ services:
         volumes: 
             - ./pgdata:/var/lib/postgresql/data
         ports:
-            - '5435:5432'
+            - '8084:5432'
     web:
         image: business-metrics-web
         depends_on: 

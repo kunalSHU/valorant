@@ -1,17 +1,31 @@
-CREATE TABLE Accounts (
-  accountId BIGSERIAL PRIMARY KEY,
-  firstName VARCHAR(64) NOT NULL,
-  lastName VARCHAR(64) NOT NULL, 
-  emailAddress VARCHAR(256) NOT NULL UNIQUE,
-  passwordHash VARCHAR(512) NOT NULL,
-  jwtToken VARCHAR(1024),
-  tokenCreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE accounts_tbl(
+  account_id BIGSERIAL PRIMARY KEY,
+  first_name VARCHAR(64) NOT NULL,
+  last_name VARCHAR(64) NOT NULL, 
+  email_address VARCHAR(256) NOT NULL UNIQUE,
+  password_hash VARCHAR(512) NOT NULL,
+  account_created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO Accounts (firstName, lastName, emailAddress, passwordHash, jwtToken) VALUES ('Shabaz', 'Badshah', 'badshah.shabaz@gmail.com', '$2b$08$f8v.elIjKkbBdeBvCKX66ej/svbBcexo28.gfplFH8K4hyKtFkM0C', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXJyRGF0ZSI6MTU5MzY1MDM1MDg5OSwiaWF0IjoxNTkzNjUwMzUwLCJleHAiOjE1OTcyNTAzNTB9.YAbwOx8_MZih8anALlaRLSWj1AhiRjlOz30S8r7nZPQ');
+CREATE TABLE tokens_tbl(
+  token_id BIGSERIAL PRIMARY KEY,
+  account_id BIGSERIAL NOT NULL REFERENCES accounts_tbl(account_id),
+  jwt_token VARCHAR(1024) NOT NULL UNIQUE,
+  token_created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-INSERT INTO Accounts (firstName, lastName, emailAddress, passwordHash, jwtToken) VALUES ('Waleed', 'Muhammad', 'waleed.muhammad@gmail.com', '$2b$08$f8v.elIjKkbBdeBvCKX66ej/svbBcexo28.gfplFH8K4hyKtFkM0C', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXJyRGF0ZSI6MTU5MzY1MDM1MDg5OSwiaWF0IjoxNTkzNjUwMzUwLCJleHAiOjE1OTcyNTAzNTB9.YAbwOx8_MZih8anALlaRLSWj1AhiRjlOz30S8r7nZPQ');
+CREATE TABLE permissions_tbl(
+  permission_id BIGSERIAL PRIMARY KEY,
+  account_id BIGSERIAL NOT NULL REFERENCES accounts_tbl(account_id),
+  account_type_admin BOOLEAN DEFAULT false,
+  account_type_doctor BOOLEAN DEFAULT false,
+  account_type_receptionist BOOLEAN DEFAULT false,
+  account_type_patient BOOLEAN DEFAULT false
+);
 
-INSERT INTO Accounts (firstName, lastName, emailAddress, passwordHash, jwtToken) VALUES ('Kunal', 'Shukla', 'kunal.shukla@gmail.com', '$2b$08$f8v.elIjKkbBdeBvCKX66ej/svbBcexo28.gfplFH8K4hyKtFkM0C', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXJyRGF0ZSI6MTU5MzY2NzA1OTAxOCwiaWF0IjoxNTkzNjY3MDU5LCJleHAiOjE1OTcyNjcwNTl9.8-8YUMTLxpvk_g73w-UEWDs294skfS4oiWd2KWyaU4Y');
-
-INSERT INTO Accounts (firstName, lastName, emailAddress, passwordHash, jwtToken) VALUES ('Swetha', 'Maramganty', 'swetha.maramganty@gmail.com', '$2b$08$f8v.elIjKkbBdeBvCKX66ej/svbBcexo28.gfplFH8K4hyKtFkM0C', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXJyRGF0ZSI6MTU5MzY1MDM1MDg5OSwiaWF0IjoxNTkzNjUwMzUwLCJleHAiOjE1OTcyNTAzNTB9.YAbwOx8_MZih8anALlaRLSWj1AhiRjlOz30S8r7nZPQ');
+INSERT INTO accounts_tbl(first_name, last_name, email_address, password_hash) VALUES(
+  'Shabaz',
+  'Badshah',
+  'badshah.shabaz@email.com',
+  '$2b$08$f8v.elIjKkbBdeBvCKX66ej/svbBcexo28.gfplFH8K4hyKtFkM0C'
+);

@@ -6,5 +6,3 @@ ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
 COPY docker/db/accounts_database_init.sql /docker-entrypoint-initdb.d/
 CMD ["docker-entrypoint.sh", "postgres"]
-
-EXPOSE ${POSTGRES_DB_PORT}

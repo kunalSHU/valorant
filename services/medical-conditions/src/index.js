@@ -2,8 +2,8 @@ const express = require('express');
 const express_graphql = require('express-graphql');
 const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
-const { Pool, Client } = require('pg');
-//pg_ctl -D /var/lib/postgresql/data -l logfile start
+const {Client} = require('pg');
+
 const PORT = 8080;
 // GraphQL schema
 const schema = buildSchema(`
@@ -12,31 +12,22 @@ type Query {
     }
 `);
 
-const client = new Client({
-  user: 'postgres',
-  password: 'postgres',
-  host: '198.91.129.107',
-  port: 8080,
-  database: 'medical-conditions-db'
-});
+const credentials = require('../client-model')
+credentials.database = 'medical-conditions-db';
+const client = new Client(credentials)
 
 // Will query the tables here
 const queryFunction = function () {
-  client
-    .connect()
-    .then(() => {
-      console.log('Connected Successfully');
-    })
-    .then(() => client.query('SELECT * FROM people'))
-    .then((result) => {
-      console.table(result.rows);
-    })
-    .catch((e) => console.log(e))
-    .finally(() => client.end());
-};
-
+  client.connect()
+  .then(() => {console.log('Connected Successfully')})
+  .then(() => client.query('SELECT * FROM people'))
+  .then((result) => {console.table(result.rows)})
+  .catch(e => console.log(e))
+  .finally(() => client.end())
+}
+  
 // timeout used so connection to db happens after it is started
-setTimeout(queryFunction, 5000);
+setTimeout(queryFunction , 5000)
 
 // Root resolver
 const root = {

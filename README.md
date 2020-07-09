@@ -50,3 +50,15 @@ __Usage__: ```npm run <task_name>```
 - __test:unit__ - Runs all microservice unit tests
 - __eslint__ - Checks code for consistent styling, documentation, and security holes
 - __eslint:fix__ - Attempts to fix code styling, documentation, and security. Commonly requires developer intervention
+
+## Docker
+1. docker build -t <microservice-name>-web . --> this will build the image
+2. docker-compose up --> fire the containers up in the docker-compose file
+3. Viewing the db in the postgres container
+    - docker exec -ti <container-hash> /bin/hash --> to go into container
+    - psql -U postgres postgres --> detault command to get into postgres db
+    - psql -U postgres <microservice-name>-db --> run this command
+    - \dt --> View the tables in the db
+    - -l --> Lists all the DBs
+    - exit --> Exit DB
+4. psql -h <ip-address> -p <port-number> -U postgres -d <db-name>

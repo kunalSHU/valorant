@@ -18,7 +18,7 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly'
   },
-  plugins: ['security', 'mocha', 'jsdoc', 'apidoc'],
+  plugins: ['security', 'mocha', 'jsdoc'],
   extends: [
     'plugin:security/recommended'
   ],

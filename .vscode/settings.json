@@ -2,6 +2,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "javascript.implicitProjectConfig.checkJs": true,
   "eslint.validate": ["javascript"]
  }

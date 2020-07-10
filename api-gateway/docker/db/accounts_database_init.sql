@@ -4,14 +4,14 @@ CREATE TABLE accounts_tbl(
   last_name VARCHAR(64) NOT NULL, 
   email_address VARCHAR(256) NOT NULL UNIQUE,
   password_hash VARCHAR(512) NOT NULL,
-  account_created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  account_created_time_utc TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE tokens_tbl(
   token_id BIGSERIAL PRIMARY KEY,
   account_id BIGSERIAL NOT NULL REFERENCES accounts_tbl(account_id),
   jwt_token VARCHAR(1024) NOT NULL UNIQUE,
-  token_created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  token_created_time_utc TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE permissions_tbl(

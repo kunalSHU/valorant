@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const Sequelize = require('sequelize');
 
 const MAX_POOL_CLIENT_CONNECTIONS = 100;
 const MIN_POOL_CLIENT_CONNECTIONS = 0;
@@ -10,6 +10,9 @@ const sequelizeConfig = {
   dialect: 'postgres',
   logging: true,
   operatorsAliases: Sequelize.Op,
+  dialectOptions: {
+    useUTC: true
+  },
   pool: {
     max: MAX_POOL_CLIENT_CONNECTIONS,
     min: MIN_POOL_CLIENT_CONNECTIONS,
@@ -37,12 +40,23 @@ const connect = (POSTGRES_DB_HOST, POSTGRES_DB_NAME, POSTGRES_USER, POSTGRES_PAS
   // Create a connection to the DB if it does not exist
   if (!dbConnection) {
     dbConnection = new Sequelize(DB_URI, sequelizeConfig);
-    console.info(`Connecting to database: ${DB_URI}`);
+    console.info(`INFO - Connecting to database: ${DB_URI}`);
 
     dbConnection
       .authenticate()
       .then(() => {
         console.info(`INFO - Connected to database: ${DB_URI}`);
+
+        if (process.env.NODE_ENV === 'development') {
+          dbConnection
+            .sync({ force: true })
+            .then(() => {
+              console.log('INFO - DB tables are being dropped if they exist');
+            })
+            .catch((error) => {
+              console.error(`ERROR - Could not drop DB tables ${error}`);
+            });
+        }
       })
       .catch((err) => {
         console.error('ERROR - Unable to connect to the database:', err);
@@ -52,4 +66,13 @@ const connect = (POSTGRES_DB_HOST, POSTGRES_DB_NAME, POSTGRES_USER, POSTGRES_PAS
   return dbConnection;
 };
 
-module.exports = { connect };
+/**
+ * Returns an instance of the DB connection that clients can connect to.
+ *
+ * @returns {void}
+ */
+const getDbConnection = () => {
+  return dbConnection;
+};
+
+module.exports = { connect, getDbConnection };

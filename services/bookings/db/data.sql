@@ -58,17 +58,17 @@ INSERT INTO bookings_info.prescribed_medications_tbl
 
 
  INSERT INTO bookings_info.user_vitals_tbl VALUES (
-        (1, 1, NULL, NULL, '165', NULL, NULL)
+        1, 1, NULL, NULL, '165', NULL, NULL
  );
 
  INSERT INTO bookings_info.user_vitals_tbl VALUES (
-        (2, 1, NULL, NULL, NULL, NULL, '05-22-2018')
+        2, 1, NULL, NULL, NULL, NULL, '05-22-2018'
  );
 
  INSERT INTO bookings_info.user_vitals_tbl VALUES (
-        (3, 1, NULL, NULL, '165', NULL, '05-22-2017')
+        3, 1, NULL, NULL, '165', NULL, '05-22-2017'
  );
 
  INSERT INTO bookings_info.user_vitals_tbl VALUES (
-        (4, 1, NULL, NULL, '1170', NULL, '05-22-2016')
+        4, 1, NULL, NULL, '1170', NULL, '05-22-2016'
  );

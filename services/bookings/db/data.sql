@@ -1,5 +1,6 @@
+
 INSERT INTO bookings_info.medication_tbl VALUES (
-1, 'Kunaloacid', 100, 'wery effectiwe'
+1, 'Advil', '100', ,'Patheon', 'Pill', '50', 'wery effectiwe'
 );
 
 INSERT INTO bookings_info.medication_tbl VALUES (
@@ -27,7 +28,3 @@ INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (3, 3, 3, 3, '2020-
     
 INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (4, 2, 3, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
         '2020-04-12 05:05:25', 'In-Person', 'Completed', 1, 10, '100');
-
-/*INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (5, 4, 3, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
-        '2020-04-12 05:05:25', 'In-Person', 'Completed', 100, 10, '100');
-    */

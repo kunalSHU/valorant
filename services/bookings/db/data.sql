@@ -19,16 +19,16 @@ INSERT INTO bookings_info.questionaire_tbl VALUES (3, 'no', 'no', 'yes',  'no', 
 
 
 INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (1, 1, 1, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
-        '2020-04-12 05:05:25', 'In-Person', 'Upcoming', NULL, NULL, NULL);
+        '2020-04-12 05:05:25', 'In-Person', 'Upcoming');
 
 INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (2, 2, 2, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
-        '2020-04-12 05:05:25', 'In-Person', 'Upcoming', NULL, NULL, NULL);
+        '2020-04-12 05:05:25', 'In-Person', 'Upcoming');
 
 INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (3, 3, 3, 3, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
-        '2020-04-12 05:05:25', 'In-Person', 'Cancelled', NULL, NULL, NULL);
+        '2020-04-12 05:05:25', 'In-Person', 'Cancelled');
     
 INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (4, 2, 3, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
-        '2020-04-12 05:05:25', 'In-Person', 'Completed', 1, 10, '100');
+        '2020-04-12 05:05:25', 'In-Person', 'Completed');
 
 INSERT INTO bookings_info.user_allergy_tbl VALUES(2, 1);
 
@@ -36,21 +36,22 @@ INSERT INTO bookings_info.user_allergy_tbl VALUES(1, 5);
 
 INSERT INTO bookings_info.user_allergy_tbl VALUES(3, 4);
 
-INSERT INTO bookings_info.user_allergy_tbl VALUES(3, 7);
+/*Invalid entry
+INSERT INTO bookings_info.user_allergy_tbl VALUES(3, 7); */
 
 INSERT INTO bookings_info.prescribed_medications_tbl
  VALUES (1, 1, '05-22-2020', 4, 50.00);
 
-/*Invalid entry*/
+/*Invalid entry
 INSERT INTO bookings_info.prescribed_medications_tbl
- VALUES (12, 1, '05-22-2018', 4, 50.00);
+ VALUES (12, 1, '05-22-2018', 4, 50.00); */
 
 INSERT INTO bookings_info.prescribed_medications_tbl
  VALUES (1, 2, '05-22-2018', 4, 50.00);
 
-/*Invalid entry*/
+/*Invalid entry
 INSERT INTO bookings_info.prescribed_medications_tbl
- VALUES (1, 1, '05-22-2018', 4, 50.00);
+ VALUES (1, 1, '05-22-2018', 4, 50.00); */
 
 INSERT INTO bookings_info.prescribed_medications_tbl
  VALUES (3, 2, '05-22-2018', 4, 50.00);

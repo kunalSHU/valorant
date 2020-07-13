@@ -13,7 +13,7 @@ type Query {
 `);
 
 const credentials = require('../client-model');
-credentials.database = 'patient-record-db';
+credentials.database = 'patient_db';
 const client = new Client(credentials);
 
 // Will query the tables here

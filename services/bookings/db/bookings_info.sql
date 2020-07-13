@@ -71,5 +71,7 @@ CREATE TABLE prescribed_medications_tbl (
 CREATE TABLE user_allergy_tbl (
     userid    INTEGER NOT NULL,
     allergyid  INTEGER NOT NULL,
-    PRIMARY KEY (userid, allergyid)
+    PRIMARY KEY (userid, allergyid),
+    FOREIGN KEY (allergyid) REFERENCES allergy_tbl(allergyid)
+
 );

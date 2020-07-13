@@ -9,7 +9,7 @@ services:
         volumes: 
             - ./pgdata:/var/lib/postgresql/data
         ports:
-            - '5439:5432'
+            - '8088:5432'
     web:
         image: patient-record-web
         depends_on: 

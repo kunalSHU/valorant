@@ -12,7 +12,7 @@ services:
             context: .
             dockerfile: ./db/Dockerfile
         ports:
-            - '5432:5432'
+            - '8081:5432'
     web:
         image: medical-conditions-web
         depends_on: 

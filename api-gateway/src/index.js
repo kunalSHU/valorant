@@ -1,66 +1,76 @@
+/* eslint-disable require-jsdoc */
 const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+const expressGraphQL = require('express-graphql');
+const { GraphQLSchema, GraphQLObjectType, GraphQLString } = require('graphql');
+const process = require('process');
 
-const environmentConfig = require('./environment-config.json');
+const loadMiddlewareStack = require('./middlewares');
+const database = require('./db');
 
-const rateLimiter = require('./middlewares/rate-limiter.js');
+const healthcheckController = require('./controllers/healthcheck-controller.js');
 const httpStatusCode = require('./utils/http-status-code.js');
 
-const PORT = environmentConfig.application.port || 8085;
+const APP_PORT = process.env.APP_PORT || 8085;
 
-const whitelistedCorsDomains = environmentConfig.application.whitelistedCorsDomains;
-
-const corsOptions = {
-  /**
-   * Checks the requester URL against a whitelist of domains to determine if its allowed to send CORS requests.
-   *
-   * @param {string} origin - The requester UrL.
-   * @param {Function} callback - Callback function.
-   * @returns {boolean} - Whether the origin exists in the whitelisted or not.
-   */
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (whitelistedCorsDomains.indexOf(origin) === -1) {
-      return callback(
-        new Error('The CORS policy for this origin does not allow access from the particular origin'),
-        false
-      );
-    }
-    return callback(null, true);
-  }
-};
-
-// Create an express server and a GraphQL endpoint
-const app = express();
-
-app.use(cors(corsOptions));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(
-  rateLimiter(
-    environmentConfig.middlewares.rateLimiter.maxRequestWindowMs,
-    environmentConfig.middlewares.rateLimiter.maxRequestsAllowedPerWindow,
-    (req, res) => {
-      res.json({ message: 'Too many requests. Please try again later' });
-    }
-  )
+database.connect(
+  process.env.POSTGRES_DB_HOST || '127.0.0.1',
+  process.env.POSTGRES_DB_NAME || 'accounts_db',
+  process.env.POSTGRES_USER || 'postgres',
+  process.env.POSTGRES_PASSWORD || 'postgres'
 );
 
-app.get('/', (req, res) => {
-  res.status(httpStatusCode.OK).json({ message: 'Test endpoint reached' });
+const app = express();
+
+loadMiddlewareStack(app);
+
+const rootQuery = new GraphQLObjectType({
+  name: 'RootQueryType',
+  fields: () => ({
+    name: {
+      type: GraphQLString,
+      description: 'Say hello',
+      resolve() {
+        return 'Hello World!';
+      }
+    }
+  })
+});
+
+const schema = new GraphQLSchema({ query: rootQuery });
+
+// Create GraphQL endpoint
+app.use(
+  '/api',
+  expressGraphQL({
+    schema: schema,
+    graphiql: process.env.NODE_ENV === 'development' ? true : false
+  })
+);
+
+app.use('/healthcheck', (req, res) => {
+  res.status(httpStatusCode.OK).json({
+    serviceName: 'API Gateway',
+    message: `Pinging /healthcheck on API Gateway`,
+    data: healthcheckController.getHealthcheckInfo(req)
+  });
+});
+
+// Match any route if it is not found within allRoutes
+app.use('*', (req, res, next) => {
+  res.status(404).json({
+    message: 'Route does not exist',
+    method: req.method,
+    routeRequested: req.originalUrl
+  });
+  next();
 });
 
 const server = app
-  .listen(PORT, () => {
-    console.log(`API Gateway running on localhost:${PORT}`);
+  .listen(APP_PORT, () => {
+    console.log(`API Gateway running on localhost:${APP_PORT} in ${process.env.NODE_ENV} mode`);
   })
   .on('error', (error) => {
-    console.error('Port in use. Existing program!');
     console.error(error);
-    process.exit(1);
   });
 
 module.exports = {

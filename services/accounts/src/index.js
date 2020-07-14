@@ -12,7 +12,7 @@ type Query {
     }
 `);
 const credentials = require('../client-model');
-credentials.database = 'accounts-db';
+credentials.database = 'accounts_db';
 const client = new Client(credentials);
 
 // Will query the tables here
@@ -22,7 +22,7 @@ const queryFunction = function () {
     .then(() => {
       console.log('Connected Successfully');
     })
-    .then(() => client.query('SELECT * FROM people'))
+    .then(() => client.query('SELECT * FROM accounts_info.accounts_tbl'))
     .then((result) => {
       console.table(result.rows);
     })

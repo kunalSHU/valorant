@@ -1,7 +1,7 @@
 version: "3.7"
 services: 
     db: 
-        container_name: : postgres-accounts
+        container_name: postgres-accounts
         environment: 
             POSTGRES_PASSWORD: postgres
             POSTGRES_USER: postgres

@@ -23,7 +23,7 @@ const queryFunction = function () {
     .then(() => {
       console.log('Connected Successfully');
     })
-    .then(() => client.query('SELECT * FROM people'))
+    .then(() => client.query('SELECT * FROM bookings_info.appointments_info_basic_tbl'))
     .then((result) => {
       console.table(result.rows);
     })

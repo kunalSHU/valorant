@@ -2,7 +2,7 @@ const express = require('express');
 const express_graphql = require('express-graphql');
 const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
-const { Client } = require('pg');
+const {Client} = require('pg');
 
 const PORT = 8080;
 // GraphQL schema
@@ -18,7 +18,8 @@ const client = new Client(credentials);
 
 // Will query the tables here
 const queryFunction = function () {
-  client
+
+client
     .connect()
     .then(() => {
       console.log('Connected Successfully');
@@ -32,7 +33,7 @@ const queryFunction = function () {
 };
 
 // timeout used so connection to db happens after it is started
-setTimeout(queryFunction, 5000);
+setTimeout(queryFunction , 5000)
 
 // Root resolver
 const root = {

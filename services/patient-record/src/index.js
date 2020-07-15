@@ -18,7 +18,8 @@ const client = new Client(credentials);
 
 // Will query the tables here
 const queryFunction = function () {
-  client
+
+client
     .connect()
     .then(() => {
       console.log('Connected Successfully');
@@ -32,7 +33,7 @@ const queryFunction = function () {
 };
 
 // timeout used so connection to db happens after it is started
-setTimeout(queryFunction, 5000);
+setTimeout(queryFunction, 5000)
 
 // Root resolver
 const root = {

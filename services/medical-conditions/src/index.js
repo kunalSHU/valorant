@@ -13,7 +13,7 @@ type Query {
 `);
 
 const credentials = require('../client-model');
-credentials.database = 'medical-conditions-db';
+credentials.database = 'bookings-db';
 const client = new Client(credentials);
 
 // Will query the tables here
@@ -23,7 +23,7 @@ const queryFunction = function () {
     .then(() => {
       console.log('Connected Successfully');
     })
-    .then(() => client.query('SELECT * FROM patient_info.address_info_tbl'))
+    .then(() => client.query('SELECT * FROM bookings_info.prescribed_medications_tbl'))
     .then((result) => {
       console.table(result.rows);
     })

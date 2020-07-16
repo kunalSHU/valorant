@@ -1,8 +1,8 @@
 const credentials =  {
     user: 'postgres',
     password: 'postgres',
-    host: '198.91.129.107',
-    port: 8080
+    host: '142.1.46.70',
+    port: 8083
 }
 
 module.exports = credentials;

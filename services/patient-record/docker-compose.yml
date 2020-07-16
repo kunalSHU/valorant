@@ -1,15 +1,18 @@
 version: "3.7"
 services: 
     db: 
-        image: postgres
+        container_name: postgres-patient-record
         environment: 
             POSTGRES_PASSWORD: postgres
             POSTGRES_USER: postgres
             POSTGRES_DB: patient-record-db
+        build:
+            context: .
+            dockerfile: ./db/Dockerfile
         volumes: 
             - ./pgdata:/var/lib/postgresql/data
         ports:
-            - '5439:5432'
+            - '8088:5432'
     web:
         image: patient-record-web
         depends_on: 

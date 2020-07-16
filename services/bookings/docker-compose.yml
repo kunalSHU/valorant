@@ -1,15 +1,18 @@
-version: "3.7"
+version: "3.3"
 services: 
     db: 
-        image: postgres
+        container_name: postgres-bookings
         environment: 
             POSTGRES_PASSWORD: postgres
             POSTGRES_USER: postgres
             POSTGRES_DB: bookings-db
         volumes: 
             - ./pgdata:/var/lib/postgresql/data
+        build:
+            context: .
+            dockerfile: ./db/Dockerfile
         ports:
-            - '5433:5432'
+            - '8083:5432'
     web:
         image: bookings-web
         depends_on: 

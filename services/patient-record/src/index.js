@@ -13,22 +13,24 @@ type Query {
 `);
 
 const credentials = require('../client-model');
-credentials.database = 'patient-record-db';
+credentials.database = 'patient_db';
 const client = new Client(credentials);
 
 // Will query the tables here
 const queryFunction = function () {
-  client.connect()
-  .then(() => {
-console.log('Connected Successfully')
-})
-  .then(() => client.query('SELECT * FROM people'))
-  .then((result) => {
-console.table(result.rows)
-})
-  .catch((e) => console.log(e))
-  .finally(() => client.end())
-}
+
+client
+    .connect()
+    .then(() => {
+      console.log('Connected Successfully');
+    })
+    .then(() => client.query('SELECT * FROM patient_info.address_info_tbl'))
+    .then((result) => {
+      console.table(result.rows);
+    })
+    .catch((e) => console.log(e))
+    .finally(() => client.end());
+};
 
 // timeout used so connection to db happens after it is started
 setTimeout(queryFunction, 5000)

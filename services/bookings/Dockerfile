@@ -13,7 +13,7 @@ RUN npm install
 # Bundle App
 COPY . .
 
-EXPOSE 8081
+EXPOSE 8080
 #ADD https://raw.githubusercontent.com/nickjj/wait-until/v0.1.0/wait-until /usr/local/bin
 #RUN chmod +x /usr/local/bin/wait-until
 

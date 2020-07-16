@@ -13,19 +13,25 @@ type Query {
 `);
 
 const credentials = require('../client-model');
-credentials.database = 'medical-conditions-db';
+credentials.database = 'bookings_db';
 const client = new Client(credentials);
 
 // Will query the tables here
 const queryFunction = function () {
-  client.connect()
-  .then(() => {console.log('Connected Successfully')})
-  .then(() => client.query('SELECT * FROM people'))
-  .then((result) => {console.table(result.rows)})
-  .catch(e => console.log(e))
-  .finally(() => client.end())
-}
-  
+
+client
+    .connect()
+    .then(() => {
+      console.log('Connected Successfully');
+    })
+    .then(() => client.query('SELECT * FROM bookings_info.prescribed_medications_tbl'))
+    .then((result) => {
+      console.table(result.rows);
+    })
+    .catch((e) => console.log(e))
+    .finally(() => client.end());
+};
+
 // timeout used so connection to db happens after it is started
 setTimeout(queryFunction , 5000)
 

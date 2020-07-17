@@ -4,12 +4,11 @@ const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
 const { Client } = require('pg');
 
-const PORT = process.env.APP_PORT || 8085;
+const PORT = process.env.APP_PORT || 8087;
 // GraphQL schema
 const schema = buildSchema(`
 type Query {
-        message: String
-    }
+  message: String}
 `);
 
 const credentials = require('../client-model');
@@ -37,7 +36,7 @@ setTimeout(queryFunction, 5000)
 
 // Root resolver
 const root = {
-  message: () => 'Hello World!'
+    message: () => 'Hello this is patient record!'
 };
 
 // Create an express server and a GraphQL endpoint

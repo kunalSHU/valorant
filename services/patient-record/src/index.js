@@ -23,6 +23,12 @@ const schema = require('./schema');
 //     .catch((e) => console.log(e))
 //     .finally(() => client.end());
 // };
+const PORT = process.env.APP_PORT || 8087;
+// GraphQL schema
+const schema = buildSchema(`
+type Query {
+  message: String}
+`);
 
 // // timeout used so connection to db happens after it is started
 // setTimeout(queryFunction, 5000)

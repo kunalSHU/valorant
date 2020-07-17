@@ -17,5 +17,5 @@ EXPOSE 8087
 #ADD https://raw.githubusercontent.com/nickjj/wait-until/v0.1.0/wait-until /usr/local/bin
 #RUN chmod +x /usr/local/bin/wait-until
 
-CMD ["npm", "start"]
+CMD ["nodemon", "src/index.js"]
 

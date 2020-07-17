@@ -18,6 +18,6 @@ services:
         depends_on: 
             - db
         ports: 
-            - '8087:8080'
+            - '8087:8087'
         volumes:
             - .:/usr/src/app

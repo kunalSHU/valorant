@@ -9,39 +9,20 @@ import {
     FormInput
   } from "shards-react";
 
-const PATIENT_RECORD_QUERY = gql`
-  query {
-    message
-  }
-`;
+  const PATIENT_RECORD_QUERY = gql`
+    query {
+      message
+    }
+  `;
 
-//Trying to retrieve data from patient record db and displaying it in UI
-const client  = new ApolloClient({
-  uri: 'http://142.1.46.70:8087/graphql'
-})
 
-class GeneralPage extends React.Component{
+  //Trying to retrieve data from patient record db and displaying it in UI
+  const client  = new ApolloClient({
+    uri: 'http://localhost:8087/graphql'
+  })
 
-  state = {queryResult: false}
-
-  queryResult =  () => {
-    return(
-      <div>      
-        <ApolloProvider client={client}>
-          
-          <Query query={PATIENT_RECORD_QUERY}>
-          {
-            ({loading, error, data}) => {
-              if(loading) return <h4>Loading...</h4>
-              if(error) console.log(error)
-              return <h1>{data.message}</h1>
-            }
-          }
-          </Query>
-        </ApolloProvider>
-      </div>
-
-    )
+  const queryResult =  () => {
+    console.log("In hEREs")
   }
 
   render(){
@@ -105,10 +86,19 @@ class GeneralPage extends React.Component{
                 <label style={{color: "#905EAF", fontSize: "20px", padding: "0px 0px 0px 0px"}}><strong>Family Doctor:</strong></label>
                 <label id="familyDoctor" style={{color: "#905EAF", fontSize: "20px", padding: "0px 0px 0px 10px"}}>Dr. wasteman</label>
             </div>
-            <button onClick={() => this.setState({queryResult: true})}>Get Result from query in console</button>
-            {this.state.queryResult ? this.queryResult() : null}
+            <button onClick={queryResult}>Get Result from query in console</button>
+            <Query query={PATIENT_RECORD_QUERY}>
+            {
+              ({loading, error, data}) => {
+                if(loading) return <h4>Loading...</h4>
+                if(error) console.log(error)
+                console.log(data)
+                return <h1>test</h1>
+              }
+            }
+          </Query>
         </div>
     );
   }
-}
+
 export default GeneralPage;

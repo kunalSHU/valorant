@@ -1,22 +1,33 @@
 import React from "react";
 import SideNavigation from '../components/sideNav';
 import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider, Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import {
     Button,
     FormInput
   } from "shards-react";
 
+  const PATIENT_RECORD_QUERY = gql`
+    query {
+      message
+    }
+  `;
+
+
   //Trying to retrieve data from patient record db and displaying it in UI
   const client  = new ApolloClient({
-    uri: 'http://142.1.46.70:8087/graphql'
+    uri: 'http://localhost:8087/graphql'
   })
 
+  const queryResult =  () => {
+    console.log("In hEREs")
+  }
 
   const GeneralPage = () => {
     return (
-      <ApolloProvider clinet={client}>
+      <ApolloProvider client={client}>
         <div>
             <SideNavigation />
             <div style={{padding: "0px 0px 0px 75px"}}>
@@ -76,6 +87,17 @@ import {
                 <label style={{color: "#905EAF", fontSize: "20px", padding: "0px 0px 0px 0px"}}><strong>Family Doctor:</strong></label>
                 <label id="familyDoctor" style={{color: "#905EAF", fontSize: "20px", padding: "0px 0px 0px 10px"}}>Dr. wasteman</label>
             </div>
+            <button onClick={queryResult}>Get Result from query in console</button>
+            <Query query={PATIENT_RECORD_QUERY}>
+            {
+              ({loading, error, data}) => {
+                if(loading) return <h4>Loading...</h4>
+                if(error) console.log(error)
+                console.log(data)
+                return <h1>test</h1>
+              }
+            }
+          </Query>
         </div>
       </ApolloProvider>
     );

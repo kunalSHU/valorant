@@ -32,7 +32,7 @@ setTimeout(queryFunction, 5000)
 
 // Root resolver
 const root = {
-    message: () => 'Hello this is patient record!'
+    message: () => 'Hello this is patient recording!'
 };
 
 // Create an express server and a GraphQL endpoint

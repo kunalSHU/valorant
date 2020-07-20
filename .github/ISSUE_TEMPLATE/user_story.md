@@ -1,7 +1,7 @@
 ---
 name: User story
 about: New functionality/improvements that has to be implemented in the existing product
-title: "[STORY] "
+title: ""
 labels: feature
 assignees: ''
 
@@ -12,6 +12,9 @@ Information as to why the feature is being developed. Any additional information
 
 **Functionality**
 A clear and concise description of the functionality to be implemented.
+
+**Components**
+What components of the app does this functionality modify
 
 **Acceptance Criteria**
 The acceptance criteria to consider the feature "complete"

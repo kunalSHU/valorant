@@ -43,8 +43,7 @@ const knex = Knex({
 
 // Root resolver
 const root = {
-  message: () => 'Hello this is patient recording!',
-  userAddress: () => knex('patient_info.address_info_tbl').select('*')
+  message: () => 'Hello this is patient recording!'
 };
 
 // Create an express server and a GraphQL endpoint

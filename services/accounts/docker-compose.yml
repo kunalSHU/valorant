@@ -19,8 +19,11 @@ services:
             - db
         ports: 
             - '8081:8081'
+<<<<<<< HEAD
         restart: always
         command: npm start
+=======
+>>>>>>> 42f4168... Modified accounts
         volumes:
             - .:/usr/src/app
             - /usr/src/app/node_modules

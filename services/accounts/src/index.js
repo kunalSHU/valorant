@@ -5,7 +5,15 @@ const cors = require('cors');
 
 const PORT = 8081;
 // GraphQL schema
+<<<<<<< HEAD
 const schema = require('./schema');
+=======
+const schema = buildSchema(`
+type Query {
+        message: String
+    }
+`);
+>>>>>>> 42f4168... Modified accounts
 // const credentials = require('../client-model');
 // credentials.database = 'accounts_db';
 // const client = new Client(credentials);
@@ -24,6 +32,7 @@ const schema = require('./schema');
 //     .catch((e) => console.log(e))
 //     .finally(() => client.end());
 // };
+<<<<<<< HEAD
 
 // // timeout used so connection to db happens after it is started
 // setTimeout(queryFunction, 5000);
@@ -39,10 +48,28 @@ const knex = Knex({
     port: 8088
     },
 
+=======
+
+// // timeout used so connection to db happens after it is started
+// setTimeout(queryFunction, 5000);
+
+const Knex = require("knex");
+const knex = Knex({
+  client: 'pg',
+  connection: { 
+    host: '142.1.46.70', 
+    user: 'postgres', 
+    password: 'postgres', 
+    database: 'patient_db', 
+    port: 8088
+    },
+
+>>>>>>> 42f4168... Modified accounts
 });
 
 // Root resolver
 const root = {
+<<<<<<< HEAD
   message: () => 'Hello this is accounts service connecting to patient record db!',
   addUserInfo: ({userid, addressid, username, first_name, last_name, phone_number, email, birthdate,
     date_became_patient, gender}) => {
@@ -60,6 +87,9 @@ const root = {
       }).then((data) => console.log(data))
         .catch((err) => console.log(err))
     }
+=======
+  message: () => 'Hello this is accounts service connecting to patient record db!'
+>>>>>>> 42f4168... Modified accounts
 };
 
 // Create an express server and a GraphQL endpoint

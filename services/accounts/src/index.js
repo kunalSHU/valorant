@@ -6,6 +6,7 @@ const cors = require('cors');
 const PORT = 8081;
 // GraphQL schema
 const schema = require('./schema');
+//import schema from './schema'
 // const credentials = require('../client-model');
 // credentials.database = 'accounts_db';
 // const client = new Client(credentials);
@@ -46,7 +47,7 @@ const root = {
   message: () => 'Hello this is accounts service connecting to patient record db!',
   addUserInfo: ({userid, addressid, username, first_name, last_name, phone_number, email, birthdate,
     date_became_patient, gender}) => {
-      return knex("patient_info.patient_basic_info_tbl").insert({
+      knex("patient_info.patient_basic_info_tbl").insert({
         userid: userid,
         addressid: addressid,
         username: username,
@@ -57,7 +58,8 @@ const root = {
         birthdate: birthdate,
         date_became_patient: date_became_patient,
         gender: gender
-      })
+      }).then((data) => console.log(data))
+        .catch((err) => console.log(err))
     }
 };
 

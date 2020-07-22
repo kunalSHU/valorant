@@ -38,16 +38,24 @@ class RegisterPage extends React.Component{
         otherdetails: ''
     }
 
-  adding_patient = gql`
-  mutation {
-    addUserInfo(username: ${this.state.userName} first_name:${this.state.firstName} last_name:${this.state.last_name}
-                phone_number:${this.state.phone_number} email:${this.state.email} birthdate:${this.state.birthdate} 
-                date_became_patient: ${this.state.date_became_patient} gender:${this.state.gender})
-    {${this.userid}
-     ${this.addressid}
-    }
-  }
-`;
+    // username: ${this.state.userName} first_name:${this.state.firstName} last_name:${this.state.last_name}
+    //             phone_number:${this.state.phone_number} email:${this.state.email} birthdate:${this.state.birthdate} 
+    //             date_became_patient: ${this.state.date_became_patient} gender:${this.state.gender})
+    // {${this.userid}
+    //  ${this.addressid}
+
+    adding_patient = gql`
+        mutation addUserInfo($username: String, $first_name: String, $last_name: String,
+            $phone_number: Int, $email: String, $birthdate: Date, $date_became_patient: Date,
+            $gender: String) {
+                addUserInfo(username: $username, first_name: $first_name, last_name: $last_name,
+                    phone_number: $phone_number, email: $email, birthdate: $birthdate, 
+                    date_became_patient: $date_became_patient, gender: $gender) {
+                        addressid
+                        userid
+                }
+
+        }`;
 
     userName = (event) => {
         this.setState({ 

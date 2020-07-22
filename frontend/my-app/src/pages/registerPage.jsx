@@ -3,12 +3,18 @@ import { ApolloProvider, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import React, { Fragment } from 'react';
 import DatePicker from "react-datepicker";
-
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
+import randomString from "random-string"
 //Trying to retrieve and add data from patient record db and displaying it in UI
 const client  = new ApolloClient({
     uri: 'http://142.1.46.70:8087/graphql'
   })
 
+const options = [
+    'Male', 'Female', 'Other', 'Kunal'
+  ];
+const defaultOption = options[0];
 
 class RegisterPage extends React.Component{
 
@@ -16,10 +22,16 @@ class RegisterPage extends React.Component{
         firstName: '',
         lastName:'',
         email:'',
-        gender:'',
+        gender:'Male',
         phoneNumber:'',
         dateRegistered: new Date(),
-        birthdate: ''
+        birthdate: '',
+        streetName: '',
+        city:'',
+        postal_code: '',
+        province: '',
+        country:'',
+        otherdetails: ''
     }
 
     firstName = (event) => {
@@ -41,9 +53,8 @@ class RegisterPage extends React.Component{
     }
 
     gender = (event) => {
-        console.log(event)
         this.setState({ 
-            gender: event.target.value
+            gender: event.value
         })
     }
 
@@ -60,13 +71,62 @@ class RegisterPage extends React.Component{
     }
 
     birthdate = (event) => {
-        console.log(event)
         this.setState({ 
             birthdate: event
         })
     }
 
+    streetName = (event) => {
+        this.setState({ 
+            streetName: event.target.value
+        })
+    }
+
+    city = (event) => {
+        this.setState({ 
+            city: event.target.value
+        })
+    }
+
+    postalCode = (event) => {
+        this.setState({ 
+            postalCode: event.target.value
+        })
+    }
+
+    country = (event) => {
+        this.setState({ 
+            country: event.target.value
+        })
+    }
+
+    province = (event) => {
+        this.setState({ 
+            province: event.target.value
+        })
+    }
+
+    otherDetails = (event) => {
+        this.setState({ 
+            otherDetails: event.target.value
+        })
+    }
+ 
+
     addUser= () => {
+        var addressid = randomString({
+            length: 3,
+            numeric: true,
+            letters: false,
+            special: false});
+        var userid = randomString({
+            length: 3,
+            numeric: true,
+            letters: false,
+            special: false});    
+                
+        console.log(addressid);
+        console.log(userid);
         console.log(this.state.firstName)
         console.log(this.state.lastName)
         console.log(this.state.phoneNumber)
@@ -74,9 +134,13 @@ class RegisterPage extends React.Component{
         console.log(this.state.dateRegistered)
         console.log(this.state.birthdate)
         console.log(this.state.email)
+        console.log(this.state.streetName)
+        console.log(this.state.city)
+        console.log(this.state.postalCode)
+        console.log(this.state.country)
+        console.log(this.state.province)
+        console.log(this.state.otherDetails)
     }
-
-
 
     render(){
         return (
@@ -94,16 +158,11 @@ class RegisterPage extends React.Component{
                 </div> 
 
                 <div>Gender: 
-                    <select name="gender" id="gender" onChange={this.gender}>
-                        <option value="female">Female</option>
-                        <option value="male">Male</option>
-                        <option value="other">Other</option>
-                        <option value="kunal">Kunal</option>
-                    </select>
+                    <Dropdown options={options} onChange={this.gender} value={defaultOption} placeholder="Select Gender:" />
                 </div>
 
                 <div>Phone Number: 
-                    <input id="phoneNumber" type="text" onChange={this.phoneNumber} ></input>
+                    <input id="phoneNumber" type="number" onChange={this.phoneNumber} ></input>
                 </div>
 
                 <div>Date Registered:
@@ -112,6 +171,30 @@ class RegisterPage extends React.Component{
 
                 <div>Birthdate:
                     <DatePicker selected={this.state.birthdate} onChange={(event) => this.birthdate(event)}/>
+                </div>
+
+                <div>Streetname: 
+                    <input id="streetName" type="text" onChange={this.streetName} ></input>
+                </div>
+
+                <div>City: 
+                    <input id="city" type="text" onChange={this.city} ></input>
+                </div>
+
+                <div>Postal Code: 
+                    <input id="postalCode" type="text" onChange={this.postalCode} ></input>
+                </div>
+
+                <div>Province: 
+                    <input id="province" type="text" onChange={this.province} ></input>
+                </div>
+
+                <div>Country: 
+                    <input id="country" type="text" onChange={this.country} ></input>
+                </div>
+
+                <div>Other Details: 
+                    <input id="otherDetails" type="text" onChange={this.otherDetails} ></input>
                 </div>
 
                 <input type="submit" value="Submit" onClick={this.addUser}></input> 

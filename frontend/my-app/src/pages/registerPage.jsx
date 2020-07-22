@@ -5,7 +5,9 @@ import React, { Fragment } from 'react';
 import DatePicker from "react-datepicker";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import randomString from "random-string"
+import randomString from "random-string";
+import useMutation from "apollo-client";
+
 //Trying to retrieve and add data from patient record db and displaying it in UI
 const client  = new ApolloClient({
     uri: 'http://142.1.46.70:8087/graphql'
@@ -16,9 +18,11 @@ const options = [
   ];
 const defaultOption = options[0];
 
-class RegisterPage extends React.Component{
 
+class RegisterPage extends React.Component{
+    
     state = {
+        userName:'',
         firstName: '',
         lastName:'',
         email:'',
@@ -32,6 +36,23 @@ class RegisterPage extends React.Component{
         province: '',
         country:'',
         otherdetails: ''
+    }
+
+  adding_patient = gql`
+  mutation {
+    addUserInfo(username: ${this.state.userName} first_name:${this.state.firstName} last_name:${this.state.last_name}
+                phone_number:${this.state.phone_number} email:${this.state.email} birthdate:${this.state.birthdate} 
+                date_became_patient: ${this.state.date_became_patient} gender:${this.state.gender})
+    {${this.userid}
+     ${this.addressid}
+    }
+  }
+`;
+
+    userName = (event) => {
+        this.setState({ 
+            userName: event.target.value
+        })
     }
 
     firstName = (event) => {
@@ -127,6 +148,7 @@ class RegisterPage extends React.Component{
                 
         console.log(addressid);
         console.log(userid);
+        console.log(this.state.userName)
         console.log(this.state.firstName)
         console.log(this.state.lastName)
         console.log(this.state.phoneNumber)
@@ -151,6 +173,10 @@ class RegisterPage extends React.Component{
 
                 <div>Last Name: 
                     <input id="lastName" type="text" onChange={this.lastName} ></input>
+                </div> 
+                
+                <div>User Name: 
+                    <input id="userName" type="text" onChange={this.userName} ></input>
                 </div> 
 
                 <div>Email: 

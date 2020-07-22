@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 
 import LoginPage from "./pages/loginPage";
@@ -13,7 +13,6 @@ import BillingPage from "./pages/billingPage";
 import AppointmentsPage from "./pages/appointmentsPage";
 import RegisterPage from "./pages/registerPage";
 import ContactUsPage from "./pages/contactUsPage";
-
 
 import "./App.css";
 

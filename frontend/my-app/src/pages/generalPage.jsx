@@ -17,7 +17,7 @@ const PATIENT_RECORD_QUERY = gql`
 
 //Trying to retrieve data from patient record db and displaying it in UI
 const client  = new ApolloClient({
-  uri: 'http://localhost:8087/graphql'
+  uri: 'http://142.1.46.70:8087/graphql'
 })
 
 class GeneralPage extends React.Component{

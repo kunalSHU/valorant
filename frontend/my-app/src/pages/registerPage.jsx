@@ -182,7 +182,7 @@ class RegisterPage extends React.Component{
                 ,position: "absolute", width: "50%", top: "25%"}}>
                 <CardContent>
                     <Typography style={{position: "relative", left: "50%"}} gutterBottom>Register</Typography>
-                    <ProgressBar animated now={45} />
+                    <ProgressBar animated now={50} label={`${50}%`}/>
                     </CardContent>
                 </Card> 
 

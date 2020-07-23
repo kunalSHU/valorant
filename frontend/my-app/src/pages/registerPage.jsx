@@ -3,14 +3,49 @@ import { ApolloProvider, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import React, { Fragment } from 'react';
 import DatePicker from "react-datepicker";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
+import randomString from "random-string";
+import useMutation from "apollo-client";
+import {ProgressBar} from "react-bootstrap"
+import {Card, CardContent, Typography, makeStyles} from '@material-ui/core';
 
 //Trying to retrieve and add data from patient record db and displaying it in UI
 const client  = new ApolloClient({
     uri: 'http://142.1.46.70:8087/graphql'
   })
 
+const options = [
+    'Male', 'Female', 'Other', 'Kunal'
+  ];
+const defaultOption = options[0];
 
+  
 class RegisterPage extends React.Component{
+    
+    constructor(props){
+        super(props)
+        //this.useStyles.bind(this)
+    }
+
+    useStyles = () => {
+        return makeStyles({
+        root: {
+          minWidth: 200,
+        },
+        bullet: {
+          display: 'inline-block',
+          margin: '0 2px',
+          transform: 'scale(0.8)',
+        },
+        title: {
+          fontSize: 14,
+        },
+        pos: {
+          marginBottom: 12,
+        },
+      })
+    };
 
     state = {
         firstName: '',
@@ -81,6 +116,16 @@ class RegisterPage extends React.Component{
     render(){
         return (
             <Fragment>
+                
+                <Card variant="outlined" style={{display: 'inline-block', height: "25%", left: "25%"
+                ,position: "absolute", width: "50%", top: "25%"}}>
+                <CardContent>
+                    <Typography style={{position: "relative", left: "50%"}} gutterBottom>Register</Typography>
+                    <ProgressBar animated now={45} />
+                    </CardContent>
+                </Card> 
+
+                
                 <div>First Name: 
                     <input id="firstName" type="text" onChange={this.firstName} ></input>
                 </div> 
@@ -114,6 +159,29 @@ class RegisterPage extends React.Component{
                     <DatePicker selected={this.state.birthdate} onChange={(event) => this.birthdate(event)}/>
                 </div>
 
+                <div>Streetname: 
+                    <input id="streetName" type="text" onChange={this.streetName} ></input>
+                </div>
+
+                <div>City: 
+                    <input id="city" type="text" onChange={this.city} ></input>
+                </div>
+
+                <div>Postal Code: 
+                    <input id="postalCode" type="text" onChange={this.postalCode} ></input>
+                </div>
+
+                <div>Province: 
+                    <input id="province" type="text" onChange={this.province} ></input>
+                </div>
+
+                <div>Country: 
+                    <input id="country" type="text" onChange={this.country} ></input>
+                </div>
+
+                <div>Other Details: 
+                    <input id="otherDetails" type="text" onChange={this.otherDetails} ></input>
+                </div>
                 <input type="submit" value="Submit" onClick={this.addUser}></input> 
             </Fragment>
         )

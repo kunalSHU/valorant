@@ -5,7 +5,11 @@ import React, { Fragment } from 'react';
 import DatePicker from "react-datepicker";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import randomString from "random-string"
+import randomString from "random-string";
+import useMutation from "apollo-client";
+import {ProgressBar} from "react-bootstrap"
+import {Card, CardContent, Typography, makeStyles} from '@material-ui/core';
+
 //Trying to retrieve and add data from patient record db and displaying it in UI
 const client  = new ApolloClient({
     uri: 'http://142.1.46.70:8087/graphql'
@@ -16,9 +20,11 @@ const options = [
   ];
 const defaultOption = options[0];
 
+  
 class RegisterPage extends React.Component{
 
     state = {
+        userName:'',
         firstName: '',
         lastName:'',
         email:'',
@@ -32,6 +38,31 @@ class RegisterPage extends React.Component{
         province: '',
         country:'',
         otherdetails: ''
+    }
+
+    // username: ${this.state.userName} first_name:${this.state.firstName} last_name:${this.state.last_name}
+    //             phone_number:${this.state.phone_number} email:${this.state.email} birthdate:${this.state.birthdate} 
+    //             date_became_patient: ${this.state.date_became_patient} gender:${this.state.gender})
+    // {${this.userid}
+    //  ${this.addressid}
+
+    adding_patient = gql`
+        mutation addUserInfo($username: String, $first_name: String, $last_name: String,
+            $phone_number: Int, $email: String, $birthdate: Date, $date_became_patient: Date,
+            $gender: String) {
+                addUserInfo(username: $username, first_name: $first_name, last_name: $last_name,
+                    phone_number: $phone_number, email: $email, birthdate: $birthdate, 
+                    date_became_patient: $date_became_patient, gender: $gender) {
+                        addressid
+                        userid
+                }
+
+        }`;
+
+    userName = (event) => {
+        this.setState({ 
+            userName: event.target.value
+        })
     }
 
     firstName = (event) => {
@@ -127,6 +158,7 @@ class RegisterPage extends React.Component{
                 
         console.log(addressid);
         console.log(userid);
+        console.log(this.state.userName)
         console.log(this.state.firstName)
         console.log(this.state.lastName)
         console.log(this.state.phoneNumber)
@@ -145,12 +177,26 @@ class RegisterPage extends React.Component{
     render(){
         return (
             <Fragment>
+                
+                <Card variant="outlined" style={{display: 'inline-block', height: "25%", left: "25%"
+                ,position: "absolute", width: "50%", top: "25%"}}>
+                <CardContent>
+                    <Typography style={{position: "relative", left: "50%"}} gutterBottom>Register</Typography>
+                    <ProgressBar animated now={50} label={`${50}%`}/>
+                    </CardContent>
+                </Card> 
+
+                
                 <div>First Name: 
                     <input id="firstName" type="text" onChange={this.firstName} ></input>
                 </div> 
 
                 <div>Last Name: 
                     <input id="lastName" type="text" onChange={this.lastName} ></input>
+                </div> 
+                
+                <div>User Name: 
+                    <input id="userName" type="text" onChange={this.userName} ></input>
                 </div> 
 
                 <div>Email: 
@@ -196,7 +242,6 @@ class RegisterPage extends React.Component{
                 <div>Other Details: 
                     <input id="otherDetails" type="text" onChange={this.otherDetails} ></input>
                 </div>
-
                 <input type="submit" value="Submit" onClick={this.addUser}></input> 
             </Fragment>
         )

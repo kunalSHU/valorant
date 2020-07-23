@@ -22,30 +22,6 @@ const defaultOption = options[0];
 
   
 class RegisterPage extends React.Component{
-    
-    constructor(props){
-        super(props)
-        //this.useStyles.bind(this)
-    }
-
-    useStyles = () => {
-        return makeStyles({
-        root: {
-          minWidth: 200,
-        },
-        bullet: {
-          display: 'inline-block',
-          margin: '0 2px',
-          transform: 'scale(0.8)',
-        },
-        title: {
-          fontSize: 14,
-        },
-        pos: {
-          marginBottom: 12,
-        },
-      })
-    };
 
     state = {
         userName:'',

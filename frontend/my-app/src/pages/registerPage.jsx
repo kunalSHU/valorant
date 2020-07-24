@@ -1,5 +1,5 @@
 import ApolloClient from 'apollo-boost';
-import { ApolloProvider, Query } from 'react-apollo';
+import { ApolloProvider, Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import React, { Fragment } from 'react';
 import DatePicker from "react-datepicker";
@@ -12,7 +12,7 @@ import {Card, CardContent, Typography, makeStyles} from '@material-ui/core';
 
 //Trying to retrieve and add data from patient record db and displaying it in UI
 const client  = new ApolloClient({
-    uri: 'http://142.1.46.70:8087/graphql'
+    uri: 'http://142.1.46.70:8081/graphql'
   })
 
 const options = [
@@ -45,19 +45,6 @@ class RegisterPage extends React.Component{
     //             date_became_patient: ${this.state.date_became_patient} gender:${this.state.gender})
     // {${this.userid}
     //  ${this.addressid}
-
-    adding_patient = gql`
-        mutation addUserInfo($username: String, $first_name: String, $last_name: String,
-            $phone_number: Int, $email: String, $birthdate: Date, $date_became_patient: Date,
-            $gender: String) {
-                addUserInfo(username: $username, first_name: $first_name, last_name: $last_name,
-                    phone_number: $phone_number, email: $email, birthdate: $birthdate, 
-                    date_became_patient: $date_became_patient, gender: $gender) {
-                        addressid
-                        userid
-                }
-
-        }`;
 
     userName = (event) => {
         this.setState({ 
@@ -143,8 +130,20 @@ class RegisterPage extends React.Component{
         })
     }
  
+    ADDING_PATIENT = gql`
+        mutation addUserInfo($userid: Int, $addressid: Int,$username: String, $first_name: String, $last_name: String,
+            $phone_number: Int, $email: String, $birthdate: Date, $date_became_patient: Date,
+            $gender: String) {
+                addUserInfo(userid: $userid, addressid: $addressid, username: $username, first_name: $first_name, last_name: $last_name,
+                    phone_number: $phone_number, email: $email, birthdate: $birthdate, 
+                    date_became_patient: $date_became_patient, gender: $gender) {
+                        addressid
+                        userid
+                }
 
-    addUser= () => {
+        }`;
+
+    addUser = () => {
         var addressid = randomString({
             length: 3,
             numeric: true,
@@ -154,7 +153,8 @@ class RegisterPage extends React.Component{
             length: 3,
             numeric: true,
             letters: false,
-            special: false});    
+            special: false}); 
+            
                 
         console.log(addressid);
         console.log(userid);
@@ -172,6 +172,32 @@ class RegisterPage extends React.Component{
         console.log(this.state.country)
         console.log(this.state.province)
         console.log(this.state.otherDetails)
+        
+        return(
+            <ApolloProvider client={client}>
+                <Mutation mutation={this.ADDING_PATIENT}>
+                {(addUserInfo, data) => (
+                    addUserInfo({variables: 
+                        {
+                            userid: userid,
+                            addressid: addressid,
+                            username: this.state.userName,
+                            first_name: this.state.firstName,
+                            last_name: this.state.lastName,
+                            phone_number: this.state.phoneNumber,
+                            email: this.state.email,
+                            birthdate: this.state.birthdate,
+                            date_became_patient: this.state.date_became_patient,
+                            gender: this.state.gender
+                        } 
+                    })
+                    
+                )}
+
+                </Mutation>
+            </ApolloProvider>
+
+        )    
     }
 
     render(){

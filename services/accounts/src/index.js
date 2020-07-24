@@ -5,11 +5,7 @@ const cors = require('cors');
 
 const PORT = 8081;
 // GraphQL schema
-const schema = buildSchema(`
-type Query {
-        message: String
-    }
-`);
+const schema = require('./schema');
 // const credentials = require('../client-model');
 // credentials.database = 'accounts_db';
 // const client = new Client(credentials);

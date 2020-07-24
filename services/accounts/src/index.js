@@ -47,7 +47,22 @@ const knex = Knex({
 
 // Root resolver
 const root = {
-  message: () => 'Hello this is accounts service connecting to patient record db!'
+  message: () => 'Hello this is accounts service connecting to patient record db!',
+  addUserInfo: ({userid, addressid, username, first_name, last_name, phone_number, email, birthdate,
+    date_became_patient, gender}) => {
+      return knex("patient_info.address_info_tbl").insert({
+        userid: userid,
+        addressid: addressid,
+        username: username,
+        first_name: first_name,
+        last_name: last_name,
+        phone_number: phone_number,
+        email: email,
+        birthdate: birthdate,
+        date_became_patient: date_became_patient,
+        gender: gender
+      })
+    }
 };
 
 // Create an express server and a GraphQL endpoint

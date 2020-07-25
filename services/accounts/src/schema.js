@@ -1,4 +1,5 @@
 const buildSchema = require('graphql').buildSchema;
+const GraphQLScalarType = require('graphql').GraphQLScalarType;
 
 const schema = buildSchema(`
   type Query {
@@ -25,8 +26,8 @@ const schema = buildSchema(`
         last_name: String
         phone_number: Int
         email: String
-        birthdate: Date
-        date_became_patient: Date
+        birthdate: String
+        date_became_patient: String
         gender: String
     ): UserInfo!
   }
@@ -49,8 +50,8 @@ const schema = buildSchema(`
     last_name: String
     phone_number: Int
     email: String
-    birthdate: Date
-    date_became_patient: Date
+    birthdate: String
+    date_became_patient: String
     gender: String
   }
 `);

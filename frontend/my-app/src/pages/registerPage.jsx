@@ -109,7 +109,33 @@ class RegisterPage extends React.Component{
         console.log(this.state.dateRegistered)
         console.log(this.state.birthdate)
         console.log(this.state.email)
-    }
+        console.log(this.state.streetName)
+        console.log(this.state.city)
+        console.log(this.state.postalCode)
+        console.log(this.state.country)
+        console.log(this.state.province)
+        console.log(this.state.otherDetails)
+        
+        return(
+            <ApolloProvider client={client}>
+                <Mutation mutation={this.ADDING_PATIENT}>
+                {(addUserInfo, data) => (
+                    addUserInfo({variables: 
+                        {
+                            userid: 33,
+                            addressid: 1,
+                            username: this.state.userName,
+                            first_name: this.state.firstName,
+                            last_name: this.state.lastName,
+                            phone_number: this.state.phoneNumber,
+                            email: this.state.email,
+                            birthdate: this.state.birthdate,
+                            date_became_patient: this.state.date_became_patient,
+                            gender: this.state.gender
+                        } 
+                    })
+                    
+                )}
 
 
 

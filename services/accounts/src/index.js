@@ -46,7 +46,7 @@ const root = {
   message: () => 'Hello this is accounts service connecting to patient record db!',
   addUserInfo: ({userid, addressid, username, first_name, last_name, phone_number, email, birthdate,
     date_became_patient, gender}) => {
-      return knex("patient_info.address_info_tbl").insert({
+      return knex("patient_info.patient_basic_info_tbl").insert({
         userid: userid,
         addressid: addressid,
         username: username,

@@ -179,8 +179,8 @@ class RegisterPage extends React.Component{
                 {(addUserInfo, data) => (
                     addUserInfo({variables: 
                         {
-                            userid: userid,
-                            addressid: addressid,
+                            userid: 33,
+                            addressid: 1,
                             username: this.state.userName,
                             first_name: this.state.firstName,
                             last_name: this.state.lastName,

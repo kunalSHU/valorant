@@ -4,6 +4,7 @@ const expressIpMiddleware = require('express-ip');
 
 const corsMiddleware = require('./cors-middleware.js');
 const rateLimiterMiddleware = require('./rate-limiter-middleware.js');
+const requestLoggerMiddleware = require('./request-logger-middleware.js');
 
 const middlewareConfig = require('./middleware-config.js');
 
@@ -29,6 +30,7 @@ const loadMiddlewareStack = (app) => {
       }
     )
   );
+  app.use(requestLoggerMiddleware);
 };
 
 module.exports = loadMiddlewareStack;

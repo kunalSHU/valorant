@@ -13,11 +13,11 @@ const app = express();
 loadMiddlewareStack(app);
 
 // GraphlQL endpoint
-app.get('/api', (req, res) => {
+app.post('/api', (req, res) => {
   res.json({ data: 'Hello World!' });
 });
 
-app.use('/healthcheck', (req, res) => {
+app.get('/healthcheck', (req, res) => {
   res.status(httpStatusCode.OK).json({
     serviceName: 'API Gateway',
     message: `Pinging /healthcheck on API Gateway`,

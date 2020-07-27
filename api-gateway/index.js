@@ -1,51 +1,21 @@
 /* eslint-disable require-jsdoc */
 const express = require('express');
-const expressGraphQL = require('express-graphql');
-const { GraphQLSchema, GraphQLObjectType, GraphQLString } = require('graphql');
-const process = require('process');
 
 const loadMiddlewareStack = require('./src/middlewares');
-const database = require('./src/db');
 
 const healthcheckController = require('./src/controllers/healthcheck-controller.js');
 const httpStatusCode = require('./src/utils/http-status-code.js');
 
 const APP_PORT = process.env.APP_PORT || 8085;
 
-database.connect(
-  process.env.POSTGRES_DB_HOST || '127.0.0.1',
-  process.env.POSTGRES_DB_NAME || 'accounts_db',
-  process.env.POSTGRES_USER || 'postgres',
-  process.env.POSTGRES_PASSWORD || 'postgres'
-);
-
 const app = express();
 
 loadMiddlewareStack(app);
 
-const rootQuery = new GraphQLObjectType({
-  name: 'RootQueryType',
-  fields: () => ({
-    name: {
-      type: GraphQLString,
-      description: 'Say hello',
-      resolve() {
-        return 'Hello World!';
-      }
-    }
-  })
+// GraphlQL endpoint
+app.get('/api', (req, res) => {
+  res.json({ data: 'Hello World!' });
 });
-
-const schema = new GraphQLSchema({ query: rootQuery });
-
-// Create GraphQL endpoint
-app.use(
-  '/api',
-  expressGraphQL({
-    schema: schema,
-    graphiql: process.env.NODE_ENV === 'development' ? true : false
-  })
-);
 
 app.use('/healthcheck', (req, res) => {
   res.status(httpStatusCode.OK).json({

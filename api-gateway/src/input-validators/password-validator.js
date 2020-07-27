@@ -15,18 +15,16 @@ const defaultPasswordRules = {
  * Validates the password against a set of password rules specified to determine if it meets the criteria.
  *
  * @param {string} password - The password that needs to be validated.
+ *
  * @param {object} passwordRules - An object representing the password rules.
+ * @param {number} passwordRules.minLength - The minimum length of the password (absolute minimum is always 6 characters).
+ * @param {number} passwordRules.maxLength - The maximum length of the password.
+ * @param {number} passwordRules.minDigits - The minimum number of digits the password must contain (absolute minimum is always 1).
+ * @param {number} passwordRules.minSpecialCharacters - The minimum number of special characters (absolute minimum is always 1).
+ * @param {number} passwordRules.minLowercaseLetters - The minimum number of lowercase letters (absolute minimum is always 1).
+ * @param {number} passwordRules.minUppercaseLetters - The minimum number of uppercase letters (absolute minimum is always 1).
  *
- * Password criteria that can be specified are the following:
- *
- * minLength: The minimum length of the password (absolute minimum is always 6 characters).
- * maxLength: The maximum length of the password.
- * minDigits: The minimum number of digits the password must contain (absolute minimum is always 1).
- * minSpecialCharacters: The minimum number of special characters (absolute minimum is always 1).
- * minLowercaseLetters: The minimum number of lowercase letters (absolute minimum is always 1).
- * minUppercaseLetters: The minimum number of uppercase letters (absolute minimum is always 1).
- *
- * @returns {Array.string} An list of criteria that the password does not satisfy.
+ * @returns {object} An list of criteria that the password does not satisfy.
  */
 const validatePassword = (password, passwordRules = defaultPasswordRules) => {
   const validationErrors = [];

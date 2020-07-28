@@ -24,7 +24,7 @@ const schema = buildSchema(`
         username: String
         first_name: String
         last_name: String
-        phone_number: Int
+        phone_number: String
         email: String
         birthdate: String
         date_became_patient: String

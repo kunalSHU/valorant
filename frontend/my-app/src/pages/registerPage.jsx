@@ -20,17 +20,31 @@ const options = [
   ];
 const defaultOption = options[0];
 
+const ADDING_PATIENT = gql`
+mutation addUserInfo($userid: Int, $addressid: Int,$username: String, $first_name: String, $last_name: String,
+    $phone_number: Int, $email: String, $birthdate: String, $date_became_patient: String,
+    $gender: String) {
+        addUserInfo(userid: $userid, addressid: $addressid, username: $username, first_name: $first_name, last_name: $last_name,
+            phone_number: $phone_number, email: $email, birthdate: $birthdate, 
+            date_became_patient: $date_became_patient, gender: $gender) {
+                addressid
+                userid
+        }
+
+}`;
   
 class RegisterPage extends React.Component{
 
     state = {
+        userid: 5,
+        addressid: 2,
         userName:'',
         firstName: '',
         lastName:'',
         email:'',
         gender:'Male',
-        phoneNumber:'',
-        dateRegistered: new Date(),
+        phoneNumber: 0,
+        dateRegistered: '',
         birthdate: '',
         streetName: '',
         city:'',
@@ -77,14 +91,16 @@ class RegisterPage extends React.Component{
     }
 
     phoneNumber = (event) => {
+        console.log(event.target.value)
+        console.log(typeof(event.target.value))
         this.setState({ 
-            phoneNumber: event.target.value
+            phoneNumber: parseInt(event.target.value)
         })
     }
 
     dateRegistered = (event) => {
         this.setState({ 
-            dateRegistered: event.target.value
+            dateRegistered: event
         })
     }
 
@@ -129,35 +145,20 @@ class RegisterPage extends React.Component{
             otherDetails: event.target.value
         })
     }
- 
-    ADDING_PATIENT = gql`
-        mutation addUserInfo($userid: Int, $addressid: Int,$username: String, $first_name: String, $last_name: String,
-            $phone_number: Int, $email: String, $birthdate: Date, $date_became_patient: Date,
-            $gender: String) {
-                addUserInfo(userid: $userid, addressid: $addressid, username: $username, first_name: $first_name, last_name: $last_name,
-                    phone_number: $phone_number, email: $email, birthdate: $birthdate, 
-                    date_became_patient: $date_became_patient, gender: $gender) {
-                        addressid
-                        userid
-                }
-
-        }`;
 
     addUser = () => {
-        var addressid = randomString({
-            length: 3,
-            numeric: true,
-            letters: false,
-            special: false});
-        var userid = randomString({
-            length: 3,
-            numeric: true,
-            letters: false,
-            special: false}); 
+        // var addressid = randomString({
+        //     length: 3,
+        //     numeric: true,
+        //     letters: false,
+        //     special: false});
+        // var userid = randomString({
+        //     length: 3,
+        //     numeric: true,
+        //     letters: false,
+        //     special: false}); 
             
                 
-        console.log(addressid);
-        console.log(userid);
         console.log(this.state.userName)
         console.log(this.state.firstName)
         console.log(this.state.lastName)
@@ -174,29 +175,27 @@ class RegisterPage extends React.Component{
         console.log(this.state.otherDetails)
         
         return(
+            
             <ApolloProvider client={client}>
-                <Mutation mutation={this.ADDING_PATIENT}>
+            <Mutation mutation={this.ADDING_PATIENT}>
                 {(addUserInfo, data) => (
-                    addUserInfo({variables: 
+                    addUserInfo({variables:
                         {
-                            userid: 33,
-                            addressid: 1,
-                            username: this.state.userName,
-                            first_name: this.state.firstName,
-                            last_name: this.state.lastName,
-                            phone_number: this.state.phoneNumber,
-                            email: this.state.email,
-                            birthdate: this.state.birthdate,
-                            date_became_patient: this.state.date_became_patient,
-                            gender: this.state.gender
-                        } 
-                    })
-                    
+                        userid: 33,
+                        addressid: 1,
+                        username: this.state.userName,
+                        first_name: this.state.firstName,
+                        last_name: this.state.lastName,
+                        phone_number: this.state.phoneNumber,
+                        email: this.state.email,
+                        birthdate: this.state.birthdate,
+                        date_became_patient: this.state.date_became_patient,
+                        gender: this.state.gender
+                    } 
+                })
                 )}
-
-                </Mutation>
-            </ApolloProvider>
-
+            </Mutation>
+        </ApolloProvider> 
         )    
     }
 
@@ -234,11 +233,11 @@ class RegisterPage extends React.Component{
                 </div>
 
                 <div>Phone Number: 
-                    <input id="phoneNumber" type="number" onChange={this.phoneNumber} ></input>
+                    <input id="phoneNumber" type="number" onChange={this.phoneNumber}></input>
                 </div>
 
                 <div>Date Registered:
-                    <DatePicker selected={this.state.dateRegistered} onChange={this.dateRegistered}/>
+                    <DatePicker selected={this.state.dateRegistered} onChange={(event) => this.dateRegistered(event)}/>
                 </div>
 
                 <div>Birthdate:
@@ -268,7 +267,31 @@ class RegisterPage extends React.Component{
                 <div>Other Details: 
                     <input id="otherDetails" type="text" onChange={this.otherDetails} ></input>
                 </div>
-                <input type="submit" value="Submit" onClick={this.addUser}></input> 
+           
+                <input type="submit" value="Submit" onClick={this.addUser}></input>
+                <ApolloProvider client={client} useMutation={ADDING_PATIENT}>
+                    <Mutation mutation={ADDING_PATIENT}>
+                        
+                        {(adding_patient, { data }) => (
+                            <button onClick={(e) => {
+                                e.preventDefault();
+                                adding_patient({
+                                    variables: {
+                                        userid: this.state.userid, addressid: this.state.addressid,
+                                        username: this.state.userName, first_name: this.state.firstName,
+                                        last_name: this.state.lastName, phone_number: this.state.phoneNumber,
+                                        email: this.state.email, birthdate: this.state.birthdate,
+                                        date_became_patient: this.state.dateRegistered,
+                                        gender: this.state.gender
+                                    }
+                                })
+                                console.log(data)
+                            }}>
+                                Submit 
+                            </button>
+                        )}
+                    </Mutation>
+                </ApolloProvider>
             </Fragment>
         )
     }

@@ -22,7 +22,7 @@ const defaultOption = options[0];
 
 const ADDING_PATIENT = gql`
 mutation addUserInfo($userid: Int, $addressid: Int,$username: String, $first_name: String, $last_name: String,
-    $phone_number: Int, $email: String, $birthdate: String, $date_became_patient: String,
+    $phone_number: String, $email: String, $birthdate: String, $date_became_patient: String,
     $gender: String) {
         addUserInfo(userid: $userid, addressid: $addressid, username: $username, first_name: $first_name, last_name: $last_name,
             phone_number: $phone_number, email: $email, birthdate: $birthdate, 
@@ -43,7 +43,7 @@ class RegisterPage extends React.Component{
         lastName:'',
         email:'',
         gender:'Male',
-        phoneNumber: 0,
+        phoneNumber: '',
         dateRegistered: '',
         birthdate: '',
         streetName: '',
@@ -60,9 +60,9 @@ class RegisterPage extends React.Component{
     // {${this.userid}
     //  ${this.addressid}
 
-    userName = (event) => {
+    phoneNumber = (event) => {
         this.setState({ 
-            userName: event.target.value
+            phoneNumber: event.target.value
         })
     }
 
@@ -90,12 +90,11 @@ class RegisterPage extends React.Component{
         })
     }
 
-    phoneNumber = (event) => {
-        console.log(event.target.value)
-        console.log(typeof(event.target.value))
+    userName = (event) => {
         this.setState({ 
-            phoneNumber: parseInt(event.target.value)
+            userName: event.target.value
         })
+
     }
 
     dateRegistered = (event) => {
@@ -220,8 +219,8 @@ class RegisterPage extends React.Component{
                     <input id="lastName" type="text" onChange={this.lastName} ></input>
                 </div> 
                 
-                <div>User Name: 
-                    <input id="userName" type="text" onChange={this.userName} ></input>
+                <div>Phone Number: 
+                    <input id="phoneNumber" type="text" onChange={this.phoneNumber} ></input>
                 </div> 
 
                 <div>Email: 
@@ -232,8 +231,8 @@ class RegisterPage extends React.Component{
                     <Dropdown options={options} onChange={this.gender} value={defaultOption} placeholder="Select Gender:" />
                 </div>
 
-                <div>Phone Number: 
-                    <input id="phoneNumber" type="number" onChange={this.phoneNumber}></input>
+                <div>User name: 
+                    <input id="userName" type="text" onChange={this.userName}></input>
                 </div>
 
                 <div>Date Registered:
@@ -285,7 +284,8 @@ class RegisterPage extends React.Component{
                                         gender: this.state.gender
                                     }
                                 })
-                                console.log(data)
+                                console.log(this.state.phoneNumber)
+                                console.log(typeof(this.state.phone))
                             }}>
                                 Submit 
                             </button>

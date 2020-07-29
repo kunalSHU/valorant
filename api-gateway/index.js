@@ -1,10 +1,12 @@
-/* eslint-disable require-jsdoc */
 const express = require('express');
+const fetch = require('node-fetch');
 
 const loadMiddlewareStack = require('./src/middlewares');
 
 const healthcheckController = require('./src/controllers/healthcheck-controller.js');
 const httpStatusCode = require('./src/utils/http-status-code.js');
+
+const gqlRequests = require('./src/network-utils/gql-requests.js');
 
 const APP_PORT = process.env.APP_PORT || 8085;
 
@@ -14,7 +16,19 @@ loadMiddlewareStack(app);
 
 // GraphlQL endpoint
 app.post('/api', (req, res) => {
-  res.json({ data: 'Hello World!' });
+  const { query: gqlQueryString, variables: gqlQueryVariables } = req.body;
+
+  const response = gqlRequests.sendGqlRequest('http://192.168.1.114:3002/api', gqlQueryString, gqlQueryVariables);
+  response
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json({
+        message: 'Request failed',
+        error: err.message
+      });
+    });
 });
 
 app.get('/healthcheck', (req, res) => {

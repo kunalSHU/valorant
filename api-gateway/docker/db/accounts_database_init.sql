@@ -30,4 +30,8 @@ INSERT INTO accounts_tbl(first_name, last_name, email_address, password_hash, pa
   'badshah.shabaz@email.com',
   '$2b$08$f8v.elIjKkbBdeBvCKX66ej/svbBcexo28.gfplFH8K4hyKtFkM0C',
   '$2b$08$pLI.wYnpOPD0hsYmAqlh..'
-);
+) RETURNING account_id;
+
+INSERT INTO tokens_tbl(account_id, jwt_token) VALUES (
+  (SELECT account_id FROM accounts_tbl WHERE email_address='badshah.shabaz@email.com'),
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXJyRGF0ZSI6MTU5NjAyMzY5MDYyMSwiaWF0IjoxNTk2MDIzNjkwLCJleHAiOjE1OTk2MjM2OTB9.GLU7TAMYszrpOy9arXIXTe8B8OcGPpKC0Shd-ydohqQ');

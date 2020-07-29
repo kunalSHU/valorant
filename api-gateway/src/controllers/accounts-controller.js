@@ -77,22 +77,34 @@ const addAccount = async (account) => {
   const passwordSalt = bcrypt.genSaltSync(8);
   const hashedPassword = bcrypt.hashSync(password, passwordSalt);
 
-  const addAccountQuery = `INSERT INTO ${accountsTable}(first_name, last_name, email_address, password_hash, password_salt) VALUES($1, $2, $3, $4, $5)`;
-  const addAccountQueryVariables = [firstName, lastName, emailAddress, hashedPassword, passwordSalt];
-
+  // Add account to accounts_tbl
   try {
-    const { rows } = await db.query(addAccountQuery, addAccountQueryVariables);
+    const {
+      rows: addedAccountRows
+    } = await db.query(
+      'INSERT INTO accounts_tbl(first_name, last_name, email_address, password_hash, password_salt) VALUES($1, $2, $3, $4, $5) RETURNING account_id',
+      [firstName, lastName, emailAddress, hashedPassword, passwordSalt]
+    );
+
+    const accountId = addedAccountRows[0].account_id;
 
     const currDate = new Date().getTime();
     const sessionJwtToken = jwt.sign({ currDate }, jwtSecret, {
       expiresIn: defaultTokenExpiryTimeMs
     });
 
-    return rows.length === 0 ? { sessionJwtToken } : {};
+    // Add token to tokens_tbl
+    try {
+      const { rows: addedJwtTokenRows } = await db.query(
+        'INSERT INTO tokens_tbl(account_id, jwt_token) VALUES($1, $2)',
+        [accountId, sessionJwtToken]
+      );
+      return addedJwtTokenRows.length === 0 ? { sessionJwtToken } : {};
+    } catch (err) {
+      throw new Error(`Could not add JWT token to tokens_tbl. Message: ${err.message}`);
+    }
   } catch (err) {
-    throw new Error(
-      `Could not execute query '${addAccountQuery} with variables '${addAccountQueryVariables}'. Message: ${err.message}`
-    );
+    throw new Error(`Could not add the Account to accounts_tbl. Message: ${err.message}`);
   }
 };
 

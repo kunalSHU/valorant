@@ -24,7 +24,7 @@ const fetch = require('node-fetch');
  *     // Do something with the error and its message
  *   });
  */
-const sendGqlRequest = async (endpointUrl, gqlQueryString, gqlQueryVariables) => {
+const sendGqlRequest = async (endpointUrl, gqlQueryString = '', gqlQueryVariables = {}) => {
   try {
     const requestConfig = {
       method: 'POST',

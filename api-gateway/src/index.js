@@ -4,11 +4,11 @@ const expressGraphQL = require('express-graphql');
 const { GraphQLSchema, GraphQLObjectType, GraphQLString } = require('graphql');
 const process = require('process');
 
-const loadMiddlewareStack = require('./src/middlewares');
-const database = require('./src/db');
+const loadMiddlewareStack = require('./middlewares');
+const database = require('./db');
 
-const healthcheckController = require('./src/controllers/healthcheck-controller.js');
-const httpStatusCode = require('./src/utils/http-status-code.js');
+const healthcheckController = require('./controllers/healthcheck-controller.js');
+const httpStatusCode = require('./utils/http-status-code.js');
 
 const APP_PORT = process.env.APP_PORT || 8085;
 

@@ -24,7 +24,7 @@ const defaultPasswordRules = {
  * @param {number} passwordRules.minLowercaseLetters - The minimum number of lowercase letters (absolute minimum is always 1).
  * @param {number} passwordRules.minUppercaseLetters - The minimum number of uppercase letters (absolute minimum is always 1).
  *
- * @returns {object} An list of criteria that the password does not satisfy.
+ * @returns {object} A list of criteria that the password does not satisfy.
  */
 const validatePassword = (password, passwordRules = defaultPasswordRules) => {
   const validationErrors = [];

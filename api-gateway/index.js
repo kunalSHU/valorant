@@ -30,14 +30,6 @@ app.post('/api', (req, res) => {
     });
 });
 
-// app.get('/healthcheck', (req, res) => {
-//   res.status(httpStatusCode.OK).json({
-//     serviceName: 'API Gateway',
-//     message: `Pinging /healthcheck on API Gateway`,
-//     data: healthcheckController.getHealthcheckInfo(req)
-//   });
-// });
-
 // Match any route if it is not found within allRoutes
 app.use('*', (req, res, next) => {
   res.status(404).json({

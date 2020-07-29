@@ -6,24 +6,17 @@ const db = require('../db/db.js');
 const jwtSecret = require('../middlewares/middleware-config.js').authentication.getJwtSecret();
 const defaultTokenExpiryTimeMs = require('../middlewares/middleware-config.js').authentication.defaultTokenExpiryTimeMs;
 
-const accountsTable = 'accounts_tbl';
-
 /**
  * Returns all User accounts that exist in the Accounts DB.
  *
  * @returns {object} An object containing a list of Users.
  */
 const findAllAccounts = async () => {
-  const findAllAccountsQuery = `SELECT * FROM ${accountsTable}`;
-  const findAllAccountsQueryVariables = [];
-
   try {
-    const { rows } = await db.query(findAllAccountsQuery, findAllAccountsQueryVariables);
-    return rows;
+    const { rows: allAccountRows } = await db.query('SELECT * FROM accounts_tbl', []);
+    return allAccountRows;
   } catch (err) {
-    throw new Error(
-      `Could not execute query '${findAllAccountsQuery} with variables '${findAllAccountsQueryVariables}'. Message: ${err.message}`
-    );
+    throw new Error(`Could not find any Accounts in accounts_tbl'. Message: ${err.message}`);
   }
 };
 
@@ -35,17 +28,12 @@ const findAllAccounts = async () => {
  * @returns {object} An object containing the User who matches the email.
  */
 const findAccountByEmail = async (email) => {
-  const findSingleAccountByEmailQuery = `SELECT * FROM ${accountsTable} WHERE email_address=$1`;
-  const findSingleAccountByEmailQueryVariables = [email];
-
   try {
-    const { rows } = await db.query(findSingleAccountByEmailQuery, findSingleAccountByEmailQueryVariables);
+    const { rows: foundAccountRows } = await db.query('SELECT * FROM accounts_tbl WHERE email_address=$1', [email]);
 
-    return rows.length === 0 ? {} : rows[0];
+    return foundAccountRows.length === 0 ? {} : foundAccountRows[0];
   } catch (err) {
-    throw new Error(
-      `Could not execute query '${findSingleAccountByEmailQuery} with variables '${findSingleAccountByEmailQueryVariables}'. Message: ${err.message}`
-    );
+    throw new Error(`Could not find Account in accounts_tbl. Message: ${err.message}`);
   }
 };
 

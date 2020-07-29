@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "connect-timeout": "^1.9.0",
@@ -33,10 +34,12 @@
     "ip": "^1.1.5",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.19",
+    "morgan": "^1.10.0",
     "node-fetch": "^2.6.0",
     "password-validator": "^5.0.3",
     "pg": "^8.3.0",
-    "pg-hstore": "^2.3.3"
+    "pg-hstore": "^2.3.3",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",

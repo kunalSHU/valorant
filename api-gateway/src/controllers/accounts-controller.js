@@ -1,4 +1,10 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 const db = require('../db/db.js');
+
+const jwtSecret = require('../middlewares/middleware-config.js').authentication.getJwtSecret();
+const defaultTokenExpiryTimeMs = require('../middlewares/middleware-config.js').authentication.defaultTokenExpiryTimeMs;
 
 const accountsTable = 'accounts_tbl';
 
@@ -34,6 +40,7 @@ const findAccountByEmail = async (email) => {
 
   try {
     const { rows } = await db.query(findSingleAccountByEmailQuery, findSingleAccountByEmailQueryVariables);
+
     return rows.length === 0 ? {} : rows[0];
   } catch (err) {
     throw new Error(
@@ -42,4 +49,51 @@ const findAccountByEmail = async (email) => {
   }
 };
 
-module.exports = { findAllAccounts, findAccountByEmail };
+/**
+ * Returns a JWT session token if the Account has been created successfully.
+ *
+ * @param {object} account - An Account object containing the Account info of the Account being added.
+ * @param {string} account.firstName - The first name of the Account holder.
+ * @param {string} account.lastName - The last name of the Account holder.
+ * @param {string} account.emailAddress - The email address used to create the Account.
+ * @param {string} account.password - The password used to create the Account which will be hashed and stored in the DB.
+ *
+ * @returns {string} A JWT session token if the Account has been created successfully. Otherwise returns an empty object.
+ *
+ * @example
+ * Adding an Account to the Accounts DB
+ *
+ * const account = {
+ *  firstName: 'Shabaz',
+ *  lastName: 'Badshah',
+ *  emailAddress: 'shabazemail@email.com',
+ *  password: '!!IlikePotatoes23?'
+ * };
+ * const createdUserJwtSessionToken = addAccount(account);
+ */
+const addAccount = async (account) => {
+  const { firstName, lastName, emailAddress, password } = account;
+
+  const SALT_ROUNDS = 8;
+  const hashedPassword = bcrypt.hashSync(password, SALT_ROUNDS);
+
+  const addAccountQuery = `INSERT INTO ${accountsTable}(first_name, last_name, email_address, password_hash) VALUES($1, $2, $3, $4)`;
+  const addAccountQueryVariables = [firstName, lastName, emailAddress, hashedPassword];
+
+  try {
+    const { rows } = await db.query(addAccountQuery, addAccountQueryVariables);
+
+    const currDate = new Date().getTime();
+    const sessionJwtToken = jwt.sign({ currDate }, jwtSecret, {
+      expiresIn: defaultTokenExpiryTimeMs
+    });
+
+    return rows.length === 0 ? { sessionJwtToken } : {};
+  } catch (err) {
+    throw new Error(
+      `Could not execute query '${addAccountQuery} with variables '${addAccountQueryVariables}'. Message: ${err.message}`
+    );
+  }
+};
+
+module.exports = { findAllAccounts, findAccountByEmail, addAccount };

@@ -24,4 +24,20 @@ router.get('/findWithEmail', async (req, res) => {
   }
 });
 
+router.post('/create', async (req, res) => {
+  const { firstName, lastName, emailAddress, password } = req.body;
+
+  try {
+    const createdUserJwtSessionToken = await accountsController.addAccount({
+      firstName,
+      lastName,
+      emailAddress,
+      password
+    });
+    res.status(httpStatusCode.OK).json({ data: createdUserJwtSessionToken });
+  } catch (err) {
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json(err.message);
+  }
+});
+
 module.exports = router;

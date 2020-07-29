@@ -9,7 +9,7 @@ router.get('/all', async (req, res) => {
     const allUsers = await accountsController.findAllAccounts();
     res.status(httpStatusCode.OK).json({ data: allUsers });
   } catch (err) {
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json(err.message);
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
   }
 });
 
@@ -20,7 +20,7 @@ router.get('/findWithEmail', async (req, res) => {
     const singleUser = await accountsController.findAccountByEmail(email);
     res.status(httpStatusCode.OK).json({ data: singleUser });
   } catch (err) {
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json(err.message);
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
   }
 });
 
@@ -36,7 +36,7 @@ router.post('/create', async (req, res) => {
     });
     res.status(httpStatusCode.OK).json({ data: createdUserJwtSessionToken });
   } catch (err) {
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json(err.message);
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
   }
 });
 

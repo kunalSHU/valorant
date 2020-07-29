@@ -69,16 +69,16 @@ const findAccountByEmail = async (email) => {
  *  emailAddress: 'shabazemail@email.com',
  *  password: '!!IlikePotatoes23?'
  * };
- * const createdUserJwtSessionToken = addAccount(account);
+ * const createdUserJwtSessionToken = await addAccount(account);
  */
 const addAccount = async (account) => {
   const { firstName, lastName, emailAddress, password } = account;
 
-  const SALT_ROUNDS = 8;
-  const hashedPassword = bcrypt.hashSync(password, SALT_ROUNDS);
+  const passwordSalt = bcrypt.genSaltSync(8);
+  const hashedPassword = bcrypt.hashSync(password, passwordSalt);
 
-  const addAccountQuery = `INSERT INTO ${accountsTable}(first_name, last_name, email_address, password_hash) VALUES($1, $2, $3, $4)`;
-  const addAccountQueryVariables = [firstName, lastName, emailAddress, hashedPassword];
+  const addAccountQuery = `INSERT INTO ${accountsTable}(first_name, last_name, email_address, password_hash, password_salt) VALUES($1, $2, $3, $4, $5)`;
+  const addAccountQueryVariables = [firstName, lastName, emailAddress, hashedPassword, passwordSalt];
 
   try {
     const { rows } = await db.query(addAccountQuery, addAccountQueryVariables);

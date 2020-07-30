@@ -307,7 +307,8 @@ class RegisterPage extends React.Component{
     back = () => {
         this.setState({
             formStep1: true,
-            formStep2: false
+            formStep2: false,
+            progress: 0
         })
     }
 

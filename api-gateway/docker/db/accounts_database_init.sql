@@ -10,14 +10,14 @@ CREATE TABLE accounts_tbl(
 
 CREATE TABLE tokens_tbl(
   token_id BIGSERIAL PRIMARY KEY,
-  account_id BIGSERIAL NOT NULL REFERENCES accounts_tbl(account_id),
+  account_id BIGSERIAL NOT NULL REFERENCES accounts_tbl(account_id) ON DELETE CASCADE,
   jwt_token VARCHAR(1024) NOT NULL UNIQUE,
   token_created_time_utc TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE permissions_tbl(
   permission_id BIGSERIAL PRIMARY KEY,
-  account_id BIGSERIAL NOT NULL REFERENCES accounts_tbl(account_id),
+  account_id BIGSERIAL NOT NULL REFERENCES accounts_tbl(account_id) ON DELETE CASCADE,
   account_type_admin BOOLEAN DEFAULT false,
   account_type_doctor BOOLEAN DEFAULT false,
   account_type_receptionist BOOLEAN DEFAULT false,

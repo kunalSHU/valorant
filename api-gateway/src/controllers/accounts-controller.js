@@ -7,9 +7,9 @@ const jwtSecret = require('../middlewares/middleware-config.js').authentication.
 const defaultTokenExpiryTimeMs = require('../middlewares/middleware-config.js').authentication.defaultTokenExpiryTimeMs;
 
 /**
- * Returns all User accounts that exist in the Accounts DB.
+ * Returns all Accounts that exist in the Accounts DB.
  *
- * @returns {object} An object containing a list of Users.
+ * @returns {Array} An array of Accounts.
  */
 const findAllAccounts = async () => {
   try {
@@ -17,6 +17,30 @@ const findAllAccounts = async () => {
     return allAccountRows;
   } catch (err) {
     throw new Error(`Could not find any Accounts in accounts_tbl'. Message: ${err.message}`);
+  }
+};
+
+/**
+ * Returns the JWT token assosicated with the given Account email.
+ *
+ * @param {string} email - The email of the Account token to be found.
+ *
+ * @returns {string} The JWT token if it exists, otherwise returns an empty string (i.e '').
+ */
+const findMatchingAccountTokenByEmail = async (email) => {
+  try {
+    const {
+      rows: foundAccountRows
+    } = await db.query(
+      'SELECT jwt_token FROM tokens_tbl INNER JOIN accounts_tbl ON tokens_tbl.account_id=(SELECT account_id FROM accounts_tbl WHERE email_address=$1)',
+      [email]
+    );
+
+    return foundAccountRows.length === 0 ? '' : foundAccountRows[0].jwt_token;
+  } catch (err) {
+    throw new Error(
+      `Could not find an Account in tokens_tbl that matched the given JWT token. Message: ${err.message}`
+    );
   }
 };
 
@@ -29,11 +53,11 @@ const findAllAccounts = async () => {
  */
 const findAccountByEmail = async (email) => {
   try {
-    const { rows: foundAccountRows } = await db.query('SELECT * FROM accounts_tbl WHERE email_address=$1', [email]);
+    const { rows } = await db.query('SELECT * FROM accounts_tbl WHERE email_address=$1', [email]);
 
-    return foundAccountRows.length === 0 ? {} : foundAccountRows[0];
+    return rows.length === 0 ? {} : rows[0];
   } catch (err) {
-    throw new Error(`Could not find Account in accounts_tbl. Message: ${err.message}`);
+    throw new Error(`Could not find the Account in accounts_tbl'. Message: ${err.message}`);
   }
 };
 
@@ -96,4 +120,29 @@ const addAccount = async (account) => {
   }
 };
 
-module.exports = { findAllAccounts, findAccountByEmail, addAccount };
+/**
+ * Deletes the Account from the DB that was created using the specified email.
+ *
+ * @param {string} email - The email of the Account token to be found.
+ *
+ * @returns {object} The single Account object of the Account that was deleted.
+ */
+const deleteAccountByEmail = async (email) => {
+  try {
+    const { rows: deletedAccountRows } = await db.query('DELETE FROM accounts_tbl WHERE email_address=$1 RETURNING *', [
+      email
+    ]);
+
+    return deletedAccountRows.length === 0 ? {} : deletedAccountRows[0];
+  } catch (err) {
+    throw new Error(`Could not delete the Account in accounts_tbl'. Message: ${err.message}`);
+  }
+};
+
+module.exports = {
+  findAllAccounts,
+  findMatchingAccountTokenByEmail,
+  findAccountByEmail,
+  addAccount,
+  deleteAccountByEmail
+};

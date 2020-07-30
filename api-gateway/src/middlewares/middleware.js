@@ -40,7 +40,7 @@ const loadMiddlewareStack = (app) => {
           '-',
           tokens.req(req, req, 'accept-encoding') || '<empty accept-encoding>',
           '\n',
-          `query-params: ${JSON.stringify(req.query.params) || '<empty query-params>'}\n`,
+          `query-params: ${JSON.stringify(req.query) || '<empty query-params>'}\n`,
           `body: ${JSON.stringify(req.body)}`
         ].join(' ');
       },

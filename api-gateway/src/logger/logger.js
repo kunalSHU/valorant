@@ -7,16 +7,20 @@ const options = {
     level: 'info',
     filename: `${appRoot}/logs/app.log`,
     handleExceptions: true,
-    json: false,
+    json: true,
     maxsize: 10000000, // 10MB in bytes
     maxFiles: 10,
-    colorize: true
+    colorize: true,
+    timestamps: true,
+    prettyPrint: true
   },
   console: {
     level: 'debug',
     handleExceptions: true,
-    json: false,
+    json: true,
     colorize: true,
+    timestamps: true,
+    prettyPrint: true,
     format: format.combine(format.colorize(), format.simple())
   }
 };

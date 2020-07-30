@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const healthcheckController = require('../../controllers/healthcheck-controller.js');
-const httpStatusCode = require('../../utils/http-status-code.js');
+const httpStatusCode = require('../../network-utils/http-status-code.js');
 
 router.get('/', (req, res) => {
   res.status(httpStatusCode.OK).json({

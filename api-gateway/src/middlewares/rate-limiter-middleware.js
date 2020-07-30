@@ -1,6 +1,6 @@
 const rateLimit = require('express-rate-limit');
 
-const httpStatus = require('../utils/http-status-code.js');
+const httpStatus = require('../network-utils/http-status-code.js');
 
 /**
  * Allows a maximum number of requests to the server from a client within a certain timeframe. Uses defaults of (maxRequestWindowMs = 1000, maxRequestsAllowedPerWindow=200).

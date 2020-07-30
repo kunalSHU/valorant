@@ -1,6 +1,6 @@
 const express = require('express');
 
-const loadMiddlewareStack = require('./src/middlewares');
+const loadMiddlewareStack = require('./src/middlewares/middleware.js');
 
 const gqlRequests = require('./src/network-utils/gql-requests.js');
 

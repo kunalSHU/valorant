@@ -1,27 +1,28 @@
-/* eslint-disable require-jsdoc */
 const router = require('express').Router();
 
 const logger = require('../../logger/logger.js');
 
 const accountsController = require('../../controllers/accounts-controller.js');
-const httpStatusCode = require('../../utils/http-status-code.js');
+const authenticationMiddleware = require('../../middlewares/authentication-middleware.js');
+
+const httpStatusCode = require('../../network-utils/http-status-code.js');
 
 router.get('/all', async (req, res) => {
   try {
-    const allUsers = await accountsController.findAllAccounts();
-    res.status(httpStatusCode.OK).json({ data: allUsers });
+    const allAccounts = await accountsController.findAllAccounts();
+    res.status(httpStatusCode.OK).json({ data: { allAccounts } });
   } catch (err) {
     logger.error(err.message);
     res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
   }
 });
 
-router.get('/findWithEmail', async (req, res) => {
+router.get('/find', async (req, res) => {
   const { email } = req.query;
 
   try {
-    const singleUser = await accountsController.findAccountByEmail(email);
-    res.status(httpStatusCode.OK).json({ data: singleUser });
+    const foundAccount = await accountsController.findAccountByEmail(email);
+    res.status(httpStatusCode.OK).json({ data: { foundAccount } });
   } catch (err) {
     logger.error(err.message);
     res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
@@ -39,6 +40,18 @@ router.post('/create', async (req, res) => {
       password
     });
     res.status(httpStatusCode.OK).json({ data: createdUserJwtSessionToken });
+  } catch (err) {
+    logger.error(err.message);
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
+  }
+});
+
+router.delete('/delete', authenticationMiddleware, async (req, res) => {
+  const { email } = req.query;
+
+  try {
+    const deletedAccount = await accountsController.deleteAccountByEmail(email);
+    res.status(httpStatusCode.OK).json({ data: { deletedAccount } });
   } catch (err) {
     logger.error(err.message);
     res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });

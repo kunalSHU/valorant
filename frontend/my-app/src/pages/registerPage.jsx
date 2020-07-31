@@ -307,12 +307,12 @@ class RegisterPage extends React.Component{
 
     postalCode = (event) => {
 
-        let postalCode = event.target.value
+        let postal_code = event.target.value
         this.setState({ 
-            postalCode: event.target.value
+            postal_code: event.target.value
         })
 
-        if(postalCode == ''){
+        if(postal_code == ''){
             console.log("in the lastName part")
             errors["postalCode"] = "PostalCode cannot be empty";
             this.setState({
@@ -525,27 +525,27 @@ class RegisterPage extends React.Component{
             <Grid container spacing={1} alignItems="flex-end" style={{position: "relative", left: "5.5%"}}>
                 <Grid item>
                     <TextField id="outlined-basic" label="StreetName" variant="outlined" 
-                    onChange={this.streetName} helperText={this.state.errors["streetName"]}/>
+                    onChange={this.streetName} helperText={this.state.errors["streetName"]} defaultValue={this.state.streetName}/>
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="City" variant="outlined" 
-                    onChange={this.city} helperText={this.state.errors["city"]}/>
+                    onChange={this.city} helperText={this.state.errors["city"]} defaultValue={this.state.city}/>
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="PostalCode" variant="outlined" 
-                    onChange={this.postalCode} helperText={this.state.errors["postalCode"]}/>
+                    onChange={this.postalCode} helperText={this.state.errors["postalCode"]} defaultValue={this.state.postal_code}/>
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="Province" variant="outlined" 
-                    onChange={this.province} helperText={this.state.errors["province"]}/>
+                    onChange={this.province} helperText={this.state.errors["province"]} defaultValue={this.state.province}/>
                 </Grid>
                 <Grid item>
-                    <TextField id="outlined-basic" label="Country" variant="outlined" 
-                    onChange={this.country} helperText={this.state.errors["country"]}/>
+                    <TextField id="outlined-basic" label="Country" variant="outlined"
+                    onChange={this.country} helperText={this.state.errors["country"]} defaultValue={this.state.country}/>
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="OtherDetails" variant="outlined" 
-                    onChange={this.otherDetails} helperText={this.state.errors["otherDetails"]}/>
+                    onChange={this.otherDetails} helperText={this.state.errors["otherDetails"]} defaultValue={this.state.otherdetails}/>
                 </Grid>
             </Grid>
             <Button color="primary" style={{position: "absolute", 

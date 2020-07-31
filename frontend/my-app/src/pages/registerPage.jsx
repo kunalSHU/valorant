@@ -19,6 +19,7 @@ import IconButton from '@material-ui/core/IconButton';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
 import Dialog from '@material-ui/core/Dialog';
+//import { Dimensions } from 'react-native'
 
 
 //Trying to retrieve and add data from patient record db and displaying it in UI
@@ -721,12 +722,16 @@ class RegisterPage extends React.Component{
              
     }
 
+    componentDidMount() {
+        console.log(window.innerWidth);
+        console.log(window.innerHeight);
+    }
     render(){
         return (
             <Fragment>
                 <label style={{color: "#905EAF", fontSize: "72px"}}>Register</label>
-                <Card variant="outlined" style={{display: 'inline-block', height: "50%", left: "25%"
-                ,position: "absolute", width: "50%", top: "25%"}}>
+                <Card variant="outlined" style={{display: 'inline-block', height: window.innerHeight/2, left: window.innerHeight/2.3
+                ,position: "absolute", width: window.innerWidth/2, top: window.innerHeight/4}}>
                     <CardContent>
                         <ProgressBar animated now={this.state.progress} label={`${this.state.progress}%`}/>   
                         {this.state.formStep1 ? this.stage1Form() : null}

@@ -1,15 +1,7 @@
 ---
 name: User story
 about: New functionality/improvements that has to be implemented in the existing product
-<<<<<<< HEAD
-<<<<<<< HEAD
 title: ""
-=======
-title: "[STORY] "
->>>>>>> 1920334... Added user story GH issue template
-=======
-title: ""
->>>>>>> 4761f5e... Add components section
 labels: feature
 assignees: ''
 

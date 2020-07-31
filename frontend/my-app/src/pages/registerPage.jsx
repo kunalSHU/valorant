@@ -18,6 +18,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
+import Dialog from '@material-ui/core/Dialog';
 
 
 //Trying to retrieve and add data from patient record db and displaying it in UI
@@ -42,7 +43,10 @@ mutation addUserInfo($userid: Int, $addressid: Int,$username: String, $first_nam
         }
 
 }`;
-  
+
+let reenterPassword = '';
+let password = '';
+
 class RegisterPage extends React.Component{
 
     state = {
@@ -69,6 +73,7 @@ class RegisterPage extends React.Component{
         formStep1: true,
         formStep2: false,
         progress: 0,
+        passwordMismatch: false,
         showPassword: false,
         showReenterPassword: false
     }
@@ -115,15 +120,45 @@ class RegisterPage extends React.Component{
     }
 
     password = (event) => {
+        password = event.target.value
+
         this.setState({
             password: event.target.value
         })
+
+        let errors = {}
+        if (this.state.formStep1) {
+            if (reenterPassword != password) {
+                errors["passwordMismatch"] = "Passwords dont match";
+            }
+            else {
+                errors["passwordMismatch"] = "";
+            }
+            this.setState({
+                errors: errors
+            })
+        }
     }
 
     reenterpassword = (event) => {
+        reenterPassword = event.target.value
+
         this.setState({
             reenterpassword: event.target.value
         })
+
+        let errors = {}
+        if (this.state.formStep1) {
+            if (reenterPassword != this.state.password) {
+                errors["passwordMismatch"] = "Passwords dont match";
+            }
+            else {
+                errors["passwordMismatch"] = "";
+            }
+            this.setState({
+                errors: errors
+            })
+        }
     }
 
     dateRegistered = (event) => {
@@ -223,18 +258,18 @@ class RegisterPage extends React.Component{
                     <TextField id="outlined-basic" label="Email" variant="outlined" 
                     onChange={this.email} helperText={this.state.errors["email"]}/>
                 </Grid>
-                <Grid item>
+                <Grid item style={{width:"29%"}}>
                     <TextField
                         id="outlined-select-options"
                         select
                         label="Gender"
                         value={this.state.gender}
                         onChange={this.gender}
-                        helperText="Please select your Gender"
                         variant="outlined"
+                        style={{width: "100%"}}
                         >
                         {options.map((option) => (
-                            <MenuItem key={option} value={option}>
+                            <MenuItem key={option} value={option} style={{width: "105%"}}>
                             {option}
                             </MenuItem>
                         ))}
@@ -252,6 +287,7 @@ class RegisterPage extends React.Component{
                                 type={this.state.showPassword ? 'text' : 'password'}
                                 value={this.state.password}
                                 onChange={this.password}
+                                helperText="hello world"
                                 endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
@@ -276,6 +312,7 @@ class RegisterPage extends React.Component{
                                 type={this.state.showReenterPassword ? 'text' : 'password'}
                                 value={this.state.reenterpassword}
                                 onChange={this.reenterpassword}
+                                helperText={this.state.errors["passwordMismatch"]}
                                 endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
@@ -308,7 +345,8 @@ class RegisterPage extends React.Component{
         this.setState({
             formStep1: true,
             formStep2: false,
-            progress: 0
+            progress: 0,
+            passwordMismatch: false
         })
     }
 
@@ -381,6 +419,12 @@ class RegisterPage extends React.Component{
         )
     }
 
+    passwordMismatch = () => {
+        return (
+            <div>Passwords do not match</div>
+        )
+    }
+
     handleValidation = () => {
         // var addressid = randomString({
         //     length: 3,
@@ -405,6 +449,18 @@ class RegisterPage extends React.Component{
         console.log(this.state.email)
 
         let errors = {}
+
+        console.log(this.state.formStep1)
+        if (this.state.formStep1) {
+            //passwords mismatch
+            console.log(this.state.errors)
+            if(this.state.errors["passwordMismatch"] != "") {
+                this.setState({
+                    passwordMismatch: true
+                })
+                return;
+            }
+        }
 
         if (this.state.formStep2) {
             if (this.state.streetName == '') {
@@ -471,6 +527,8 @@ class RegisterPage extends React.Component{
                         <ProgressBar animated now={this.state.progress} label={`${this.state.progress}%`}/>   
                         {this.state.formStep1 ? this.stage1Form() : null}
                         {this.state.formStep2 ? this.stage2Form() : null}
+                        {this.state.passwordMismatch && this.state.formStep1
+                        ? this.passwordMismatch() : null}
                     </CardContent>
                 </Card> 
             </Fragment>

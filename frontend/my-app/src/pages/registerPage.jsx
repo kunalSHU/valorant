@@ -203,15 +203,19 @@ class RegisterPage extends React.Component{
     }
 
     password = (event) => {
+        console.log("in password event handler")
         password = event.target.value
 
         this.setState({
             password: event.target.value
         })
 
-        let errors = {}
+        console.log(this.state.formStep1)
         if (this.state.formStep1) {
+            console.log(reenterPassword)
+            console.log(password)
             if (reenterPassword != password) {
+                console.log("passwords mismatch")
                 errors["passwordMismatch"] = "Passwords dont match";
             }
             else {
@@ -230,7 +234,6 @@ class RegisterPage extends React.Component{
             reenterpassword: event.target.value
         })
 
-        let errors = {}
         if (this.state.formStep1) {
             if (reenterPassword != this.state.password) {
                 errors["passwordMismatch"] = "Passwords dont match";
@@ -257,33 +260,114 @@ class RegisterPage extends React.Component{
     }
 
     streetName = (event) => {
+
+        let streetName = event.target.value
+
         this.setState({ 
             streetName: event.target.value
         })
+
+        if(streetName == ''){
+            console.log("in the lastName part")
+            errors["streetName"] = "StreetName cannot be empty";
+            this.setState({
+                errors: errors
+            })
+        }
+        else{
+            errors["streetName"] = "";
+            this.setState({
+                errors: errors 
+            })
+        }
     }
 
     city = (event) => {
+
+        let city = event.target.value
+
         this.setState({ 
             city: event.target.value
         })
+
+        if(city == ''){
+            console.log("in the lastName part")
+            errors["city"] = "City cannot be empty";
+            this.setState({
+                errors: errors
+            })
+        }
+        else{
+            errors["city"] = "";
+            this.setState({
+                errors: errors 
+            })
+        }
     }
 
     postalCode = (event) => {
+
+        let postalCode = event.target.value
         this.setState({ 
             postalCode: event.target.value
         })
+
+        if(postalCode == ''){
+            console.log("in the lastName part")
+            errors["postalCode"] = "PostalCode cannot be empty";
+            this.setState({
+                errors: errors
+            })
+        }
+        else{
+            errors["postalCode"] = "";
+            this.setState({
+                errors: errors 
+            })
+        }
     }
 
     country = (event) => {
+
+        let country = event.target.value
         this.setState({ 
             country: event.target.value
         })
+
+        if(country == ''){
+            console.log("in the lastName part")
+            errors["country"] = "Country cannot be empty";
+            this.setState({
+                errors: errors
+            })
+        }
+        else{
+            errors["country"] = "";
+            this.setState({
+                errors: errors 
+            })
+        }
     }
 
     province = (event) => {
+        let province = event.target.value
         this.setState({ 
             province: event.target.value
         })
+
+        if(province == ''){
+            console.log("in the lastName part")
+            errors["province"] = "Province cannot be empty";
+            this.setState({
+                errors: errors
+            })
+        }
+        else{
+            errors["province"] = "";
+            this.setState({
+                errors: errors 
+            })
+        }
     }
 
     otherDetails = (event) => {
@@ -327,19 +411,19 @@ class RegisterPage extends React.Component{
             <Grid container spacing={1} alignItems="flex-end" style={{position: "relative", left: "5.5%", display: "flex"}}>
                 <Grid item>
                     <TextField id="outlined-basic" label="FirstName" variant="outlined" 
-                    onChange={this.firstName} helperText={errors["firstName"]}/>
+                    onChange={this.firstName} helperText={errors["firstName"]} defaultValue={this.state.firstName}/>
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="LastName" variant="outlined" 
-                    onChange={this.lastName} helperText={errors["lastName"]}/>
+                    onChange={this.lastName} helperText={errors["lastName"]} defaultValue={this.state.lastName}/>
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="PhoneNumber" variant="outlined" 
-                    onChange={this.phoneNumber} helperText={errors["phoneNumber"]}/>
+                    onChange={this.phoneNumber} helperText={errors["phoneNumber"]} defaultValue={this.state.phoneNumber}/>
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="Email" variant="outlined" 
-                    onChange={this.email} helperText={errors["email"]}/>
+                    onChange={this.email} helperText={errors["email"]} defaultValue={this.state.email}/>
                 </Grid>
                 <Grid item style={{width:"29%"}}>
                     <TextField
@@ -360,7 +444,7 @@ class RegisterPage extends React.Component{
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="UserName" variant="outlined" 
-                    onChange={this.userName} helperText={errors["userName"]}/>
+                    onChange={this.userName} helperText={errors["userName"]} defaultValue={this.state.userName}/>
                 </Grid>
                 <Grid item>
                     <FormControl variant="outlined">
@@ -426,12 +510,11 @@ class RegisterPage extends React.Component{
     }
     
     back = () => {
-        errors = {}
         this.setState({
             formStep1: true,
             formStep2: false,
             progress: 0,
-            passwordMismatch: true
+            passwordMismatch: false
         })
     }
 
@@ -505,6 +588,7 @@ class RegisterPage extends React.Component{
     }
 
     passwordMismatch = () => {
+        console.log("in passowrd mismatch function")
         return (
             <div>Passwords do not match or are empty</div>
         )
@@ -540,12 +624,7 @@ class RegisterPage extends React.Component{
         if (this.state.formStep1) {
             //passwords mismatch
             console.log(this.state.errors)
-            if(this.state.errors["passwordMismatch"] != "") {
-                this.setState({
-                    passwordMismatch: true
-                })
-                //return;
-            }
+            console.log(this.state.lastName)
             if (this.state.firstName == ''){
                 console.log("in here handle validatoin")
                 errors["firstName"] = "FirstName cannot be empty";
@@ -576,6 +655,13 @@ class RegisterPage extends React.Component{
                 this.setState({
                     errors: errors
                 })
+            }
+
+            if(this.state.errors["passwordMismatch"] != "") {
+                this.setState({
+                    passwordMismatch: true
+                })
+                return;
             }
         }
 
@@ -639,7 +725,7 @@ class RegisterPage extends React.Component{
         return (
             <Fragment>
                 <label style={{color: "#905EAF", fontSize: "72px"}}>Register</label>
-                <Card variant="outlined" style={{display: 'inline-block', height: "45%", left: "25%"
+                <Card variant="outlined" style={{display: 'inline-block', height: "50%", left: "25%"
                 ,position: "absolute", width: "50%", top: "25%"}}>
                     <CardContent>
                         <ProgressBar animated now={this.state.progress} label={`${this.state.progress}%`}/>   

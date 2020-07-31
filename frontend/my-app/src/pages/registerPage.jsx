@@ -46,7 +46,7 @@ mutation addUserInfo($userid: Int, $addressid: Int,$username: String, $first_nam
 
 let reenterPassword = '';
 let password = '';
-
+const errors = {}
 
 class RegisterPage extends React.Component{
 
@@ -88,27 +88,87 @@ class RegisterPage extends React.Component{
         })
     };
     phoneNumber = (event) => {
+        let phoneNumber = event.target.value
         this.setState({ 
             phoneNumber: event.target.value
         })
+        if(phoneNumber == ''){
+            console.log("in the firstname part")
+            errors["phoneNumber"] = "PhoneNumber cannot be empty";
+            this.setState({
+                errors: errors
+            })
+        }
+        else{
+            errors["phoneNumber"] = "";
+            this.setState({
+                errors: errors 
+            })
+        }
     }
 
     firstName = (event) => {
+        let firstName = event.target.value
         this.setState({ 
             firstName: event.target.value
         })
+
+        if(firstName == ''){
+            console.log("in the firstname part")
+            errors["firstName"] = "FirstName cannot be empty";
+            this.setState({
+                errors: errors
+            })
+        }
+        else{
+            errors["firstName"] = "";
+            this.setState({
+                errors: errors 
+            })
+        }
+        console.log(this.state.errors)
     }
 
     lastName = (event) => {
+        let lastName = event.target.value
         this.setState({ 
             lastName: event.target.value
         })
+
+        if(lastName == ''){
+            console.log("in the lastName part")
+            errors["lastName"] = "LastName cannot be empty";
+            this.setState({
+                errors: errors
+            })
+        }
+        else{
+            errors["lastName"] = "";
+            this.setState({
+                errors: errors 
+            })
+        }
     }
 
     email = (event) => {
+        let email = event.target.value
+
         this.setState({ 
             email: event.target.value
         })
+        if(email == ''){
+            console.log("in the lastName part")
+            errors["email"] = "Email cannot be empty";
+            this.setState({
+                errors: errors
+            })
+        }
+        else{
+            errors["email"] = "";
+            this.setState({
+                errors: errors 
+            })
+        }
     }
 
     gender = (event) => {
@@ -122,10 +182,24 @@ class RegisterPage extends React.Component{
     }
 
     userName = (event) => {
+        let userName = event.target.value
+
         this.setState({ 
             userName: event.target.value
         })
-
+        if(userName == ''){
+            console.log("in the lastName part")
+            errors["userName"] = "UserName cannot be empty";
+            this.setState({
+                errors: errors
+            })
+        }
+        else{
+            errors["userName"] = "";
+            this.setState({
+                errors: errors 
+            })
+        }
     }
 
     password = (event) => {
@@ -253,19 +327,19 @@ class RegisterPage extends React.Component{
             <Grid container spacing={1} alignItems="flex-end" style={{position: "relative", left: "5.5%", display: "flex"}}>
                 <Grid item>
                     <TextField id="outlined-basic" label="FirstName" variant="outlined" 
-                    onChange={this.firstName} helperText={this.state.errors["firstName"]}/>
+                    onChange={this.firstName} helperText={errors["firstName"]}/>
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="LastName" variant="outlined" 
-                    onChange={this.lastName} helperText={this.state.errors["lastName"]}/>
+                    onChange={this.lastName} helperText={errors["lastName"]}/>
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="PhoneNumber" variant="outlined" 
-                    onChange={this.phoneNumber} helperText={this.state.errors["phoneNumber"]}/>
+                    onChange={this.phoneNumber} helperText={errors["phoneNumber"]}/>
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="Email" variant="outlined" 
-                    onChange={this.email} helperText={this.state.errors["email"]}/>
+                    onChange={this.email} helperText={errors["email"]}/>
                 </Grid>
                 <Grid item style={{width:"29%"}}>
                     <TextField
@@ -286,7 +360,7 @@ class RegisterPage extends React.Component{
                 </Grid>
                 <Grid item>
                     <TextField id="outlined-basic" label="UserName" variant="outlined" 
-                    onChange={this.userName} helperText={this.state.errors["userName"]}/>
+                    onChange={this.userName} helperText={errors["userName"]}/>
                 </Grid>
                 <Grid item>
                     <FormControl variant="outlined">
@@ -352,11 +426,12 @@ class RegisterPage extends React.Component{
     }
     
     back = () => {
+        errors = {}
         this.setState({
             formStep1: true,
             formStep2: false,
             progress: 0,
-            passwordMismatch: false
+            passwordMismatch: true
         })
     }
 
@@ -431,7 +506,7 @@ class RegisterPage extends React.Component{
 
     passwordMismatch = () => {
         return (
-            <div>Passwords do not match</div>
+            <div>Passwords do not match or are empty</div>
         )
     }
 
@@ -458,7 +533,7 @@ class RegisterPage extends React.Component{
         console.log(this.state.birthdate)
         console.log(this.state.email)
 
-        let errors = {}
+        //let errors = {}
 
         console.log(this.state.formStep1)
         console.log(typeof(this.state.birthdate.toString()))
@@ -469,7 +544,38 @@ class RegisterPage extends React.Component{
                 this.setState({
                     passwordMismatch: true
                 })
-                return;
+                //return;
+            }
+            if (this.state.firstName == ''){
+                console.log("in here handle validatoin")
+                errors["firstName"] = "FirstName cannot be empty";
+                this.setState({
+                    errors: errors
+                })
+            }
+            if (this.state.lastName == ''){
+                errors["lastName"] = "LastName cannot be empty";
+                this.setState({
+                    errors: errors
+                })
+            }
+            if (this.state.email == ''){
+                errors["email"] = "Email cannot be empty";
+                this.setState({
+                    errors: errors
+                })
+            }
+            if (this.state.phoneNumber == ''){
+                errors["phoneNumber"] = "PhoneNumber cannot be empty";
+                this.setState({
+                    errors: errors
+                })
+            }
+            if (this.state.userName == ''){
+                errors["userName"] = "UserName cannot be empty";
+                this.setState({
+                    errors: errors
+                })
             }
         }
 
@@ -511,7 +617,8 @@ class RegisterPage extends React.Component{
         console.log(errors)
         console.log(Object.keys(errors).length === 0)
         //we good for next stage 
-        if(Object.keys(errors).length === 0){
+        if(errors["firstName"] == "" && errors["lastName"] == "" &&
+        errors["phoneNumber"] == "" && errors["email"] == "" && errors["userName"] == ""){
             this.setState({
                 formStep1: false,
                 formStep2: true,

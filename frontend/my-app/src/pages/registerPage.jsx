@@ -47,6 +47,7 @@ mutation addUserInfo($userid: Int, $addressid: Int,$username: String, $first_nam
 let reenterPassword = '';
 let password = '';
 
+
 class RegisterPage extends React.Component{
 
     state = {
@@ -61,7 +62,7 @@ class RegisterPage extends React.Component{
         dateRegistered: '',
         password: '',
         reenterpassword: '',
-        birthdate: '',
+        birthdate: '05-22-2020',
         streetName: '',
         city:'',
         postal_code: '',
@@ -78,6 +79,14 @@ class RegisterPage extends React.Component{
         showReenterPassword: false
     }
 
+    // The first commit of Material-UI
+    //[selectedDate, setSelectedDate] = React.useState("05-22-2020");
+
+    handleDateChange = (date) => {
+        this.setState({
+            birthdate: date
+        })
+    };
     phoneNumber = (event) => {
         this.setState({ 
             phoneNumber: event.target.value
@@ -330,7 +339,8 @@ class RegisterPage extends React.Component{
                     </FormControl>
                 </Grid>
                 <Grid item>
-                    <MaterialUIPickers></MaterialUIPickers>
+                    <MaterialUIPickers selectedDate={this.state.birthdate}
+                    onChange={this.handleDateChange}></MaterialUIPickers>
                 </Grid> 
             </Grid>
             <Button variant="contained" color="primary" 
@@ -451,6 +461,7 @@ class RegisterPage extends React.Component{
         let errors = {}
 
         console.log(this.state.formStep1)
+        console.log(typeof(this.state.birthdate.toString()))
         if (this.state.formStep1) {
             //passwords mismatch
             console.log(this.state.errors)

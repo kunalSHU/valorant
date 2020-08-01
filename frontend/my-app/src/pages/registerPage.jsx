@@ -53,6 +53,7 @@ const FormItem = Form.Item;
 const lowercaseRegex = /(?=.*[a-z])/;
 const uppercaseRegex = /(?=.*[A-Z])/;
 const numericRegex = /(?=.*[0-9])/;
+const specialCharacterRegex = /(?=.[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?])/;
 
 const validationSchema  = Yup.object({
     email: Yup
@@ -68,7 +69,8 @@ const validationSchema  = Yup.object({
     .max(128, "Password is too long")
     .matches(lowercaseRegex, 'one lowercase required!')
     .matches(uppercaseRegex, 'one uppercase required!')
-    .matches(numericRegex, 'one number required!'),
+    .matches(numericRegex, 'one number required!')
+    .matches(specialCharacterRegex, 'one special character required!'),
     confirmPassword: Yup
     .string()
     .required()
@@ -168,7 +170,6 @@ class RegisterPage extends React.Component{
                             </form>
  
                         )}
-
                         </Formik>
      
                     </Grid>

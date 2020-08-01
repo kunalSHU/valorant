@@ -51,12 +51,12 @@ const validationSchema  = Yup.object({
     .string()
     .label("Password")
     .required("Required")
-    .min(6, "Password is too short")
-    .max(128, "Password is too long")
-    .matches(lowercaseRegex, 'one lowercase required!')
-    .matches(uppercaseRegex, 'one uppercase required!')
-    .matches(numericRegex, 'one number required!')
-    .matches(specialCharacterRegex, 'one special character required!'),
+    .min(6, "Password must be atleast 6 characters")
+    .max(128, "Maximum password length is 128 characters, please shorten it")
+    .matches(lowercaseRegex, 'Atleast one lowercase letter required')
+    .matches(uppercaseRegex, 'Atleast one uppercase letter required')
+    .matches(numericRegex, 'Atleast one number required')
+    .matches(specialCharacterRegex, 'Atleast one special character required'),
     confirmPassword: Yup
     .string()
     .required()

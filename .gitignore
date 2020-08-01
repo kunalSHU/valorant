@@ -126,3 +126,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+.pnp.js
+
+# React
+/build
+/coverage
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

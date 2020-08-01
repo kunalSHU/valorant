@@ -1,25 +1,11 @@
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider, Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import clsx from 'clsx';
 import React, { Fragment } from 'react';
-import DatePicker from "react-datepicker";
-import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import useMutation from "apollo-client";
 import {ProgressBar} from "react-bootstrap"
 import {Card, CardContent, Typography, TextField, Grid, Button, MenuItem} from '@material-ui/core';
-import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers'
-import MaterialUIPickers from './datePicker';
-import Visibility from '@material-ui/icons/Visibility';
-import InputLabel from '@material-ui/core/InputLabel';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import FormControl from '@material-ui/core/FormControl';
-import Dialog from '@material-ui/core/Dialog';
-//import { Dimensions } from 'react-native'
 import { Formik} from 'formik';
 import * as Yup from 'yup';
 import {Form} from 'antd'

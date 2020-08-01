@@ -46,7 +46,7 @@ router.post('/create', async (req, res) => {
 
   try {
     const createdUserJwtSessionToken = await accountsController.addAccount(emailAddress, password);
-    res.status(httpStatusCode.OK).json({ data: createdUserJwtSessionToken });
+    res.status(httpStatusCode.OK).json({ jwt_token: createdUserJwtSessionToken });
   } catch (err) {
     logger.error(err.message);
     res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
@@ -59,6 +59,18 @@ router.delete('/delete', authenticationMiddleware, async (req, res) => {
   try {
     const deletedAccount = await accountsController.deleteAccountByEmail(email);
     res.status(httpStatusCode.OK).json({ data: { deletedAccount } });
+  } catch (err) {
+    logger.error(err.message);
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
+  }
+});
+
+router.post('/auth', async (req, res) => {
+  const { emailAddress, password } = req.body;
+
+  try {
+    const verifiedUserJwtSessionToken = await accountsController.verifyAccount(emailAddress, password);
+    res.status(httpStatusCode.OK).json({ jwt_token: verifiedUserJwtSessionToken });
   } catch (err) {
     logger.error(err.message);
     res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });

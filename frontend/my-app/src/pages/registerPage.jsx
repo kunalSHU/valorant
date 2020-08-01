@@ -109,6 +109,23 @@ class RegisterPage extends React.Component{
         showReenterPassword: false
     }
 
+    emailError = (errEmail) => {
+        return(
+            <p style={{color:"red"}}>{errEmail}</p>
+        )
+    }
+
+    confirmPasswordError = (errconfirmPassword) => {
+        return(
+            <p style={{color:"red"}}>{errconfirmPassword}</p>
+        )
+    }
+
+    passwordError = (errPassword) => {
+        return(
+            <p style={{color:"red"}}>{errPassword}</p>
+        )
+    }
 
     render(){
         return (
@@ -128,17 +145,17 @@ class RegisterPage extends React.Component{
                             <form onSubmit={handleSubmit}>
                                 
                                 <Grid item>
-                                    <FormItem help={touched.email && errors.email ? errors.email : ""}>
+                                    <FormItem help={touched.email && errors.email ? this.emailError(errors.email) : ""}>
                                         <TextField type="text" onChange={handleChange} onBlur={handleBlur} value={values.email} name="email"variant="outlined" placeholder="Email"/>
                                     </FormItem>
                                 </Grid>
                                 <Grid item>
-                                    <FormItem help={touched.password && errors.password ? errors.password : ""}>
+                                    <FormItem help={touched.password && errors.password ? this.passwordError(errors.password) : ""}>
                                         <TextField type="password" onChange={handleChange} onBlur={handleBlur} value={values.password} name="password" variant="outlined" placeholder="Password"/>
                                     </FormItem>
                                 </Grid>
                                 <Grid item>
-                                    <FormItem help={touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword : ""}>
+                                    <FormItem help={touched.confirmPassword && errors.confirmPassword ? this.confirmPasswordError(errors.confirmPassword) : ""}>
                                         <TextField type="password" onChange={handleChange} onBlur={handleBlur} value={values.confirmPassword} name="confirmPassword" variant="outlined" placeholder="Confirm Password"/>
                                     </FormItem>
                                 </Grid>
@@ -147,7 +164,7 @@ class RegisterPage extends React.Component{
                                     disabled={!dirty || errors.email || errors.password || errors.confirmPassword} 
                                     onClick={this.handleValidation}>
                                 Submit
-                            </Button>
+                                </Button>
                             </form>
  
                         )}

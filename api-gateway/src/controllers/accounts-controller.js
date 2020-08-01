@@ -195,21 +195,7 @@ const verifyAccount = async (emailAddress, password) => {
           'INSERT INTO tokens_tbl(account_id, jwt_token) VALUES($1, $2)',
           [accountId, sessionJwtToken]
         );
-        try {
-          const {
-            rows: addedPermissionsRows
-          } = await db.query(
-            "INSERT INTO permissions_tbl(account_id, account_role) VALUES((SELECT account_id FROM accounts_tbl WHERE email_address=$1), 'patient') RETURNING account_role",
-            [emailAddress]
-          );
-
-          const accountRole = addedPermissionsRows[0].account_role;
-
-          return addedJwtTokenRows.length === 0 ? { sessionJwtToken, accountRole } : {};
-        } catch (err) {
-          throw new Error(`Could not add account_role to permissions_tbl. Message: ${err.message}`);
-          return
-        }
+        return sessionJwtToken
       } catch (err) {
         throw new Error(`Could not add JWT token to tokens_tbl. Message: ${err.message}`);
         return

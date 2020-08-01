@@ -290,6 +290,15 @@ class RegisterPage extends React.Component{
                 this.passwordMismatch();
                 return;
             }
+            if (reenterPassword == password) {
+                console.log("passwords mismatch")
+                errors["passwordMismatch"] = "";
+                this.setState({
+                    errors: errors,
+                    passwordMismatch: false
+                })
+                return;
+            }
             // else {
             //     errors["passwordMismatch"] = "";
             // }
@@ -303,13 +312,23 @@ class RegisterPage extends React.Component{
         this.setState({
             reenterpassword: event.target.value
         })
-
+        console.log(this.state.password)
         if (this.state.formStep1) {
             if (reenterPassword != this.state.password) {
                 errors["passwordMismatch"] = "Passwords dont match";
+                this.setState({
+                    errors: errors,
+                    passwordMismatch: true
+                })
+                return;
             }
             else {
                 errors["passwordMismatch"] = "";
+                this.setState({
+                    errors: errors,
+                    passwordMismatch: false
+                })
+                return;
             }
             this.setState({
                 errors: errors
@@ -574,7 +593,7 @@ class RegisterPage extends React.Component{
             </Grid>
             <Button variant="contained" color="primary" 
             style={{position: "absolute", left: "45%", top: "87%"}} onClick={this.handleValidation}>
-                Next
+                Submit
             </Button>
         </div>
         )

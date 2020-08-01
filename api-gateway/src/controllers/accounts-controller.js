@@ -62,6 +62,28 @@ const findAccountByEmail = async (email) => {
 };
 
 /**
+ * Returns the single user who is associated with the specified email.
+ *
+ * @param {string} email - The email of the Account whose role needs to be found.
+ *
+ * @returns {object} An object containing the role of the Account.
+ */
+const getAccountRoleByEmaill = async (email) => {
+  try {
+    const {
+      rows
+    } = await db.query(
+      'SELECT account_role FROM "permissions_tbl" WHERE account_id=(SELECT account_id FROM accounts_tbl WHERE email_address=$1)',
+      [email]
+    );
+
+    return rows.length === 0 ? {} : rows[0];
+  } catch (err) {
+    throw new Error(`Could not find the role in permissions_tbl'. Message: ${err.message}`);
+  }
+};
+
+/**
  * Returns a JWT session token if the Account has been created successfully.
  *
  * @param {string} emailAddress - The email address used to create the Account.
@@ -139,6 +161,7 @@ module.exports = {
   findAllAccounts,
   findMatchingAccountTokenByEmail,
   findAccountByEmail,
+  getAccountRoleByEmaill,
   addAccount,
   deleteAccountByEmail
 };

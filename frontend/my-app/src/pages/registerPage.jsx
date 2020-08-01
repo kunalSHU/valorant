@@ -82,35 +82,6 @@ const validationSchema  = Yup.object({
 
 class RegisterPage extends React.Component{
 
-    state = {
-        userid: 5,
-        addressid: 2,
-        userName:'',
-        firstName: '',
-        lastName:'',
-        email:'',
-        gender:'Male',
-        phoneNumber: '',
-        dateRegistered: '',
-        password: '',
-        reenterpassword: '',
-        birthdate: '05-22-2020',
-        streetName: '',
-        city:'',
-        postal_code: '',
-        province: '',
-        country:'',
-        otherdetails: '',
-        errors: {},
-        isFormValid: false,
-        formStep1: true,
-        formStep2: false,
-        progress: 0,
-        passwordMismatch: false,
-        showPassword: false,
-        showReenterPassword: false
-    }
-
     emailError = (errEmail) => {
         return(
             <p style={{color:"red"}}>{errEmail}</p>

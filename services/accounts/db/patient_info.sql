@@ -19,7 +19,7 @@ CREATE TABLE patient_basic_info_tbl(
     username       VARCHAR     NOT NULL,
     first_name     VARCHAR     NOT NULL,
     last_name      VARCHAR     NOT NULL,
-    phone_number   VARCHAR     NOT NULL,
+    phone_number   TEXT     NOT NULL,
     email          VARCHAR     NOT NULL,
     birthdate      DATE        NOT NULL,
     date_became_patient DATE   NOT NULL,

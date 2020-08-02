@@ -32,7 +32,8 @@ const sendGqlRequest = async (endpointUrl, gqlQueryString = '', gqlQueryVariable
       body: JSON.stringify({
         query: gqlQueryString,
         variables: gqlQueryVariables
-      })
+      }),
+      compress: true
     };
 
     const response = await fetch(endpointUrl, requestConfig);

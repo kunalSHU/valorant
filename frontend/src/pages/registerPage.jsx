@@ -165,6 +165,14 @@ class RegisterPage extends React.Component{
         }, (error) => {
             console.log(error);
         });
+
+        history.push('/login')
+        this.setState({
+            openSnackBar: true
+        })       
+        alert('You have successfully registered');
+        window.location.reload(false)
+        return;
     }
 
     render(){

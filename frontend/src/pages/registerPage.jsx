@@ -9,6 +9,7 @@ import {Card, CardContent, Typography, TextField, Grid, Button, MenuItem} from '
 import { Formik} from 'formik';
 import * as Yup from 'yup';
 import {Form} from 'antd'
+import axios from 'axios';
 
 
 //Trying to retrieve and add data from patient record db and displaying it in UI
@@ -86,6 +87,18 @@ class RegisterPage extends React.Component{
         )
     }
 
+    submitValues = (data) => {
+        axios.post('http://142.1.46.70:8086/account/create', {
+            emailAddress: data.email,
+            password: data.password
+        })
+        .then((response) => {
+            console.log(response)
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
     render(){
         return (
             <Fragment>
@@ -97,7 +110,7 @@ class RegisterPage extends React.Component{
                     <Grid container spacing={1} alignItems="flex-start" direction="column" style={{position: "relative", left: window.innerWidth/6.3}}>
 
                         <Formik initialValues={{email:"", password:"", confirmPassword:""}} 
-                    validationSchema={validationSchema} onSubmit={values => {console.log(values)}}>
+                    validationSchema={validationSchema} onSubmit={(data) => {this.submitValues(data)}} validator={() => ({})}>
 
                         {({handleSubmit, handleChange, handleBlur, values, errors, touched, dirty, isValid}) => (
 
@@ -121,7 +134,9 @@ class RegisterPage extends React.Component{
                                 <Button variant="contained" color="primary" 
                                     style={{position: "absolute", left: "8%", top: "125%"}} 
                                     disabled={!dirty || errors.email || errors.password || errors.confirmPassword} 
-                                    onClick={this.handleValidation}>
+                                    type="submit"
+                                    onClick={handleSubmit}
+                                    >
                                 Submit
                                 </Button>
                             </form>

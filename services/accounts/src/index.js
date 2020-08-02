@@ -2,40 +2,63 @@ const express = require('express');
 const express_graphql = require('express-graphql');
 const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
-const { Client } = require('pg');
 
-const PORT = 8082;
+const PORT = 8081;
 // GraphQL schema
-const schema = buildSchema(`
-type Query {
-        message: String
-    }
-`);
-const credentials = require('../client-model');
-credentials.database = 'accounts_db';
-const client = new Client(credentials);
+const schema = require('./schema');
+// const credentials = require('../client-model');
+// credentials.database = 'accounts_db';
+// const client = new Client(credentials);
 
-// Will query the tables here
-const queryFunction = function () {
-  client
-    .connect()
-    .then(() => {
-      console.log('Connected Successfully');
-    })
-    .then(() => client.query('SELECT * FROM accounts_info.accounts_tbl'))
-    .then((result) => {
-      console.table(result.rows);
-    })
-    .catch((e) => console.log(e))
-    .finally(() => client.end());
-};
+// // Will query the tables here
+// const queryFunction = function () {
+//   client
+//     .connect()
+//     .then(() => {
+//       console.log('Connected Successfully');
+//     })
+//     .then(() => client.query('SELECT * FROM accounts_info.accounts_tbl'))
+//     .then((result) => {
+//       console.table(result.rows);
+//     })
+//     .catch((e) => console.log(e))
+//     .finally(() => client.end());
+// };
 
-// timeout used so connection to db happens after it is started
-setTimeout(queryFunction, 5000);
+// // timeout used so connection to db happens after it is started
+// setTimeout(queryFunction, 5000);
+
+const Knex = require("knex");
+const knex = Knex({
+  client: 'pg',
+  connection: { 
+    host: '142.1.46.70', 
+    user: 'postgres', 
+    password: 'postgres', 
+    database: 'patient_db', 
+    port: 8088
+    },
+
+});
 
 // Root resolver
 const root = {
-  message: () => 'Hello World!'
+  message: () => 'Hello this is accounts service connecting to patient record db!',
+  addUserInfo: ({userid, addressid, username, first_name, last_name, phone_number, email, birthdate,
+    date_became_patient, gender}) => {
+      return knex("patient_info.patient_basic_info_tbl").insert({
+        userid: userid,
+        addressid: addressid,
+        username: username,
+        first_name: first_name,
+        last_name: last_name,
+        phone_number: phone_number,
+        email: email,
+        birthdate: birthdate,
+        date_became_patient: date_became_patient,
+        gender: gender
+      })
+    }
 };
 
 // Create an express server and a GraphQL endpoint

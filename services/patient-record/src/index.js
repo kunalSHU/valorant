@@ -3,41 +3,47 @@ const express_graphql = require('express-graphql');
 const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
 const { Client } = require('pg');
+const PORT = process.env.APP_PORT || 8087;
+const schema = require('./schema')
 
-const PORT = process.env.APP_PORT || 8085;
-// GraphQL schema
-const schema = buildSchema(`
-type Query {
-        message: String
-    }
-`);
+//const credentials = require('../client-model');
+//credentials.database = 'patient_db';
+//const client = new Client(credentials);
+// // Will query the tables here
+// const queryFunction = function () {
+// client
+//     .connect()
+//     .then(() => {
+//       console.log('Connected Successfully');
+//     })
+//     .then(() => client.query('SELECT * FROM patient_info.address_info_tbl'))
+//     .then((result) => {
+//       console.table(result.rows);
+//     })
+//     .catch((e) => console.log(e))
+//     .finally(() => client.end());
+// };
 
-const credentials = require('../client-model');
-credentials.database = 'patient_db';
-const client = new Client(credentials);
+// // timeout used so connection to db happens after it is started
+// setTimeout(queryFunction, 5000)
 
-// Will query the tables here
-const queryFunction = function () {
+const Knex = require("knex");
+const knex = Knex({
+  client: 'pg',
+  connection: { 
+    host: '142.1.46.70', 
+    user: 'postgres', 
+    password: 'postgres', 
+    database: 'patient_db', 
+    port: 8088
+    },
 
-client
-    .connect()
-    .then(() => {
-      console.log('Connected Successfully');
-    })
-    .then(() => client.query('SELECT * FROM patient_info.address_info_tbl'))
-    .then((result) => {
-      console.table(result.rows);
-    })
-    .catch((e) => console.log(e))
-    .finally(() => client.end());
-};
-
-// timeout used so connection to db happens after it is started
-setTimeout(queryFunction, 5000)
+});
 
 // Root resolver
 const root = {
-  message: () => 'Hello World!'
+    message: () => 'Hello this is patient recording!',
+    userAddress: () => knex("patient_info.address_info_tbl").select("*"),
 };
 
 // Create an express server and a GraphQL endpoint

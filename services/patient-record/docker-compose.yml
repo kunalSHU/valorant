@@ -18,6 +18,9 @@ services:
         depends_on: 
             - db
         ports: 
-            - '8087:8080'
+            - '8087:8087'
+        restart: always
+        command: npm start
         volumes:
             - .:/usr/src/app
+            - /usr/src/app/node_modules

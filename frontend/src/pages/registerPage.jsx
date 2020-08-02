@@ -155,6 +155,18 @@ class RegisterPage extends React.Component{
         return;
     }
 
+    submitValues = (data) => {
+        axios.post('http://142.1.46.70:8086/account/create', {
+            emailAddress: data.email,
+            password: data.password
+        })
+        .then((response) => {
+            console.log(response)
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
     render(){
         return (
             

@@ -2,6 +2,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider, Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import React, { Fragment } from 'react';
+import ReactDOM from 'react-dom'
 import "react-dropdown/style.css";
 import useMutation from "apollo-client";
 import {ProgressBar} from "react-bootstrap"
@@ -10,6 +11,8 @@ import { Formik} from 'formik';
 import * as Yup from 'yup';
 import {Form} from 'antd'
 import axios from 'axios';
+import history from '../history'
+
 
 
 //Trying to retrieve and add data from patient record db and displaying it in UI
@@ -86,7 +89,7 @@ class RegisterPage extends React.Component{
             <p style={{color:"red"}}>{errPassword}</p>
         )
     }
-
+    
     submitValues = (data) => {
         axios.post('http://142.1.46.70:8086/account/create', {
             emailAddress: data.email,
@@ -97,13 +100,23 @@ class RegisterPage extends React.Component{
         }, (error) => {
             console.log(error);
         });
+
+        history.push('/login')
+        this.setState({
+            openSnackBar: true
+        })       
+        alert('You have successfully registered');
+        window.location.reload(false)
+        return;
     }
 
     render(){
         return (
-            <Fragment>
+            
+            <Fragment id="reactFragment">
+                <div id="registerSuccess"></div>
                 <label style={{color: "#905EAF", fontSize: "72px"}}>Register</label>
-                <Card variant="outlined" style={{display: 'inline-block', height: window.innerHeight/2, left: window.innerHeight/2.3
+                <Card id="card" variant="outlined" style={{display: 'inline-block', height: window.innerHeight/2, left: window.innerHeight/2.3
                 ,position: "absolute", width: window.innerWidth/2, top: window.innerHeight/4}}>
                     <CardContent>
                     <br></br>
@@ -146,6 +159,7 @@ class RegisterPage extends React.Component{
      
                     </Grid>
                     </CardContent>
+                
                 </Card> 
     
             </Fragment>

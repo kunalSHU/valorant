@@ -161,17 +161,29 @@ class RegisterPage extends React.Component{
             password: data.password
         })
         .then((response) => {
-            console.log(response)
-        }, (error) => {
-            console.log(error);
-        });
-
-        history.push('/login')
-        this.setState({
-            openSnackBar: true
-        })       
-        alert('You have successfully registered');
-        window.location.reload(false)
+            if(Object.keys(response.data.data.foundAccount).length===0){
+                axios.post('http://142.1.46.70:8086/account/create', {
+                    emailAddress: data.email,
+                    password: data.password
+                })
+                .then((response) => {
+                    console.log(response)
+                    history.push('/login')
+                    this.setState({ Show: true, Showing: true });
+                    setTimeout(() => {
+                        this.setState({ Show: false, Showing: false });
+                    }, 2500);  
+                    setTimeout(() => {
+                        window.location.reload(false)
+                    }, 1000);  
+                }, (error) => {
+                    console.log(error);
+                });
+            }
+            else {
+                alert('Account with that email address already exists!');
+            }
+        })  
         return;
     }
 

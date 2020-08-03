@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1">
-    <title>valorant-accounts-service 1.0.0</title>
+    <title>valorant-accounts-service 1.0.0 &#8212; Valorant API gateway service</title>
+    <meta name="description" content="Valorant API gateway service">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
     <style>
@@ -169,7 +170,7 @@
                 <small>1.0.0</small>
             </h1>
 
-            
+            <p>Valorant API gateway service</p>
 
         </div>
 
@@ -190,12 +191,17 @@
 
 
                         <li>
-                            <a href="#src/index.js" class="file"><b>src/index.js</b></a>
+                            <a href="#src/controllers/healthcheck-controller.js" class="file"><b>src/controllers/healthcheck-controller.js</b></a>
                             <ul>
 
 
                                 <li class="method-link scope-public">
-                                    <a href="#src-index.js-origin" title="origin">origin</a>
+                                    <a href="#src-controllers-healthcheck-controller.js-getrequestoriginipinfo" title="getRequestOriginIpInfo">getRequestOriginIpInfo</a>
+                                </li>
+
+
+                                <li class="method-link scope-public">
+                                    <a href="#src-controllers-healthcheck-controller.js-gethealthcheckinfo" title="getHealthcheckInfo">getHealthcheckInfo</a>
                                 </li>
 
 
@@ -205,17 +211,12 @@
 
 
                         <li>
-                            <a href="#src/middlewares/rate-limiter.js" class="file"><b>src/middlewares/rate-limiter.js</b></a>
+                            <a href="#src/input-validators/password-validator.js" class="file"><b>src/input-validators/password-validator.js</b></a>
                             <ul>
 
 
                                 <li class="method-link scope-public">
-                                    <a href="#src-middlewares-rate-limiter.js-ratelimiter" title="rateLimiter">rateLimiter</a>
-                                </li>
-
-
-                                <li class="method-link scope-public">
-                                    <a href="#src-middlewares-rate-limiter.js-handler" title="handler">handler</a>
+                                    <a href="#src-input-validators-password-validator.js-validatepassword" title="validatePassword">validatePassword</a>
                                 </li>
 
 
@@ -225,17 +226,122 @@
 
 
                         <li>
-                            <a href="#src/utils/network-info.js" class="file"><b>src/utils/network-info.js</b></a>
+                            <a href="#src/network-utils/gql-requests.js" class="file"><b>src/network-utils/gql-requests.js</b></a>
                             <ul>
 
 
                                 <li class="method-link scope-public">
-                                    <a href="#src-utils-network-info.js-getrequestoriginipinfo" title="getRequestOriginIpInfo">getRequestOriginIpInfo</a>
+                                    <a href="#src-network-utils-gql-requests.js-sendgqlrequest" title="sendGqlRequest">sendGqlRequest</a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+
+                        <li>
+                            <a href="#src/middlewares/cors-middleware.js" class="file"><b>src/middlewares/cors-middleware.js</b></a>
+                            <ul>
+
+
+                                <li class="method-link scope-public">
+                                    <a href="#src-middlewares-cors-middleware.js-origin" title="origin">origin</a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+
+                        <li>
+                            <a href="#src/middlewares/index.js" class="file"><b>src/middlewares/index.js</b></a>
+                            <ul>
+
+
+                                <li class="method-link scope-public">
+                                    <a href="#src-middlewares-index.js-loadmiddlewarestack" title="loadMiddlewareStack">loadMiddlewareStack</a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+
+                        <li>
+                            <a href="#src/middlewares/request-logger-middleware.js" class="file"><b>src/middlewares/request-logger-middleware.js</b></a>
+                            <ul>
+
+
+                                <li class="method-link scope-public">
+                                    <a href="#src-middlewares-request-logger-middleware.js-requestloggermiddleware" title="requestLoggerMiddleware">requestLoggerMiddleware</a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+
+                        <li>
+                            <a href="#src/middlewares/rate-limiter-middleware.js" class="file"><b>src/middlewares/rate-limiter-middleware.js</b></a>
+                            <ul>
+
+
+                                <li class="method-link scope-public">
+                                    <a href="#src-middlewares-rate-limiter-middleware.js-ratelimiter" title="rateLimiter">rateLimiter</a>
                                 </li>
 
 
                                 <li class="method-link scope-public">
-                                    <a href="#src-utils-network-info.js-getserveripinfo" title="getServerIpInfo">getServerIpInfo</a>
+                                    <a href="#src-middlewares-rate-limiter-middleware.js-handler" title="handler">handler</a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+
+                        <li>
+                            <a href="#src/utils/count-special-characters.js" class="file"><b>src/utils/count-special-characters.js</b></a>
+                            <ul>
+
+
+                                <li class="method-link scope-public">
+                                    <a href="#src-utils-count-special-characters.js-countspecialcharacters" title="countSpecialCharacters">countSpecialCharacters</a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+
+                        <li>
+                            <a href="#src/utils/http-status-code.js" class="file"><b>src/utils/http-status-code.js</b></a>
+                            <ul>
+
+
+                                <li class="method-link scope-public">
+                                    <a href="#src-utils-http-status-code.js-module.exports" title="module.exports">module.exports</a>
+                                </li>
+
+
+                            </ul>
+
+                        </li>
+
+
+                        <li>
+                            <a href="#src/utils/is-object-empty.js" class="file"><b>src/utils/is-object-empty.js</b></a>
+                            <ul>
+
+
+                                <li class="method-link scope-public">
+                                    <a href="#src-utils-is-object-empty.js-isobjectempty" title="isObjectEmpty">isObjectEmpty</a>
                                 </li>
 
 
@@ -251,13 +357,448 @@
                 <div class="col-md-9">
 
 
-                    <a id="src/index.js"></a>
+                    <a id="src/controllers/healthcheck-controller.js"></a>
 
 
                     <div class="method scope-public">
 
-                        <h2 id="src-index.js-origin">
-                            <a href="#src-index.js-origin" class="permalink">#</a>
+                        <h2 id="src-controllers-healthcheck-controller.js-getrequestoriginipinfo">
+                            <a href="#src-controllers-healthcheck-controller.js-getrequestoriginipinfo" class="permalink">#</a>
+                            <span class="method-name" title="getRequestOriginIpInfo(req)">getRequestOriginIpInfo(req)</span>
+                        </h2>
+
+                        <div class="description lead">
+
+                            <p>Returns the IP and geographic information of the client that requested the resource.</p>
+
+
+                        </div>
+
+
+                        <section class="parameters">
+
+                            <h3>Parameters</h3>
+
+                            <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>req</td>
+                                            <td>
+                                                <code>express.Request</code>
+                                            </td>
+                                            <td><ul>
+<li>The express request object that is being recieved from the client.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </section>
+
+
+
+
+                        <section class="returns">
+
+                            <h3>Returns</h3>
+
+
+
+                            <p>
+                                <code>jsonObject</code>
+                            </p>
+
+                            <p>A JSON object representing the request's origin IP info.</p>
+
+
+
+
+                        </section>
+
+                    </div>
+
+
+                    <div class="method scope-public">
+
+                        <h2 id="src-controllers-healthcheck-controller.js-gethealthcheckinfo">
+                            <a href="#src-controllers-healthcheck-controller.js-gethealthcheckinfo" class="permalink">#</a>
+                            <span class="method-name" title="getHealthcheckInfo(req)">getHealthcheckInfo(req)</span>
+                        </h2>
+
+                        <div class="description lead">
+
+                            <p>Returns the state of the machine hardware, OS, and server process information.</p>
+
+
+                        </div>
+
+
+                        <section class="parameters">
+
+                            <h3>Parameters</h3>
+
+                            <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>req</td>
+                                            <td>
+                                                <code>express.Request</code>
+                                            </td>
+                                            <td><ul>
+<li>The express request object that is being recieved from the client.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </section>
+
+
+
+
+                        <section class="returns">
+
+                            <h3>Returns</h3>
+
+
+
+                            <p>
+                                <code>JsonObject</code>
+                            </p>
+
+                            <p>An object representing the machine hardware, OS, and server process information.</p>
+
+
+
+
+                        </section>
+
+                    </div>
+
+
+
+                    <a id="src/input-validators/password-validator.js"></a>
+
+
+                    <div class="method scope-public">
+
+                        <h2 id="src-input-validators-password-validator.js-validatepassword">
+                            <a href="#src-input-validators-password-validator.js-validatepassword" class="permalink">#</a>
+                            <span class="method-name" title="validatePassword(password, passwordRules)">validatePassword(password, passwordRules)</span>
+                        </h2>
+
+                        <div class="description lead">
+
+                            <p>Validates the password against a set of password rules specified to determine if it meets the criteria.</p>
+
+
+                        </div>
+
+
+                        <section class="parameters">
+
+                            <h3>Parameters</h3>
+
+                            <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>password</td>
+                                            <td>
+                                                <code>string</code>
+                                            </td>
+                                            <td><ul>
+<li>The password that needs to be validated.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>passwordRules</td>
+                                            <td>
+                                                <code>object</code>
+                                            </td>
+                                            <td><ul>
+<li>An object representing the password rules.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>passwordRules.minLength</td>
+                                            <td>
+                                                <code>number</code>
+                                            </td>
+                                            <td><ul>
+<li>The minimum length of the password (absolute minimum is always 6 characters).</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>passwordRules.maxLength</td>
+                                            <td>
+                                                <code>number</code>
+                                            </td>
+                                            <td><ul>
+<li>The maximum length of the password.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>passwordRules.minDigits</td>
+                                            <td>
+                                                <code>number</code>
+                                            </td>
+                                            <td><ul>
+<li>The minimum number of digits the password must contain (absolute minimum is always 1).</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>passwordRules.minSpecialCharacters</td>
+                                            <td>
+                                                <code>number</code>
+                                            </td>
+                                            <td><ul>
+<li>The minimum number of special characters (absolute minimum is always 1).</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>passwordRules.minLowercaseLetters</td>
+                                            <td>
+                                                <code>number</code>
+                                            </td>
+                                            <td><ul>
+<li>The minimum number of lowercase letters (absolute minimum is always 1).</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>passwordRules.minUppercaseLetters</td>
+                                            <td>
+                                                <code>number</code>
+                                            </td>
+                                            <td><ul>
+<li>The minimum number of uppercase letters (absolute minimum is always 1).</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </section>
+
+
+
+
+                        <section class="returns">
+
+                            <h3>Returns</h3>
+
+
+
+                            <p>
+                                <code>object</code>
+                            </p>
+
+                            <p>A list of criteria that the password does not satisfy.</p>
+
+
+
+
+                        </section>
+
+                    </div>
+
+
+
+                    <a id="src/network-utils/gql-requests.js"></a>
+
+
+                    <div class="method scope-public">
+
+                        <h2 id="src-network-utils-gql-requests.js-sendgqlrequest">
+                            <a href="#src-network-utils-gql-requests.js-sendgqlrequest" class="permalink">#</a>
+                            <span class="method-name" title="sendGqlRequest(endpointUrl, gqlQueryString, gqlQueryVariables)">sendGqlRequest(endpointUrl, gqlQueryString, gqlQueryVariables)</span>
+                        </h2>
+
+                        <div class="description lead">
+
+                            <p>Sends a GQL query to the specified endpoint and returns the JSON data returned from the endpoint.</p>
+
+
+                        </div>
+
+
+                        <section class="parameters">
+
+                            <h3>Parameters</h3>
+
+                            <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>endpointUrl</td>
+                                            <td>
+                                                <code>string</code>
+                                            </td>
+                                            <td><ul>
+<li>The GQL microservice endpoint to query.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>gqlQueryString</td>
+                                            <td>
+                                                <code>string</code>
+                                            </td>
+                                            <td><ul>
+<li>The GQL query/mutation to send to the microservice endpoint (i.e endpointUrl).</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>gqlQueryVariables</td>
+                                            <td>
+                                                <code>object</code>
+                                            </td>
+                                            <td><ul>
+<li>A JS object containing string key/value pairs specifying different query variables to be sent to the endpoint.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </section>
+
+
+
+
+                        <section class="examples">
+
+                            <h3>Examples</h3>
+
+
+                            <pre><code class="hljs javascript">Send a GQL request to the endpoint hosted on http:<span class="hljs-comment">//192.168.1.114:3002/api.</span>
+
+<span class="hljs-keyword">const</span> response = sendGqlRequest(<span class="hljs-string">'http://192.168.1.114:3002/api'</span>, gqlQueryString, gqlQueryVariables);
+response
+  .then(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
+    <span class="hljs-comment">// Do something with the returned data</span>
+  })
+  .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> { message } = err
+    <span class="hljs-comment">// Do something with the error and its message</span>
+  });</code></pre>
+
+
+                        </section>
+
+
+                        <section class="returns">
+
+                            <h3>Returns</h3>
+
+
+
+                            <p>
+                            </p>
+
+                            
+
+
+
+                        </section>
+
+                    </div>
+
+
+
+                    <a id="src/middlewares/cors-middleware.js"></a>
+
+
+                    <div class="method scope-public">
+
+                        <h2 id="src-middlewares-cors-middleware.js-origin">
+                            <a href="#src-middlewares-cors-middleware.js-origin" class="permalink">#</a>
                             <span class="method-name" title="origin(origin, onOriginWhitelistCheck)">origin(origin, onOriginWhitelistCheck)</span>
                         </h2>
 
@@ -343,19 +884,195 @@
 
 
 
-                    <a id="src/middlewares/rate-limiter.js"></a>
+                    <a id="src/middlewares/index.js"></a>
 
 
                     <div class="method scope-public">
 
-                        <h2 id="src-middlewares-rate-limiter.js-ratelimiter">
-                            <a href="#src-middlewares-rate-limiter.js-ratelimiter" class="permalink">#</a>
-                            <span class="method-name" title="rateLimiter(maxRequestWindowMs, maxRequestsAllowedPerWindow, onMaxRequestsExceeded)">rateLimiter(maxRequestWindowMs, maxRequestsAllowedPerWindow, onMaxRequestsExceeded)</span>
+                        <h2 id="src-middlewares-index.js-loadmiddlewarestack">
+                            <a href="#src-middlewares-index.js-loadmiddlewarestack" class="permalink">#</a>
+                            <span class="method-name" title="loadMiddlewareStack(app)">loadMiddlewareStack(app)</span>
                         </h2>
 
                         <div class="description lead">
 
-                            <p>Allows a maximum number of requests to the server from a client within a certain timeframe.</p>
+                            <p>Attaches middlewares to the given Express app.</p>
+
+
+                        </div>
+
+
+                        <section class="parameters">
+
+                            <h3>Parameters</h3>
+
+                            <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>app</td>
+                                            <td>
+                                                <code>express.Application</code>
+                                            </td>
+                                            <td><ul>
+<li>An instance of the express app to attach the middlewares to.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </section>
+
+
+
+
+                        <section class="returns">
+
+                            <h3>Returns</h3>
+
+
+
+                            <p>
+                            </p>
+
+                            
+
+
+
+                        </section>
+
+                    </div>
+
+
+
+                    <a id="src/middlewares/request-logger-middleware.js"></a>
+
+
+                    <div class="method scope-public">
+
+                        <h2 id="src-middlewares-request-logger-middleware.js-requestloggermiddleware">
+                            <a href="#src-middlewares-request-logger-middleware.js-requestloggermiddleware" class="permalink">#</a>
+                            <span class="method-name" title="requestLoggerMiddleware(req, res, next)">requestLoggerMiddleware(req, res, next)</span>
+                        </h2>
+
+                        <div class="description lead">
+
+                            <p>Logs all requests made to the server by Clients.</p>
+
+
+                        </div>
+
+
+                        <section class="parameters">
+
+                            <h3>Parameters</h3>
+
+                            <div class="table-responsive">
+                                <table class="table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>req</td>
+                                            <td>
+                                                <code>express.Request</code>
+                                            </td>
+                                            <td><ul>
+<li>The express request object.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>res</td>
+                                            <td>
+                                                <code>express.Response</code>
+                                            </td>
+                                            <td><ul>
+<li>The express response object.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>next</td>
+                                            <td>
+                                                <code>Function</code>
+                                            </td>
+                                            <td><ul>
+<li>The next function in the middleware stack to call.</li>
+</ul>
+</td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </section>
+
+
+
+
+                        <section class="returns">
+
+                            <h3>Returns</h3>
+
+
+
+                            <p>
+                            </p>
+
+                            
+
+
+
+                        </section>
+
+                    </div>
+
+
+
+                    <a id="src/middlewares/rate-limiter-middleware.js"></a>
+
+
+                    <div class="method scope-public">
+
+                        <h2 id="src-middlewares-rate-limiter-middleware.js-ratelimiter">
+                            <a href="#src-middlewares-rate-limiter-middleware.js-ratelimiter" class="permalink">#</a>
+                            <span class="method-name" title="rateLimiter([maxRequestWindowMs, maxRequestsAllowedPerWindow], onMaxRequestsExceeded)">rateLimiter([maxRequestWindowMs, maxRequestsAllowedPerWindow], onMaxRequestsExceeded)</span>
+                        </h2>
+
+                        <div class="description lead">
+
+                            <p>Allows a maximum number of requests to the server from a client within a certain timeframe. Uses defaults of (maxRequestWindowMs = 1000, maxRequestsAllowedPerWindow=200).</p>
 
 
                         </div>
@@ -388,6 +1105,7 @@
 </ul>
 </td>
                                             <td>
+                                                <span class="tag tag-default">Optional</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -400,6 +1118,7 @@
 </ul>
 </td>
                                             <td>
+                                                <span class="tag tag-default">Optional</span>
                                             </td>
                                         </tr>
                                         <tr>
@@ -455,8 +1174,8 @@
 
                     <div class="method scope-public">
 
-                        <h2 id="src-middlewares-rate-limiter.js-handler">
-                            <a href="#src-middlewares-rate-limiter.js-handler" class="permalink">#</a>
+                        <h2 id="src-middlewares-rate-limiter-middleware.js-handler">
+                            <a href="#src-middlewares-rate-limiter-middleware.js-handler" class="permalink">#</a>
                             <span class="method-name" title="handler(req, res[, next])">handler(req, res[, next])</span>
                         </h2>
 
@@ -551,19 +1270,19 @@
 
 
 
-                    <a id="src/utils/network-info.js"></a>
+                    <a id="src/utils/count-special-characters.js"></a>
 
 
                     <div class="method scope-public">
 
-                        <h2 id="src-utils-network-info.js-getrequestoriginipinfo">
-                            <a href="#src-utils-network-info.js-getrequestoriginipinfo" class="permalink">#</a>
-                            <span class="method-name" title="getRequestOriginIpInfo(req)">getRequestOriginIpInfo(req)</span>
+                        <h2 id="src-utils-count-special-characters.js-countspecialcharacters">
+                            <a href="#src-utils-count-special-characters.js-countspecialcharacters" class="permalink">#</a>
+                            <span class="method-name" title="countSpecialCharacters(string)">countSpecialCharacters(string)</span>
                         </h2>
 
                         <div class="description lead">
 
-                            <p>Returns the IP address of the client that requested the resource (i.e the origin IP).</p>
+                            <p>Returns the number of special characters that occur in the string.</p>
 
 
                         </div>
@@ -587,12 +1306,12 @@
 
                                     <tbody>
                                         <tr>
-                                            <td>req</td>
+                                            <td>string</td>
                                             <td>
-                                                <code>express.Request</code>
+                                                <code>string</code>
                                             </td>
                                             <td><ul>
-<li>The express request object that is being recieved from the client.</li>
+<li>The string to count special characters of.</li>
 </ul>
 </td>
                                             <td>
@@ -607,9 +1326,84 @@
 
 
 
-                        <section class="property">
 
-                            <h3>Properties</h3>
+                        <section class="returns">
+
+                            <h3>Returns</h3>
+
+
+
+                            <p>
+                                <code>number</code>
+                            </p>
+
+                            <p>The number of special characters that occur in the string.</p>
+
+
+
+
+                        </section>
+
+                    </div>
+
+
+
+                    <a id="src/utils/http-status-code.js"></a>
+
+
+                    <div class="method scope-public">
+
+                        <h2 id="src-utils-http-status-code.js-module.exports">
+                            <a href="#src-utils-http-status-code.js-module.exports" class="permalink">#</a>
+                            <span class="method-name" title="module.exports()">module.exports()</span>
+                        </h2>
+
+                        <div class="description lead">
+
+                            <p>HTTP status codes.
+Retrieved from: <a href="https://httpstatuses.com/">https://httpstatuses.com/</a>.</p>
+
+
+                        </div>
+
+
+
+
+                        <section class="returns">
+
+                            <h3>Returns</h3>
+
+
+                            <p><code>Void</code></p>
+
+
+                        </section>
+
+                    </div>
+
+
+
+                    <a id="src/utils/is-object-empty.js"></a>
+
+
+                    <div class="method scope-public">
+
+                        <h2 id="src-utils-is-object-empty.js-isobjectempty">
+                            <a href="#src-utils-is-object-empty.js-isobjectempty" class="permalink">#</a>
+                            <span class="method-name" title="isObjectEmpty(obj)">isObjectEmpty(obj)</span>
+                        </h2>
+
+                        <div class="description lead">
+
+                            <p>Returns whether the object (obj) is empty (i.e if obj is {}).</p>
+
+
+                        </div>
+
+
+                        <section class="parameters">
+
+                            <h3>Parameters</h3>
 
                             <div class="table-responsive">
                                 <table class="table">
@@ -625,36 +1419,12 @@
 
                                     <tbody>
                                         <tr>
-                                            <td>jsonObject.ip</td>
+                                            <td>obj</td>
                                             <td>
-                                                <code>string</code>
+                                                <code>object</code>
                                             </td>
                                             <td><ul>
-<li>The IPv2 or IPv6 address.</li>
-</ul>
-</td>
-                                            <td>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>jsonObject.timezone</td>
-                                            <td>
-                                                <code>string</code>
-                                            </td>
-                                            <td><ul>
-<li>&quot;Country/Zone&quot; Timezone from IANA timezone database (<a href="https://www.iana.org/time-zones">https://www.iana.org/time-zones</a>).</li>
-</ul>
-</td>
-                                            <td>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>jsonObject.country</td>
-                                            <td>
-                                                <code>string</code>
-                                            </td>
-                                            <td><ul>
-<li>2 letter ISO-3166-1 country code from the IBAN country-codes database(<a href="https://www.iban.com/country-codes">https://www.iban.com/country-codes</a>).</li>
+<li>The object to check for emptiness.</li>
 </ul>
 </td>
                                             <td>
@@ -669,42 +1439,6 @@
 
 
 
-                        <section class="returns">
-
-                            <h3>Returns</h3>
-
-
-
-                            <p>
-                                <code>jsonObject</code>
-                            </p>
-
-                            <p>A JSON object representing the request's origin IP info.</p>
-
-
-
-
-                        </section>
-
-                    </div>
-
-
-                    <div class="method scope-public">
-
-                        <h2 id="src-utils-network-info.js-getserveripinfo">
-                            <a href="#src-utils-network-info.js-getserveripinfo" class="permalink">#</a>
-                            <span class="method-name" title="getServerIpInfo()">getServerIpInfo()</span>
-                        </h2>
-
-                        <div class="description lead">
-
-                            <p>Returns the IP address of the server running the app.</p>
-
-
-                        </div>
-
-
-
 
                         <section class="returns">
 
@@ -713,10 +1447,10 @@
 
 
                             <p>
-                                <code>string</code>
+                                <code>boolean</code>
                             </p>
 
-                            <p>The local IPv2 or IPv6 address of the server.</p>
+                            <p>True if the object is empty, false if the object is not empty.</p>
 
 
 

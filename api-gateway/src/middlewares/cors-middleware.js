@@ -13,6 +13,7 @@ const corsOptions = {
   origin: function isCorsAccessAllowedForOrigin(origin, onOriginWhitelistCheck) {
     if (!origin) return onOriginWhitelistCheck(null, true);
     if (whitelistedCorsDomains.indexOf(origin) === -1) {
+      console.error(`[CORS] Desnied following origin requesting access: ${origin}`);
       return onOriginWhitelistCheck(
         new Error('The CORS policy for this origin does not allow access from the particular origin'),
         false

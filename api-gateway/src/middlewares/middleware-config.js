@@ -11,7 +11,7 @@ module.exports = {
     defaultTokenExpiryTimeMs: 3600000
   },
   cors: {
-    whitelistedCorsDomains: ['http://localhost:8085']
+    whitelistedCorsDomains: ['http://localhost:8080']
   },
   rateLimiter: {
     maxRequestWindowMs: 10000,

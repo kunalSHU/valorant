@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 
 const { describe, it, after } = require('mocha');
 
-const httpStatusCode = require('../../src/utils/http-status-code.js');
+const httpStatusCode = require('../../src/network-utils/http-status-code.js');
 
 const gatewayServer = require('../../index.js').server;
 const rateLimiter = require('../../src/middlewares/rate-limiter-middleware.js');

@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import {Form} from 'antd'
 import axios from 'axios';
 import history from '../history'
-
+import ReactSnackBar from "react-js-snackbar";
 
 
 //Trying to retrieve and add data from patient record db and displaying it in UI
@@ -72,6 +72,11 @@ const validationSchema  = Yup.object({
 
 class RegisterPage extends React.Component{
 
+    state = {
+        Show: false,
+        Showing: false
+    }
+
     emailError = (errEmail) => {
         return(
             <p style={{color:"red"}}>{errEmail}</p>
@@ -91,22 +96,32 @@ class RegisterPage extends React.Component{
     }
     
     submitValues = (data) => {
-        axios.post('http://142.1.46.70:8086/account/create', {
-            emailAddress: data.email,
-            password: data.password
-        })
-        .then((response) => {
-            console.log(response)
-        }, (error) => {
-            console.log(error);
-        });
 
-        history.push('/login')
-        this.setState({
-            openSnackBar: true
-        })       
-        alert('You have successfully registered');
-        window.location.reload(false)
+        axios.get(`http://142.1.46.70:8086/account/find?email=${data.email}`)
+        .then((response) => {
+            if(Object.keys(response.data.data.foundAccount).length===0){
+                axios.post('http://142.1.46.70:8086/account/create', {
+                    emailAddress: data.email,
+                    password: data.password
+                })
+                .then((response) => {
+                    console.log(response)
+                    history.push('/login')
+                    this.setState({ Show: true, Showing: true });
+                    setTimeout(() => {
+                        this.setState({ Show: false, Showing: false });
+                    }, 2500);  
+                    setTimeout(() => {
+                        window.location.reload(false)
+                    }, 1000);  
+                }, (error) => {
+                    console.log(error);
+                });
+            }
+            else {
+                alert('Account with that email address already exists!');
+            }
+        })  
         return;
     }
 
@@ -114,7 +129,9 @@ class RegisterPage extends React.Component{
         return (
             
             <Fragment id="reactFragment">
-                <div id="registerSuccess"></div>
+                <ReactSnackBar Icon={<span></span>} Show={this.state.Show}>
+                    Registered Successfully!
+                </ReactSnackBar>
                 <label style={{color: "#905EAF", fontSize: "72px"}}>Register</label>
                 <Card id="card" variant="outlined" style={{display: 'inline-block', height: window.innerHeight/2, left: window.innerHeight/2.3
                 ,position: "absolute", width: window.innerWidth/2, top: window.innerHeight/4}}>

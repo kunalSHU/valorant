@@ -1,2 +1,3 @@
-export { default as AccountDetails } from './AccountDetails';
-export { default as AccountProfile } from './AccountProfile';
+export { default as Password } from './Password';
+export { default as Export } from './Export';
+export { default as Delete } from './Delete';

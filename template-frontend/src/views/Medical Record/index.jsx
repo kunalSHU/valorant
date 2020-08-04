@@ -13,7 +13,7 @@ import { Grid } from '@material-ui/core';
 import { Dashboard as DashboardLayout } from '../../layouts';
 
 // Custom components
-import { Password, Export, Delete } from './components';
+import { AccountProfile, AccountDetails } from './components';
 
 // Component styles
 const styles = theme => ({
@@ -33,36 +33,25 @@ class Account extends Component {
         <div className={classes.root}>
           <Grid
             container
-            spacing={2}
+            spacing={4}
           >
             <Grid
               item
               lg={4}
               md={6}
-              xl={8}
+              xl={4}
               xs={12}
             >
-              <Password />
+              <AccountProfile />
             </Grid>
-
             <Grid
               item
-              lg={4}
+              lg={8}
               md={6}
               xl={8}
               xs={12}
             >
-              <Export />
-            </Grid>
-
-            <Grid
-              item
-              lg={4}
-              md={6}
-              xl={8}
-              xs={12}
-            >
-              <Delete />
+              <AccountDetails />
             </Grid>
           </Grid>
         </div>

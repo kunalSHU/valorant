@@ -60,7 +60,7 @@ class OrdersTable extends Component {
     limit: 10,
     orders: [],
     ordersTotal: 0,
-    open: true
+    open: false
   };
 
   async getOrders(limit) {

@@ -8,6 +8,9 @@ import { Chart } from 'react-chartjs-2';
 // Material helpers
 import { ThemeProvider } from '@material-ui/styles';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+
 // ChartJS helpers
 import { chartjs } from './helpers';
 
@@ -33,9 +36,11 @@ export default class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <Router history={browserHistory}>
-          <Routes />
-        </Router>
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+            <Router history={browserHistory}>
+              <Routes />
+            </Router>
+          </MuiPickersUtilsProvider>
       </ThemeProvider>
     );
   }

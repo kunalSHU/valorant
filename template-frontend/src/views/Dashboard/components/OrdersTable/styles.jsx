@@ -27,5 +27,8 @@ export default theme => ({
   },
   status: {
     marginRight: theme.spacing(1)
-  }
+  },
+  arrow: {
+    paddingLeft: '0'
+  },
 });

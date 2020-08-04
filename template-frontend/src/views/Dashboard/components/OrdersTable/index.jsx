@@ -19,8 +19,14 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  TableSortLabel
+  TableSortLabel, 
+  Modal
 } from '@material-ui/core';
+
+
+import {
+  ArrowForward as ArrowForward
+} from '@material-ui/icons';
 
 // Shared services
 import { getOrders } from '../../../../services/order';
@@ -34,6 +40,8 @@ import {
   PortletContent,
   Status
 } from '../../../../components';
+
+import BookAppointment from './components/BookAppointment.jsx';
 
 // Component styles
 import styles from './styles';
@@ -51,7 +59,8 @@ class OrdersTable extends Component {
     isLoading: false,
     limit: 10,
     orders: [],
-    ordersTotal: 0
+    ordersTotal: 0,
+    open: true
   };
 
   async getOrders(limit) {
@@ -88,6 +97,16 @@ class OrdersTable extends Component {
   componentWillUnmount() {
     this.signal = false;
   }
+  
+  onAppointmentClicked = () => {
+    this.setState(prevState => ({
+      open: !prevState.open
+    }));
+  }
+
+  handleClose = () => {
+    this.setState({ open: false })
+  }
 
   render() {
     const { classes, className } = this.props;
@@ -107,6 +126,7 @@ class OrdersTable extends Component {
             <Button
               className={classes.newEntryButton}
               color="primary"
+              onClick={this.onAppointmentClicked}
               size="small"
               variant="outlined"
             >
@@ -119,69 +139,83 @@ class OrdersTable extends Component {
             className={classes.portletContent}
             noPadding
           >
+            
+
             {isLoading && (
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
             )}
-            {showOrders && (
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Appointment ID</TableCell>
-                    <TableCell align="left">Doctor</TableCell>
-                    <TableCell
-                      align="left"
-                      sortDirection="desc"
-                    >
-                      <Tooltip
-                        enterDelay={300}
-                        title="Sort"
+            <div>
+
+              <Modal
+                open={this.state.open}
+              >
+                <BookAppointment mode="add" onCancel={this.handleClose}/>
+              </Modal>
+
+              {showOrders && (
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Appointment ID</TableCell>
+                      <TableCell align="left">Doctor</TableCell>
+                      <TableCell
+                        align="left"
+                        sortDirection="desc"
                       >
-                        <TableSortLabel
-                          active
-                          direction="desc"
+                        <Tooltip
+                          enterDelay={300}
+                          title="Sort"
                         >
+                          <TableSortLabel
+                            active
+                            direction="desc"
+                          >
                           Appointment Date
-                        </TableSortLabel>
-                      </Tooltip>
-                    </TableCell>
-                    <TableCell align="left">Time</TableCell>
-                    <TableCell align="left">Location</TableCell>
-                    <TableCell align="left">Status</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {orders.map(order => (
-                    <TableRow
-                      className={classes.tableRow}
-                      hover
-                      key={order.id}
-                    >
-                      <TableCell>{order.id}</TableCell>
-                      <TableCell className={classes.customerCell}>
-                        {order.customer.name}
+                          </TableSortLabel>
+                        </Tooltip>
                       </TableCell>
-                      <TableCell>
-                        {moment(order.createdAt).format('DD/MM/YYYY')}
-                      </TableCell>
-                      <TableCell>1:00PM</TableCell>
-                      <TableCell>Online</TableCell>
-                      <TableCell>
-                        <div className={classes.statusWrapper}>
-                          <Status
-                            className={classes.status}
-                            color={statusColors[order.status]}
-                            size="sm"
-                          />
-                          {order.status}
-                        </div>
-                      </TableCell>
+                      <TableCell align="left">Time</TableCell>
+                      <TableCell align="left">Location</TableCell>
+                      <TableCell align="left">Status</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
+                  </TableHead>
+                  <TableBody>
+                    {orders.map(order => (
+                      <TableRow
+                        className={classes.tableRow}
+                        hover
+                        key={order.id}
+                      >
+                        <TableCell>{order.id}</TableCell>
+                        <TableCell className={classes.customerCell}>
+                          {order.customer.name}
+                        </TableCell>
+                        <TableCell>
+                          {moment(order.createdAt).format('DD/MM/YYYY')}
+                        </TableCell>
+                        <TableCell>1:00PM</TableCell>
+                        <TableCell>Online</TableCell>
+                        <TableCell>
+                          <div className={classes.statusWrapper}>
+                            <Status
+                              className={classes.status}
+                              color={statusColors[order.status]}
+                              size="sm"
+                            />
+                            {order.status}
+                          </div>
+                        </TableCell>
+                        <TableCell className={classes.arrow}>
+                          <ArrowForward/>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </div>
           </PortletContent>
         </PerfectScrollbar>
       </Portlet>

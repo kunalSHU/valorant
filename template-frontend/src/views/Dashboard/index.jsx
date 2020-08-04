@@ -18,9 +18,6 @@ import {
   Users,
   Progress,
   Profit,
-  SalesChart,
-  DevicesChart,
-  ProductList,
   OrdersTable
 } from './components';
 
@@ -44,7 +41,7 @@ class Dashboard extends Component {
           <Grid
             container
             spacing={4}
-          >
+          >  
             <Grid
               item
               lg={12}

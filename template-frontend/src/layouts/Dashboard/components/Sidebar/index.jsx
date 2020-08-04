@@ -10,14 +10,12 @@ import { withStyles } from '@material-ui/core';
 
 // Material components
 import {
-  Avatar,
   Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   ListSubheader,
-  Typography
 } from '@material-ui/core';
 
 // Material icons

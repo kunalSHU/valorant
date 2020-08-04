@@ -9,6 +9,9 @@ import {Card, CardContent, Typography, TextField, Grid, Button, MenuItem, Divide
 import { Formik} from 'formik';
 import * as Yup from 'yup';
 import {Form} from 'antd'
+import axios from 'axios';
+import history from '../history'
+import ReactSnackBar from "react-js-snackbar";
 
 
 //Trying to retrieve and add data from patient record db and displaying it in UI
@@ -68,6 +71,11 @@ const validationSchema  = Yup.object({
 
 class RegisterPage extends React.Component{
 
+    state = {
+        Show: false,
+        Showing: false
+    }
+
     emailError = (errEmail) => {
         return(
             <p style={{color:"red"}}>{errEmail}</p>
@@ -86,9 +94,42 @@ class RegisterPage extends React.Component{
         )
     }
 
+    submitValues = (data) => {
+
+        axios.get(`http://142.1.46.70:8086/account/find?email=${data.email}`)
+        .then((response) => {
+            if(Object.keys(response.data.data.foundAccount).length===0){
+                axios.post('http://142.1.46.70:8086/account/create', {
+                    emailAddress: data.email,
+                    password: data.password
+                })
+                .then((response) => {
+                    console.log(response)
+                    history.push('/login')
+                    this.setState({ Show: true, Showing: true });
+                    setTimeout(() => {
+                        this.setState({ Show: false, Showing: false });
+                    }, 2500);  
+                    setTimeout(() => {
+                        window.location.reload(false)
+                    }, 1000);  
+                }, (error) => {
+                    console.log(error);
+                });
+            }
+            else {
+                alert('Account with that email address already exists!');
+            }
+        })  
+        return;
+    }
+
     render(){
         return (
             <Fragment>
+                <ReactSnackBar Icon={<span></span>} Show={this.state.Show}>
+                    Registered Successfully!
+                </ReactSnackBar>
                 <Card variant="outlined" style={{display: 'inline-block', height: window.innerHeight/1.1, left: window.innerHeight/2.3
                 ,position: "absolute", width: window.innerWidth/2}}>
                     <CardContent>
@@ -98,7 +139,7 @@ class RegisterPage extends React.Component{
                     <Grid container spacing={1} alignItems="flex-start" direction="column" style={{position: "relative", left: window.innerWidth/6.3}}>
 
                         <Formik initialValues={{email:"", password:"", confirmPassword:""}} 
-                    validationSchema={validationSchema} onSubmit={values => {console.log(values)}}>
+                    validationSchema={validationSchema} onSubmit={(data) => {this.submitValues(data)}} validator={() => ({})}>
 
                         {({handleSubmit, handleChange, handleBlur, values, errors, touched, dirty, isValid}) => (
                             <Fragment>
@@ -128,7 +169,7 @@ class RegisterPage extends React.Component{
                             <Button variant="contained" color="primary" 
                                 style={{position: "absolute", left: "8%", top: "125%"}} 
                                 disabled={!dirty || errors.email || errors.password || errors.confirmPassword} 
-                                onClick={this.handleValidation}>
+                                onClick={handleSubmit}>
                                 Submit
                             </Button>
                             </Fragment>

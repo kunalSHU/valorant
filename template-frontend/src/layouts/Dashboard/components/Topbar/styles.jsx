@@ -21,6 +21,6 @@ export default theme => ({
     marginLeft: 'auto'
   },
   signOutButton: {
-    marginLeft: theme.spacing(1)
+    marginLeft: 'auto'
   }
 });

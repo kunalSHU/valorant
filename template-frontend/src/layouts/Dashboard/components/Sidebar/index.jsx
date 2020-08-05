@@ -101,21 +101,6 @@ class Sidebar extends Component {
               primary="Medical Record"
             />
           </ListItem>
-          
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/settings"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Settings"
-            />
-          </ListItem>
         </List>
 
         <Divider className={classes.listDivider} />
@@ -132,7 +117,7 @@ class Sidebar extends Component {
           <ListItem
             className={classes.listItem}
             component="a"
-            href="https://devias.io/contact-us"
+            href="https://github.com/ShabazBadshah/valorant"
             target="_blank"
           >
             <ListItemIcon className={classes.listItemIcon}>
@@ -140,7 +125,7 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText
               classes={{ primary: classes.listItemText }}
-              primary="Contact Us"
+              primary="Source Code"
             />
           </ListItem>
         </List>

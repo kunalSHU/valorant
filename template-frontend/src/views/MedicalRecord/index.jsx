@@ -13,7 +13,7 @@ import { Grid } from '@material-ui/core';
 import { Dashboard as DashboardLayout } from '../../layouts';
 
 // Custom components
-import { AccountProfile, AccountDetails } from './components';
+import { NameGender, Location, Links } from './components';
 
 // Component styles
 const styles = theme => ({
@@ -22,7 +22,7 @@ const styles = theme => ({
   }
 });
 
-class Account extends Component {
+class MedicalRecord extends Component {
   state = { tabIndex: 0 };
 
   render() {
@@ -39,19 +39,30 @@ class Account extends Component {
               item
               lg={4}
               md={6}
-              xl={4}
+              xl={8}
               xs={12}
             >
-              <AccountProfile />
+              <NameGender />
             </Grid>
+
             <Grid
               item
-              lg={8}
+              lg={4}
               md={6}
               xl={8}
               xs={12}
             >
-              <AccountDetails />
+              <Location />
+            </Grid>
+
+            <Grid
+              item
+              lg={4}
+              md={6}
+              xl={8}
+              xs={12}
+            >
+              <Links />
             </Grid>
           </Grid>
         </div>
@@ -60,10 +71,10 @@ class Account extends Component {
   }
 }
 
-Account.propTypes = {
+MedicalRecord.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
 let newStyles;
-[Account, newStyles] = require('../../common/customizers').customizers.customizeComponent('Account', Account, styles);
-export default withStyles(newStyles)(Account);
+[MedicalRecord, newStyles] = require('../../common/customizers').customizers.customizeComponent('MedicalRecord', MedicalRecord, styles);
+export default withStyles(newStyles)(MedicalRecord);

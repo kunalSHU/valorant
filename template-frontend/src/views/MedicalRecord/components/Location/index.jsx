@@ -37,7 +37,7 @@ const states = [
   }
 ];
 
-class Account extends Component {
+class Location extends Component {
   state = {
     firstName: 'John',
     lastName: 'Doe',
@@ -122,7 +122,8 @@ class Account extends Component {
                 select
                 SelectProps={{ native: true }}
                 value={state}
-                variant="outlined">
+                variant="outlined"
+              >
                 {states.map(option => (
                   <option
                     key={option.value}
@@ -156,11 +157,11 @@ class Account extends Component {
   }
 }
 
-Account.propTypes = {
+Location.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
 
 let newStyles;
-[Account, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('Account', Account, styles);
-export default withStyles(newStyles)(Account);
+[Location, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('Location', Location, styles);
+export default withStyles(newStyles)(Location);

@@ -91,7 +91,7 @@ class Sidebar extends Component {
             activeClassName={classes.activeListItem}
             className={classes.listItem}
             component={NavLink}
-            to="/gg"
+            to="/record"
           >
             <ListItemIcon className={classes.listItemIcon}>
               <MedicalRecordIcon />

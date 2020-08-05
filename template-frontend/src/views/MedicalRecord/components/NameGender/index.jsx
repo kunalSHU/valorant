@@ -8,7 +8,7 @@ import validate from 'validate.js';
 import { withStyles } from '@material-ui/core';
 
 // Material components
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Typography } from '@material-ui/core';
 
 // Shared components
 import {
@@ -17,13 +17,14 @@ import {
   PortletLabel,
   PortletContent,
   PortletFooter,
-  Status
+  Status,
+  CircularProgress,
 } from '../../../../components';
 
 // Component styles
 import styles from './styles';
 
-const sex = [
+const sexes = [
   {
     value: 'male',
     label: 'Male'
@@ -40,22 +41,24 @@ class NameGender extends Component {
     values: {
       firstName: 'John',
       lastName: 'Doe',
-      sex: sex[0].label
+      sex: sexes[0].label
     },
     empty: {},
+    submitSuccess: false
   };
+
+  submitForm = () => {
+    const newState = { ...this.state };
+    newState.submitSuccess = true;
+    this.setState(newState);
+  }
 
   handleFieldChange = (field, value) => {
     const newState = { ...this.state };
     
     newState.values[field] = value;
 
-    console.log(newState.isValid)
-    console.log(value.length)
-
-
     newState.isValid = true;
-
     if (newState.values['firstName'] === '' || newState.values['lastName'] === '') {
       newState.isValid = false;
     }
@@ -123,7 +126,7 @@ class NameGender extends Component {
                 value={values.sex}
                 variant="outlined"
               >
-                {sex.map(option => (
+                {sexes.map(option => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -133,9 +136,17 @@ class NameGender extends Component {
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button color="primary" variant="contained" disabled={!this.state.isValid}>
+          <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={this.submitForm}>
             Update
           </Button>
+          { this.state.submitSuccess &&
+            <div className={classes.statusContainer}>
+              <Status className={classes.status} size='md' color='success'/>
+              <Typography variant="caption">
+                Information has been updated
+              </Typography>
+            </div>
+          }
         </PortletFooter>
       </Portlet>
     );

@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 // Externals
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-
+import validate from 'validate.js';
 // Material helpers
 import { withStyles } from '@material-ui/core';
 
 // Material components
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Typography } from '@material-ui/core';
 
 // Shared components
 import {
@@ -16,46 +16,57 @@ import {
   PortletHeader,
   PortletLabel,
   PortletContent,
-  PortletFooter
+  PortletFooter,
+  Status
 } from '../../../../components';
 
 // Component styles
 import styles from './styles';
 
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
+const provinces = [
+  { value: 'ontario', label: 'Ontario' },
+  { value: 'quebec', label: 'Quebec' },
+  { value: 'nova scotia', label: 'Nova Scotia' },
+  { value: 'new brunswick', label: 'New Brunswick' },
+  { value: 'manitoba', label: 'Manitoba' },
+  { value: 'british columbia', label: 'British Columbia' },
+  { value: 'prince edward island', label: 'Prince Edward Island' },
+  { value: 'saskatchewan', label: 'Saskatchewan' },
+  { value: 'alberta', label: 'Alberta' },
+  { value: 'newfoundland and labrador', label: 'Newfoundland and Labrador' },
+  { value: 'northwest territories', label: 'Northwest Territories' },
+  { value: 'yukon', label: 'Yukon' },
+  { value: 'nunavut', label: 'Nunavut' }
 ];
 
 class Location extends Component {
   state = {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'contact@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    isValid: false,
+    values: {
+      'postalCode': 'L1M 9T2',
+      'street': 'Dovehouse Drive',
+      'city': 'Mississauga',
+      'province': provinces[0].label
+    },
+    empty: {},
   };
 
-  handleChange = e => {
-    this.setState({
-      state: e.target.value
-    });
+  handleFieldChange = (field, value) => {
+    const newState = { ...this.state };
+    
+    newState.values[field] = value;
+
+    newState.isValid = true;
+    if (newState.values['postalCode'] === '' || newState.values['street'] === '' || newState.values['city'] === '') {
+      newState.isValid = false;
+    }
+
+    this.setState(newState);
   };
 
   render() {
     const { classes, className, ...rest } = this.props;
-    const { firstName, lastName, phone, state, country, email } = this.state;
+    const { values } = this.state;
 
     const rootClassName = classNames(classes.root, className);
 
@@ -66,91 +77,88 @@ class Location extends Component {
       >
         <PortletHeader>
           <PortletLabel
-            subtitle="The information can be edited"
-            title="Profile"
+            subtitle="Update your location information"
+            title="Location"
           />
         </PortletHeader>
         <PortletContent noPadding>
           <form
-            autoComplete="off"
-            noValidate
+            autoComplete
           >
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
-                helperText="Please specify the first name"
-                label="First name"
+                label="Street"
                 margin="dense"
-                required
-                value={firstName}
+                onChange={event =>
+                  this.handleFieldChange('street', event.target.value)
+                }
+                value={values.street}
+                error={this.state.values.['street'] === '' ? true : false}
+                helperText={this.state.values.['street'] === '' ? 'Street cannot be empty' : null}
+                variant="outlined"
+              />
+            </div>
+            <div  className={classes.field}>
+              <TextField
+                className={classes.textField}
+                label="Postal Code"
+                margin="dense"
+                onChange={event =>
+                  this.handleFieldChange('postalCode', event.target.value)
+                }
+                value={values.postalCode}
+                error={this.state.values.['postalCode'] === '' ? true : false}
+                helperText={this.state.values.['postalCode'] === '' ? 'Post code cannot be empty' : null}
                 variant="outlined"
               />
               <TextField
                 className={classes.textField}
-                label="Last name"
+                label="City"
                 margin="dense"
-                required
-                value={lastName}
+                onChange={event =>
+                  this.handleFieldChange('city', event.target.value)
+                }
+                value={values.city}
+                error={this.state.values.['city'] === '' ? true : false}
+                helperText={this.state.values.['city'] === '' ? 'City cannot be empty' : null}
                 variant="outlined"
               />
             </div>
             <div className={classes.field}>
               <TextField
-                className={classes.textField}
-                label="Email Address"
+                classNameclassName={classes.textField}
+                label="Province"
                 margin="dense"
-                required
-                value={email}
-                variant="outlined"
-              />
-              <TextField
-                className={classes.textField}
-                label="Phone Number"
-                margin="dense"
-                type="number"
-                value={phone}
-                variant="outlined"
-              />
-            </div>
-            <div className={classes.field}>
-              <TextField
-                className={classes.textField}
-                label="Select State"
-                margin="dense"
-                onChange={this.handleChange}
-                required
+                onChange={event =>
+                  this.handleFieldChange('province', event.target.value)
+                }
                 select
                 SelectProps={{ native: true }}
-                value={state}
+                value={values.province}
                 variant="outlined"
               >
-                {states.map(option => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
+                {provinces.map(option => (
+                  <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
                 ))}
               </TextField>
-              <TextField
-                className={classes.textField}
-                label="Country"
-                margin="dense"
-                required
-                value={country}
-                variant="outlined"
-              />
             </div>
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Save details
+          <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={this.submitForm}>
+            Update
           </Button>
+          { this.state.submitSuccess &&
+            <div className={classes.statusContainer}>
+              <Status className={classes.status} size='md' color='success'/>
+              <Typography variant="caption">
+                Information has been updated
+              </Typography>
+            </div>
+          }
         </PortletFooter>
       </Portlet>
     );

@@ -163,7 +163,6 @@ class RegisterPage extends React.Component{
                                         name="confirmPassword" variant="outlined" placeholder="Confirm Password" label="Confirm Password"
                                         margin="dense"/>
                                 </Grid>
-                                
                             </form>
                             <br></br>
                             <Button variant="contained" color="primary" 

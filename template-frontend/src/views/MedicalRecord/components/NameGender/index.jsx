@@ -96,8 +96,8 @@ class NameGender extends Component {
                   this.handleFieldChange('firstName', event.target.value)
                 }
                 value={values.firstName}
-                error={this.state.values.['firstName'] === '' ? true : false}
-                helperText={this.state.values.['firstName'] === '' ? 'First name cannot be empty' : null}
+                error={this.state.values['firstName'] === '' ? true : false}
+                helperText={this.state.values['firstName'] === '' ? 'First name cannot be empty' : null}
                 variant="outlined"
               />
               <TextField
@@ -108,8 +108,8 @@ class NameGender extends Component {
                   this.handleFieldChange('lastName', event.target.value)
                 }
                 value={values.lastName}
-                error={this.state.values.['lastName'] === '' ? true : false}
-                helperText={this.state.values.['lastName'] === '' ? 'Last name cannot be empty' : null}
+                error={this.state.values['lastName'] === '' ? true : false}
+                helperText={this.state.values['lastName'] === '' ? 'Last name cannot be empty' : null}
                 variant="outlined"
               />
             </div>

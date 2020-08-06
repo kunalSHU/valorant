@@ -94,8 +94,8 @@ class Location extends Component {
                   this.handleFieldChange('street', event.target.value)
                 }
                 value={values.street}
-                error={this.state.values.['street'] === '' ? true : false}
-                helperText={this.state.values.['street'] === '' ? 'Street cannot be empty' : null}
+                error={this.state.values['street'] === '' ? true : false}
+                helperText={this.state.values['street'] === '' ? 'Street cannot be empty' : null}
                 variant="outlined"
               />
             </div>
@@ -108,8 +108,8 @@ class Location extends Component {
                   this.handleFieldChange('postalCode', event.target.value)
                 }
                 value={values.postalCode}
-                error={this.state.values.['postalCode'] === '' ? true : false}
-                helperText={this.state.values.['postalCode'] === '' ? 'Post code cannot be empty' : null}
+                error={this.state.values['postalCode'] === '' ? true : false}
+                helperText={this.state.values['postalCode'] === '' ? 'Post code cannot be empty' : null}
                 variant="outlined"
               />
               <TextField
@@ -120,8 +120,8 @@ class Location extends Component {
                   this.handleFieldChange('city', event.target.value)
                 }
                 value={values.city}
-                error={this.state.values.['city'] === '' ? true : false}
-                helperText={this.state.values.['city'] === '' ? 'City cannot be empty' : null}
+                error={this.state.values['city'] === '' ? true : false}
+                helperText={this.state.values['city'] === '' ? 'City cannot be empty' : null}
                 variant="outlined"
               />
             </div>

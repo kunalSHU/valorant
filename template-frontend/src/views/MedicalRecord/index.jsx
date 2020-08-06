@@ -37,9 +37,9 @@ class MedicalRecord extends Component {
           >
             <Grid
               item
-              lg={4}
+              lg={6}
               md={6}
-              xl={8}
+              xl={4}
               xs={12}
             >
               <NameGender />
@@ -47,9 +47,9 @@ class MedicalRecord extends Component {
 
             <Grid
               item
-              lg={4}
+              lg={6}
               md={6}
-              xl={8}
+              xl={4}
               xs={12}
             >
               <Location />

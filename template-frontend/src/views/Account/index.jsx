@@ -39,7 +39,7 @@ class Account extends Component {
               item
               lg={4}
               md={6}
-              xl={8}
+              xl={4}
               xs={12}
             >
               <Password />
@@ -49,7 +49,7 @@ class Account extends Component {
               item
               lg={4}
               md={6}
-              xl={8}
+              xl={4}
               xs={12}
             >
               <Export />
@@ -59,7 +59,7 @@ class Account extends Component {
               item
               lg={4}
               md={6}
-              xl={8}
+              xl={4}
               xs={12}
             >
               <Delete />

@@ -28,18 +28,53 @@ class UserList extends Component {
   state = {
     isLoading: false,
     users: [],
-    error: null
+    error: null,
+    sortNameColumDirection: 'desc'
   };
+
+  sortUsers(users, sortDirection) {
+    const sortedUsers = users.sort((a, b) => {
+      var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+      var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+
+    if (sortDirection === 'asc') {
+      return sortedUsers;
+    }
+
+    return sortedUsers.reverse();
+
+  }
+
+  sortNameColumn = () => {
+    console.log(this.state.sortNameColumDirection)
+    let { users, sortNameColumDirection } = this.state;
+
+    if (sortNameColumDirection === 'desc') {
+      this.setState({sortNameColumDirection: 'asc'})
+    } else {
+      this.setState({sortNameColumDirection: 'desc'})
+    }
+
+    this.setState({ users: this.sortUsers(users, this.state.sortNameColumDirection) });
+  }
 
   async getAllUsers() {
     try {
       this.setState({ isLoading: true });
-      const { users } = await getAllUsers();
+      let { users } = await getAllUsers();
 
       if (this.signal) {
         this.setState({
           isLoading: false,
-          users
+          users: this.sortUsers(users, this.state.sortNameColumDirection)
         });
 
         this.fuse = new Fuse(users, {
@@ -103,8 +138,9 @@ class UserList extends Component {
 
     return (
       <UsersTable
-        //
         onSelect={this.handleSelect}
+        sortDirection={this.state.sortNameColumDirection}
+        sortNameColumn={this.sortNameColumn}
         users={users}
       />
     );

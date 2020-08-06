@@ -17,6 +17,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TableSortLabel,
   Typography,
 } from '@material-ui/core';
 
@@ -29,7 +30,7 @@ import styles from './styles';
 
 class UsersTable extends Component {
   render() {
-    const { classes, className, users } = this.props;
+    const { classes, className, users, sortDirection, sortNameColumn } = this.props;
 
     const rootClassName = classNames(classes.root, className);
 
@@ -40,11 +41,19 @@ class UsersTable extends Component {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Name</TableCell>
-                  <TableCell align="left">ID</TableCell>
+                  <TableCell align="left">
+                  <TableSortLabel
+                    active
+                    direction={sortDirection}
+                    onClick={sortNameColumn}
+                  >
+                    Name
+                  </TableSortLabel>  
+                  </TableCell>
+                  <TableCell align="left">Account ID</TableCell>
                   <TableCell align="left">Province</TableCell>
-                  <TableCell align="left">Phone</TableCell>
-                  <TableCell align="left">Registration Date</TableCell>
+                  <TableCell align="left">Phone Number</TableCell>
+                  <TableCell align="left">Postal Code</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -77,7 +86,7 @@ class UsersTable extends Component {
                         {user.phone}
                       </TableCell>
                       <TableCell className={classes.tableCell}>
-                        {moment(user.createdAt).format('DD/MM/YYYY')}
+                        {user.address.zipCode}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -95,6 +104,8 @@ UsersTable.propTypes = {
   classes: PropTypes.object.isRequired,
   onSelect: PropTypes.func,
   onShowDetails: PropTypes.func,
+  sortNameColumn: PropTypes.func,
+  sortDirection: PropTypes.string.isRequired,
   users: PropTypes.array.isRequired
 };
 

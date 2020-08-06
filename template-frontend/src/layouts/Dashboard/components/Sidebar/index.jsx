@@ -21,18 +21,44 @@ import {
 // Material icons
 import {
   InfoOutlined as InfoIcon,
-  SettingsOutlined as SettingsIcon,
-  EventAvailableOutlined as EventAvailableIcon,
+  EventAvailableOutlined as AppointmentsIcon,
   AssignmentIndOutlined as MedicalRecordIcon,
-  FaceOutlined as AccountIcon
+  FaceOutlined as AccountIcon,
+  GroupOutlined as UsersIcon
 } from '@material-ui/icons';
 
 // Component styles
 import styles from './styles';
 
+const dashboardListItemsByRoles = {
+  patient: [ 
+    { linkTo: '/dashboard', icon: <AppointmentsIcon/>, linkText: 'Appointments' },
+    { linkTo: '/account', icon: <AccountIcon/>, linkText: 'Account' },
+    { linkTo: '/record', icon: <MedicalRecordIcon/>, linkText: 'Medical Record' },
+  ],
+  receptionist: [ 
+    { linkTo: '/dashboard', icon: <AppointmentsIcon/>, linkText: 'Appointments' },
+    { linkTo: '/users', icon: <UsersIcon/>, linkText: 'Users' },
+  ],
+  doctor: [ 
+    { linkTo: '/dashboard', icon: <AppointmentsIcon/>, linkText: 'Appointments' },
+  ],
+}
+
 class Sidebar extends Component {
+  state = {
+    role: 'receptionist'
+  };
+
+  componentDidMount() {
+    localStorage.setItem('role', 'receptionist')
+    this.setState({ role: localStorage.getItem('role') });
+  }
+  
   render() {
     const { classes, className } = this.props;
+
+    const { role } = this.state;
 
     const rootClassName = classNames(classes.root, className);
 
@@ -53,54 +79,28 @@ class Sidebar extends Component {
 
         <Divider className={classes.logoDivider} />
         
-        <List
-          component="div"
-          disablePadding
-        >
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/dashboard"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <EventAvailableIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Appointments"
-            />
-          </ListItem>
-
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/account"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <AccountIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Account"
-            />
-          </ListItem>
-          
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/record"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <MedicalRecordIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Medical Record"
-            />
-          </ListItem>
+        <List component="div" disablePadding>
+          {
+            dashboardListItemsByRoles[role].map((listItem, i) => {
+              return (
+                <ListItem
+                  activeClassName={classes.activeListItem}
+                  className={classes.listItem}
+                  component={NavLink}
+                  key={i}
+                  to={listItem.linkTo}
+                >
+                  <ListItemIcon className={classes.listItemIcon}>
+                    {listItem.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    classes={{ primary: classes.listItemText }}
+                    primary={listItem.linkText}
+                  />
+                </ListItem> 
+              )
+            })
+          }
         </List>
 
         <Divider className={classes.listDivider} />

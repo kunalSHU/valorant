@@ -83,7 +83,7 @@ class Location extends Component {
         </PortletHeader>
         <PortletContent noPadding>
           <form
-            autoComplete
+            autoComplete="off"
           >
             <div className={classes.field}>
               <TextField

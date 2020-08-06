@@ -13,7 +13,7 @@ import { SearchInput } from '../../../../../../components';
 // Component styles
 import styles from './styles';
 
-class UsersToolbar extends Component {
+class ConditionsToolbar extends Component {
   render() {
     const { classes, className, searchUser } = this.props;
 
@@ -34,10 +34,10 @@ class UsersToolbar extends Component {
   }
 }
 
-UsersToolbar.propTypes = {
+ConditionsToolbar.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   searchUser: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(UsersToolbar);
+export default withStyles(styles)(ConditionsToolbar);

@@ -10,5 +10,11 @@ export default theme => ({
     paddingBottom: '24px',
     display: 'flex',
     justifyContent: 'center'
-  }
+  },
+  title: {
+    marginBottom: theme.spacing(1)
+  },
+  toolbar: {
+    flex: '1'
+  },
 });

@@ -10,19 +10,16 @@ import { withStyles } from '@material-ui/core';
 // Material components
 import { CircularProgress, Typography } from '@material-ui/core';
 
-// Shared layouts
-import { Dashboard as DashboardLayout } from '../../../../layouts';
-
 // Shared services
 import { getAllUsers } from '../../../../services/user';
 
 // Custom components
-import { UsersToolbar, UsersTable } from './components';
+import { ConditionsToolbar, ConditionsTable } from './components';
 
 // Component styles
 import styles from './style';
 
-class UserList extends Component {
+class ConditionsList extends Component {
   signal = true;
 
   state = {
@@ -136,7 +133,7 @@ class UserList extends Component {
     }
 
     return (
-      <UsersTable
+      <ConditionsTable
         onSelect={this.handleSelect}
         sortDirection={this.state.sortNameColumDirection}
         sortNameColumn={this.sortNameColumn}
@@ -150,16 +147,19 @@ class UserList extends Component {
 
     return (
       <div className={classes.root}>
-        <UsersToolbar searchUser={event => this.searchUser(event.target.value)}/>
+        <Typography className={classes.title} component="div" variant="h4">
+          Conditions, Allergies, and Illnesses
+        </Typography>
+        <ConditionsToolbar className={classes.toolbar} searchUser={event => this.searchUser(event.target.value)}/>
         <div className={classes.content}>{this.renderUsers()}</div>
       </div>
     );
   }
 }
 
-UserList.propTypes = {
+ConditionsList.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(UserList);
+export default withStyles(styles)(ConditionsList);

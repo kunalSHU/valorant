@@ -27,7 +27,7 @@ import { Portlet, PortletContent } from '../../../../../../components';
 // Component styles
 import styles from './styles';
 
-class UsersTable extends Component {
+class ConditionsTable extends Component {
   render() {
     const { classes, className, users, sortDirection, sortNameColumn } = this.props;
 
@@ -98,7 +98,7 @@ class UsersTable extends Component {
   }
 }
 
-UsersTable.propTypes = {
+ConditionsTable.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   onSelect: PropTypes.func,
@@ -108,10 +108,10 @@ UsersTable.propTypes = {
   users: PropTypes.array.isRequired
 };
 
-UsersTable.defaultProps = {
+ConditionsTable.defaultProps = {
   users: [],
   onSelect: () => {},
   onShowDetails: () => {}
 };
 
-export default withStyles(styles)(UsersTable);
+export default withStyles(styles)(ConditionsTable);

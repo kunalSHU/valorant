@@ -255,15 +255,6 @@ class SignUp extends Component {
             lg={7}
             xs={12}
           >
-            <div className={classes.content}>
-              <div className={classes.contentHeader}>
-                <IconButton
-                  className={classes.backButton}
-                  onClick={this.handleBack}
-                >
-                  <ArrowBackIcon />
-                </IconButton>
-              </div>
               <div className={classes.contentBody}>
                 <form className={classes.form}>
                   <Typography
@@ -336,7 +327,6 @@ class SignUp extends Component {
                   </Typography>
                 </form>
               </div>
-            </div>
           </Grid>
         </Grid>
       </div>

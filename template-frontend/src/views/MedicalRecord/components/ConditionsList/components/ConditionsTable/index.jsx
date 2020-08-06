@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 // Externals
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // Material helpers
@@ -23,12 +22,12 @@ import {
 
 
 // Shared components
-import { Portlet, PortletContent } from '../../../../components';
+import { Portlet, PortletContent } from '../../../../../../components';
 
 // Component styles
 import styles from './styles';
 
-class UsersTable extends Component {
+class ConditionsTable extends Component {
   render() {
     const { classes, className, users, sortDirection, sortNameColumn } = this.props;
 
@@ -99,20 +98,20 @@ class UsersTable extends Component {
   }
 }
 
-UsersTable.propTypes = {
+ConditionsTable.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   onSelect: PropTypes.func,
   onShowDetails: PropTypes.func,
-  sortNameColumn: PropTypes.func,
   sortDirection: PropTypes.string.isRequired,
+  sortNameColumn: PropTypes.func,
   users: PropTypes.array.isRequired
 };
 
-UsersTable.defaultProps = {
+ConditionsTable.defaultProps = {
   users: [],
   onSelect: () => {},
   onShowDetails: () => {}
 };
 
-export default withStyles(styles)(UsersTable);
+export default withStyles(styles)(ConditionsTable);

@@ -42,7 +42,7 @@ class Dashboard extends Component {
               item
               lg={12}
               md={12}
-              xl={9}
+              xl={12}
               xs={12}
             >
               <AppointmentsTable className={classes.item} />

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 // Externals
@@ -20,6 +20,13 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
+import ReactSnackBar from "react-js-snackbar";
+import { Formik} from 'formik';
+import * as Yup from 'yup';
+import {Form} from 'antd'
+import {Card, CardContent, MenuItem, Divider, TableFooter} from '@material-ui/core';
+import axios from 'axios';
+
 
 // Material icons
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
@@ -43,6 +50,37 @@ const signUp = () => {
     }, 1500);
   });
 };
+
+const FormItem = Form.Item;
+const lowercaseRegex = /(?=.*[a-z])/;
+const uppercaseRegex = /(?=.*[A-Z])/;
+const numericRegex = /(?=.*[0-9])/;
+const specialCharacterRegex = /(?=.[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?])/;
+
+const validationSchema  = Yup.object({
+  email: Yup
+  .string()
+  .label("Email")
+  .email()
+  .required("Required"),
+  password: Yup
+  .string()
+  .label("Password")
+  .required("Required")
+  .min(6, "Password must be atleast 6 characters")
+  .max(128, "Maximum password length is 128 characters, please shorten it")
+  .matches(lowercaseRegex, 'Atleast one lowercase letter required')
+  .matches(uppercaseRegex, 'Atleast one uppercase letter required')
+  .matches(numericRegex, 'Atleast one number required')
+  .matches(specialCharacterRegex, 'Atleast one special character required'),
+  confirmPassword: Yup
+  .string()
+  .required()
+  .label("Confirm Password")
+  .test("password-match", "Passwords do not match", function(value) {
+      return this.parent.password === value;
+  })
+})
 
 class SignUp extends Component {
   state = {
@@ -69,8 +107,29 @@ class SignUp extends Component {
     },
     isValid: false,
     isLoading: false,
-    submitError: null
+    submitError: null,
+    Show: false,
+    Showing: false
   };
+
+
+  emailError = (errEmail) => {
+    return(
+        <p style={{color:"red"}}>{errEmail}</p>
+    )
+  }
+
+  confirmPasswordError = (errconfirmPassword) => {
+      return(
+          <p style={{color:"red"}}>{errconfirmPassword}</p>
+      )
+  }
+
+  passwordError = (errPassword) => {
+      return(
+          <p style={{color:"red"}}>{errPassword}</p>
+      )
+  }
 
   handleBack = () => {
     const { history } = this.props;
@@ -100,28 +159,36 @@ class SignUp extends Component {
     this.setState(newState, this.validateForm);
   };
 
-  handleSignUp = async () => {
-    try {
-      const { history } = this.props;
-      const { values } = this.state;
+  submitValues = (data) => {
+    const { history } = this.props;
 
-      this.setState({ isLoading: true });
-
-      await signUp({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        password: values.password
-      });
-
-      history.push('/sign-in');
-    } catch (error) {
-      this.setState({
-        isLoading: false,
-        serviceError: error
-      });
-    }
-  };
+    axios.get(`http://142.1.46.70:8086/account/find?email=${data.email}`)
+    .then((response) => {
+        if(Object.keys(response.data.data.foundAccount).length===0){
+            axios.post('http://142.1.46.70:8086/account/create', {
+                emailAddress: data.email,
+                password: data.password
+            })
+            .then((response) => {
+                console.log(response)
+                
+                this.setState({ Show: true, Showing: true });
+                setTimeout(() => {
+                    this.setState({ Show: false, Showing: false });
+                }, 2500);  
+                setTimeout(() => {
+                    history.push('/sign-in')
+                }, 1000);  
+            }, (error) => {
+                console.log(error);
+            });
+        }
+        else {
+            alert('Account with that email address already exists!');
+        }
+    })  
+    return;
+  }
 
   render() {
     const { classes } = this.props;
@@ -162,8 +229,8 @@ class SignUp extends Component {
                   className={classes.quoteText}
                   variant="h1"
                 >
-                  Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
-                  they sold out High Life.
+                  Valorant
+                  
                 </Typography>
                 <div className={classes.person}>
                   <Typography
@@ -188,15 +255,6 @@ class SignUp extends Component {
             lg={7}
             xs={12}
           >
-            <div className={classes.content}>
-              <div className={classes.contentHeader}>
-                <IconButton
-                  className={classes.backButton}
-                  onClick={this.handleBack}
-                >
-                  <ArrowBackIcon />
-                </IconButton>
-              </div>
               <div className={classes.contentBody}>
                 <form className={classes.form}>
                   <Typography
@@ -211,133 +269,50 @@ class SignUp extends Component {
                   >
                     Use your work email to create new account... it's free.
                   </Typography>
-                  <div className={classes.fields}>
-                    <TextField
-                      className={classes.textField}
-                      label="First name"
-                      name="firstName"
-                      onChange={event =>
-                        this.handleFieldChange('firstName', event.target.value)
-                      }
-                      value={values.firstName}
-                      variant="outlined"
-                    />
-                    {showFirstNameError && (
-                      <Typography
-                        className={classes.fieldError}
-                        variant="body2"
-                      >
-                        {errors.firstName[0]}
-                      </Typography>
-                    )}
-                    <TextField
-                      className={classes.textField}
-                      label="Last name"
-                      onChange={event =>
-                        this.handleFieldChange('lastName', event.target.value)
-                      }
-                      value={values.lastName}
-                      variant="outlined"
-                    />
-                    {showLastNameError && (
-                      <Typography
-                        className={classes.fieldError}
-                        variant="body2"
-                      >
-                        {errors.lastName[0]}
-                      </Typography>
-                    )}
-                    <TextField
-                      className={classes.textField}
-                      label="Email address"
-                      name="email"
-                      onChange={event =>
-                        this.handleFieldChange('email', event.target.value)
-                      }
-                      value={values.email}
-                      variant="outlined"
-                    />
-                    {showEmailError && (
-                      <Typography
-                        className={classes.fieldError}
-                        variant="body2"
-                      >
-                        {errors.email[0]}
-                      </Typography>
-                    )}
-                    <TextField
-                      className={classes.textField}
-                      label="Password"
-                      onChange={event =>
-                        this.handleFieldChange('password', event.target.value)
-                      }
-                      type="password"
-                      value={values.password}
-                      variant="outlined"
-                    />
-                    {showPasswordError && (
-                      <Typography
-                        className={classes.fieldError}
-                        variant="body2"
-                      >
-                        {errors.password[0]}
-                      </Typography>
-                    )}
-                    <div className={classes.policy}>
-                      <Checkbox
-                        checked={values.policy}
-                        className={classes.policyCheckbox}
-                        color="primary"
-                        name="policy"
-                        onChange={() =>
-                          this.handleFieldChange('policy', !values.policy)
-                        }
-                      />
-                      <Typography
-                        className={classes.policyText}
-                        variant="body1"
-                      >
-                        I have read the &nbsp;
-                        <Link
-                          className={classes.policyUrl}
-                          to="#"
-                        >
-                          Terms and Conditions
-                        </Link>
-                        .
-                      </Typography>
-                    </div>
-                    {showPolicyError && (
-                      <Typography
-                        className={classes.fieldError}
-                        variant="body2"
-                      >
-                        {errors.policy[0]}
-                      </Typography>
-                    )}
-                  </div>
-                  {submitError && (
-                    <Typography
-                      className={classes.submitError}
-                      variant="body2"
-                    >
-                      {submitError}
-                    </Typography>
-                  )}
-                  {isLoading ? (
-                    <CircularProgress className={classes.progress} />
-                  ) : (
-                    <Button
-                      className={classes.signUpButton}
-                      color="primary"
-                      disabled={!isValid}
-                      onClick={this.handleSignUp}
-                      size="large"
-                      variant="contained"
-                    >
-                      Sign up now
-                    </Button>
-                  )}
+                  <ReactSnackBar Icon={<span></span>} Show={this.state.Show}>
+                    Registered Successfully!
+                </ReactSnackBar>
+ 
+                    <CardContent>
+
+                        <Formik initialValues={{email:"", password:"", confirmPassword:""}} 
+                    validationSchema={validationSchema} onSubmit={(data) => {this.submitValues(data)}} validator={() => ({})}>
+
+                        {({handleSubmit, handleChange, handleBlur, values, errors, touched, dirty, isValid}) => (
+                            <Fragment>
+                            <form onSubmit={handleSubmit}>
+                                
+                                <Grid item>
+                                    <TextField className={classes.textField} type="text" helperText={touched.email && errors.email ? this.emailError(errors.email) : ""}
+                                        onChange={handleChange} onBlur={handleBlur} value={values.email} 
+                                        name="email"variant="outlined" placeholder="Email" label="Email"
+                                        margin="dense"/>
+                                </Grid>
+                                <Grid item>
+                                    <TextField className={classes.textField} type="password" helperText={touched.password && errors.password ? this.passwordError(errors.password) : ""}
+                                        onChange={handleChange} onBlur={handleBlur} value={values.password} 
+                                        name="password" variant="outlined" placeholder="Password" label="Password"
+                                        margin="dense"/>
+                                </Grid>
+                                <Grid item>
+                                    <TextField className={classes.textField} type="password" onChange={handleChange} helperText={touched.confirmPassword && errors.confirmPassword ? this.confirmPasswordError(errors.confirmPassword) : ""}
+                                        onBlur={handleBlur} value={values.confirmPassword} 
+                                        name="confirmPassword" variant="outlined" placeholder="Confirm Password" label="Confirm Password"
+                                        margin="dense"/>
+                                </Grid>
+                            </form>
+                            <br></br>
+                            <Button variant="contained" color="primary" className={classes.signUpButton}
+                                disabled={!dirty || errors.email || errors.password || errors.confirmPassword} 
+                                onClick={handleSubmit}>
+                                Submit
+                            </Button>
+                            </Fragment>
+ 
+                        )}
+                        </Formik>
+     
+                    </CardContent>
                   <Typography
                     className={classes.signIn}
                     variant="body1"
@@ -352,7 +327,6 @@ class SignUp extends Component {
                   </Typography>
                 </form>
               </div>
-            </div>
           </Grid>
         </Grid>
       </div>

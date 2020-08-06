@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // Externals
 import PropTypes from 'prop-types';
+import Fuse from 'fuse.js';
 
 // Material helpers
 import { withStyles } from '@material-ui/core';
@@ -13,7 +14,7 @@ import { CircularProgress, Typography } from '@material-ui/core';
 import { Dashboard as DashboardLayout } from '../../layouts';
 
 // Shared services
-import { getUsers } from '../../services/user';
+import { getAllUsers } from '../../services/user';
 
 // Custom components
 import { UsersToolbar, UsersTable } from './components';
@@ -26,25 +27,59 @@ class UserList extends Component {
 
   state = {
     isLoading: false,
-    limit: 10,
     users: [],
-    selectedUsers: [],
-    error: null
+    error: null,
+    sortNameColumDirection: 'desc'
   };
 
-  async getUsers() {
+  sortUsers(users, sortDirection) {
+    const sortedUsers = users.sort((a, b) => {
+      var nameA = a.name.toUpperCase(); // ignore upper and lowercase
+      var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+
+    if (sortDirection === 'asc') {
+      return sortedUsers;
+    }
+
+    return sortedUsers.reverse();
+
+  }
+
+  sortNameColumn = () => {
+    let { users, sortNameColumDirection } = this.state;
+
+    if (sortNameColumDirection === 'desc') {
+      this.setState({sortNameColumDirection: 'asc'})
+    } else {
+      this.setState({sortNameColumDirection: 'desc'})
+    }
+
+    this.setState({ users: this.sortUsers(users, this.state.sortNameColumDirection) });
+  }
+
+  async getAllUsers() {
     try {
       this.setState({ isLoading: true });
-
-      const { limit } = this.state;
-
-      const { users } = await getUsers(limit);
+      let { users } = await getAllUsers();
 
       if (this.signal) {
         this.setState({
           isLoading: false,
-          users
+          users: this.sortUsers(users, this.state.sortNameColumDirection)
         });
+
+        this.fuse = new Fuse(users, {
+          keys:['name', 'id', 'phone', 'street', 'zipCode', 'city']
+        })
+
       }
     } catch (error) {
       if (this.signal) {
@@ -58,16 +93,27 @@ class UserList extends Component {
 
   componentDidMount() {
     this.signal = true;
-    this.getUsers();
+    this.getAllUsers();
   }
 
   componentWillUnmount() {
     this.signal = false;
   }
 
-  handleSelect = selectedUsers => {
-    this.setState({ selectedUsers });
-  };
+  async searchUser(searchQuery) {
+    // Show all users if list is empty
+    // TODO fetching all users again on empty profileName search, cache users locally (pref improvement)
+    if (searchQuery === '') {
+      const { users } = await getAllUsers();
+      this.setState({ users });
+      return;
+    } else {
+      const users = this.fuse.search(searchQuery);
+      const filteredUsers = users.map(user => user.item);
+      this.setState({ users:filteredUsers });
+      return;
+    }
+  }
 
   renderUsers() {
     const { classes } = this.props;
@@ -91,8 +137,9 @@ class UserList extends Component {
 
     return (
       <UsersTable
-        //
         onSelect={this.handleSelect}
+        sortDirection={this.state.sortNameColumDirection}
+        sortNameColumn={this.sortNameColumn}
         users={users}
       />
     );
@@ -100,12 +147,11 @@ class UserList extends Component {
 
   render() {
     const { classes } = this.props;
-    const { selectedUsers } = this.state;
 
     return (
       <DashboardLayout title="Users">
         <div className={classes.root}>
-          <UsersToolbar selectedUsers={selectedUsers} />
+          <UsersToolbar searchUser={event => this.searchUser(event.target.value)}/>
           <div className={classes.content}>{this.renderUsers()}</div>
         </div>
       </DashboardLayout>

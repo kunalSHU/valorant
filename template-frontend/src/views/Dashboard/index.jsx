@@ -14,11 +14,7 @@ import { Dashboard as DashboardLayout } from '../../layouts';
 
 // Custom components
 import {
-  Budget,
-  Users,
-  Progress,
-  Profit,
-  OrdersTable
+  AppointmentsTable
 } from './components';
 
 // Component styles
@@ -46,46 +42,10 @@ class Dashboard extends Component {
               item
               lg={12}
               md={12}
-              xl={9}
+              xl={12}
               xs={12}
             >
-              <OrdersTable className={classes.item} />
-            </Grid>
-            <Grid
-              item
-              lg={3}
-              sm={6}
-              xl={3}
-              xs={12}
-            >
-              <Budget className={classes.item} />
-            </Grid>
-            <Grid
-              item
-              lg={3}
-              sm={6}
-              xl={3}
-              xs={12}
-            >
-              <Users className={classes.item} />
-            </Grid>
-            <Grid
-              item
-              lg={3}
-              sm={6}
-              xl={3}
-              xs={12}
-            >
-              <Progress className={classes.item} />
-            </Grid>
-            <Grid
-              item
-              lg={3}
-              sm={6}
-              xl={3}
-              xs={12}
-            >
-              <Profit className={classes.item} />
+              <AppointmentsTable className={classes.item} />
             </Grid>
           </Grid>
         </div>

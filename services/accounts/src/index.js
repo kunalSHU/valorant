@@ -61,8 +61,8 @@ const root = {
         birthdate: birthdate,
         date_became_patient: date_became_patient,
         gender: gender
-      })//.then((data) => console.log(data))
-        //.catch((err) => console.log(err))
+      }).then((data) => console.log(data))
+        .catch((err) => console.log(err))
     }
 };
 

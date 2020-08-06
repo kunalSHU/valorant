@@ -27,10 +27,7 @@ class Delete extends Component {
     const rootClassName = classNames(classes.root, className);
 
     return (
-      <Portlet
-        {...rest}
-        className={rootClassName}
-      >
+      <Portlet {...rest} className={rootClassName}>
         <PortletHeader>
           <PortletLabel
             subtitle="Delete your account"
@@ -38,11 +35,7 @@ class Delete extends Component {
           />
         </PortletHeader>
         <PortletContent />
-          <Button
-            className={classes.deleteButton}
-            color="danger"
-            variant="outlined"
-          >
+          <Button className={classes.deleteButton} variant="outlined">
             Delete
           </Button>
       </Portlet>

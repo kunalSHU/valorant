@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import validate from 'validate.js';
 import _ from 'underscore';
+import axios from 'axios';
+// import history from '../history'
 
 // Material helpers
 import { withStyles } from '@material-ui/core';
@@ -22,9 +24,6 @@ import {
 
 // Material icons
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
-
-// Shared components
-import { Facebook as FacebookIcon, Google as GoogleIcon } from '../../icons';
 
 // Component styles
 import styles from './styles';
@@ -89,24 +88,27 @@ class SignIn extends Component {
   };
 
   handleSignIn = async () => {
-    try {
       const { history } = this.props;
       const { values } = this.state;
-
-      this.setState({ isLoading: true });
-
-      await signIn(values.email, values.password);
-
-      localStorage.setItem('isAuthenticated', true);
-
-      history.push('/dashboard');
-    } catch (error) {
-      this.setState({
-        isLoading: false,
-        serviceError: error
+      axios.post('http://142.1.46.70:8086/account/auth', {
+        emailAddress: values.email,
+        password: values.password
+      })
+      .then((response) => {
+        //account exists
+        console.log(response)
+        localStorage.setItem('isAuthenticated', true);
+        history.push('/dashboard')
+        this.setState({ isLoading: true });
+      })
+      .catch ((error) => {
+        alert('Incorrect login credentials');
+        this.setState({
+          isLoading: false,
+          serviceError: error
+        });
       });
-    }
-  };
+  }
 
   render() {
     const { classes } = this.props;
@@ -134,29 +136,7 @@ class SignIn extends Component {
             lg={5}
           >
             <div className={classes.quote}>
-              <div className={classes.quoteInner}>
-                <Typography
-                  className={classes.quoteText}
-                  variant="h1"
-                >
-                  Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
-                  they sold out High Life.
-                </Typography>
-                <div className={classes.person}>
-                  <Typography
-                    className={classes.name}
-                    variant="body1"
-                  >
-                    Takamaru Ayako
-                  </Typography>
-                  <Typography
-                    className={classes.bio}
-                    variant="body2"
-                  >
-                    Manager at inVision
-                  </Typography>
-                </div>
-              </div>
+              
             </div>
           </Grid>
           <Grid
@@ -182,27 +162,12 @@ class SignIn extends Component {
                   >
                     Sign in
                   </Typography>
-                  <Typography
-                    className={classes.subtitle}
-                    variant="body1"
-                  >
-                    Sign in with social media
-                  </Typography>
-                  <Button className={classes.facebookButton} color="primary"
-                    onClick={this.handleSignIn} size="large" variant="contained"
-                  >
-                    <FacebookIcon className={classes.facebookIcon} />
-                    Login with Facebook
-                  </Button>
-                  <Button className={classes.googleButton} onClick={this.handleSignIn} size="large" variant="contained">
-                    <GoogleIcon className={classes.googleIcon} />
-                    Login with Google
-                  </Button>
+                
                   <Typography
                     className={classes.sugestion}
                     variant="body1"
                   >
-                    or login with email address
+                    Login with email address
                   </Typography>
                   <div className={classes.fields}>
                     <TextField className={classes.textField} label="Email address" name="email"

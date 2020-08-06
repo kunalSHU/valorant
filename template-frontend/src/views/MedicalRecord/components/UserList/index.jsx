@@ -11,10 +11,10 @@ import { withStyles } from '@material-ui/core';
 import { CircularProgress, Typography } from '@material-ui/core';
 
 // Shared layouts
-import { Dashboard as DashboardLayout } from '../../layouts';
+import { Dashboard as DashboardLayout } from '../../../../layouts';
 
 // Shared services
-import { getAllUsers } from '../../services/user';
+import { getAllUsers } from '../../../../services/user';
 
 // Custom components
 import { UsersToolbar, UsersTable } from './components';
@@ -149,12 +149,10 @@ class UserList extends Component {
     const { classes } = this.props;
 
     return (
-      <DashboardLayout title="Users">
-        <div className={classes.root}>
-          <UsersToolbar searchUser={event => this.searchUser(event.target.value)}/>
-          <div className={classes.content}>{this.renderUsers()}</div>
-        </div>
-      </DashboardLayout>
+      <div className={classes.root}>
+        <UsersToolbar searchUser={event => this.searchUser(event.target.value)}/>
+        <div className={classes.content}>{this.renderUsers()}</div>
+      </div>
     );
   }
 }

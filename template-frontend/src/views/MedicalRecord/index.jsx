@@ -13,7 +13,7 @@ import { Grid } from '@material-ui/core';
 import { Dashboard as DashboardLayout } from '../../layouts';
 
 // Custom components
-import { NameGender, Location } from './components';
+import { NameGender, Location, UserList } from './components';
 
 // Component styles
 const styles = theme => ({
@@ -53,6 +53,16 @@ class MedicalRecord extends Component {
               xs={12}
             >
               <Location />
+            </Grid>
+
+            <Grid
+              item
+              lg={12}
+              md={12}
+              xl={12}
+              xs={12}
+            >
+              <UserList />
             </Grid>
           </Grid>
         </div>

@@ -52,7 +52,7 @@ const statusColors = {
   refund: 'danger'
 };
 
-class OrdersTable extends Component {
+class AppointmentsTable extends Component {
   signal = false;
 
   state = {
@@ -223,9 +223,9 @@ class OrdersTable extends Component {
   }
 }
 
-OrdersTable.propTypes = {
+AppointmentsTable.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(OrdersTable);
+export default withStyles(styles)(AppointmentsTable);

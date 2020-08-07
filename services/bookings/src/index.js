@@ -1,42 +1,26 @@
 const express = require('express');
 const express_graphql = require('express-graphql');
-const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
-const { Client } = require('pg');
 
-const PORT = process.env.APP_PORT || 8085;
+const PORT = 8081;
 // GraphQL schema
-const schema = buildSchema(`
-type Query {
-        message: String
-    }
-`);
+const schema = require('./schema');
 
-const credentials = require('../client-model');
-credentials.database = 'bookings_db';
-const client = new Client(credentials);
-
-// Will query the tables here
-const queryFunction = function () {
-  client
-    .connect()
-    .then(() => {
-      console.log('Connected Successfully');
-    })
-    .then(() => client.query('SELECT * FROM bookings_info.appointments_info_basic_tbl'))
-    .then((result) => {
-      console.table(result.rows);
-    })
-    .catch((e) => console.log(e))
-    .finally(() => client.end());
-};
-
-// timeout used so connection to db happens after it is started
-setTimeout(queryFunction, 5000);
+// const Knex = require("knex");
+// const knex = Knex({
+//   client: 'pg',
+//   connection: { 
+//     host: '142.1.46.70', 
+//     user: 'postgres', 
+//     password: 'postgres', 
+//     database: 'patient_db', 
+//     port: 8088
+//     },
+// });
 
 // Root resolver
 const root = {
-  message: () => 'Hello World!'
+  message: () => 'Hello this is the booking service connecting to the bookings and appointments db!',
 };
 
 // Create an express server and a GraphQL endpoint

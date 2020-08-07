@@ -2,27 +2,14 @@ import React, { Component } from 'react';
 
 // Externals
 import classNames from 'classnames';
-import moment from 'moment';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-
 // Material helpers
 import { withStyles } from '@material-ui/core';
+import { DateTimePicker } from '@material-ui/pickers';
 
 // Material components
 import {
   Button,
-  CircularProgress,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Tooltip,
-  TableSortLabel, 
-  Modal,
-  Card,
-  CardContent,
   CardActions,
   Typography,
   TextField,
@@ -30,24 +17,15 @@ import {
   Divider,
 } from '@material-ui/core';
 
-import { DateTimePicker } from '@material-ui/pickers'
-
-// import DatePickerField from './DatePickerField/DatePickerField.jsx';
-
-import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 
 import {
-  ArrowForward as ArrowForward
+  DeleteForeverOutlined as DeleteAppointmentIcon
 } from '@material-ui/icons';
 
 // Shared components
 import {
   Portlet,
-  PortletHeader,
-  PortletLabel,
-  PortletToolbar,
   PortletContent,
-  Status
 } from '../../../../../components';
 
 // Component styles
@@ -56,79 +34,105 @@ import styles from './styles';
 class BookAppointment extends Component {
 
   state = {
-    open: true
+    appointmentDate: (new Date()).toISOString(),
+    appointmentNotes: ''
   };
 
-  handleClose = () => {
-    this.setState({ open: false })
+  handleDateChange = (date) => {
+    const pickedAppointmentDate = date.toISOString()
+    this.setState({ appointmentDate: pickedAppointmentDate });
   }
 
-  render() {
-    const { classes, className } = this.props;
-    const rootClassName = classNames(classes.root, className);
+  handleFieldChange = (event) => {
+    this.setState({ appointmentNotes: event.target.value });
+  }
 
-    const { mode } = this.props
+  onAppointmentAdd = () => {
+    const { appointmentDate, appointmentNotes } = this.state;
+    this.props.onAppointmentAdded({ appointmentDate, appointmentNotes })
+  }
+
+  onAppointmentCancel = (event) => {
+    this.props.onCancel();
+  }
+
+  onAppointmentDelete = (event) => {
+
+  }
+
+  onAppointmentUpdate = (event) => {
+
+  }
+
+  // var newDateObj = moment(oldDateObj).add(30, 'm').toDate();
+
+  render() {
+    const { classes, className, mode } = this.props;
+    const rootClassName = classNames(classes.root, className);
 
     return (
       <Portlet className={rootClassName}>
-          <PortletContent
-            className={classes.form}
-            noPadding
-          >
+        <PortletContent className={classes.form} noPadding>
             <Typography align="center" gutterBottom variant="h3">
             {mode === "add" ? "Book Appointment" : "View Appointment"}
           </Typography>
 
           <DateTimePicker
+            className={classes.appointmentDatePicker}
+            disablePast
             inputVariant="outlined"
             label="Appointment Date"
-            // onChange={handleDateChange}
-            value={new Date()}
+            minutesStep={30}
+            onChange={(date) => this.handleDateChange(date)}
+            value={this.state.appointmentDate}
           />
 
           <TextField
             className={classes.field}
             fullWidth
-            label="Notes"
+            label="Additional Notes"
             multiline
             name="title"
+            onChange={this.handleFieldChange}
             rows={5}
             rowsMax={5}
-            // onChange={handleFieldChange}
-            // value={values.title}
+            value={this.state.appointmentNotes}
             variant="outlined"
           />
 
           <Divider />
 
           <CardActions className={classes.actions}>
-            <IconButton edge="start">
-              <DeleteIcon />
-            </IconButton>
-            <Button
-              className={classes.cancelButton}
-              // onClick={onCancel}
-              variant="contained"
-            >
-              Cancel
-            </Button>
             {mode === "add" ? (
               <Button
-                className={classes.confirmButton}
-                // onClick={handleAdd}
-                variant="contained"
+                color="primary"
+                onClick={this.onAppointmentAdd}
+                variant="outlined"
               >
                 Add
               </Button>
             ) : (
               <Button
-                className={classes.confirmButton}
-                // onClick={handleEdit}
+                color="primary"
+                onClick={this.onAppointmentUpdate}
                 variant="contained"
               >
                 Save
               </Button>
             )}
+
+            <Button onClick={this.onAppointmentCancel} variant="outlined">
+              Cancel
+            </Button>
+            
+            <IconButton
+              className={classes.deleteAppointmentButton}
+              edge="start" 
+              onClick={this.onAppointmentDelete}
+            >
+              <DeleteAppointmentIcon />
+            </IconButton>
+
           </CardActions>
 
         </PortletContent>
@@ -139,7 +143,11 @@ class BookAppointment extends Component {
 
 BookAppointment.propTypes = {
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  onAppointmentAdded: PropTypes.func.isRequired,
+  onAppointmentDeleted: PropTypes.func.isRequired,
+  onAppointmentUpdated: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(BookAppointment);

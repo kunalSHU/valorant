@@ -2,7 +2,6 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider, Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import React, { Fragment } from 'react';
-import ReactDOM from 'react-dom'
 import "react-dropdown/style.css";
 import useMutation from "apollo-client";
 import {ProgressBar} from "react-bootstrap"
@@ -94,7 +93,7 @@ class RegisterPage extends React.Component{
             <p style={{color:"red"}}>{errPassword}</p>
         )
     }
-    
+
     submitValues = (data) => {
 
         axios.get(`http://142.1.46.70:8086/account/find?email=${data.email}`)
@@ -128,6 +127,38 @@ class RegisterPage extends React.Component{
     submitValues = (data) => {
 
         axios.get(`http://142.1.46.70:8086/account/find?email=${data.email}`)
+        .then((response) => {
+            if(Object.keys(response.data.data.foundAccount).length===0){
+                axios.post('http://142.1.46.70:8086/account/create', {
+                    emailAddress: data.email,
+                    password: data.password
+                })
+                .then((response) => {
+                    console.log(response)
+                    history.push('/login')
+                    this.setState({ Show: true, Showing: true });
+                    setTimeout(() => {
+                        this.setState({ Show: false, Showing: false });
+                    }, 2500);  
+                    setTimeout(() => {
+                        window.location.reload(false)
+                    }, 1000);  
+                }, (error) => {
+                    console.log(error);
+                });
+            }
+            else {
+                alert('Account with that email address already exists!');
+            }
+        })  
+        return;
+    }
+
+    submitValues = (data) => {
+        axios.post('http://142.1.46.70:8086/account/create', {
+            emailAddress: data.email,
+            password: data.password
+        })
         .then((response) => {
             if(Object.keys(response.data.data.foundAccount).length===0){
                 axios.post('http://142.1.46.70:8086/account/create', {
@@ -180,6 +211,7 @@ class RegisterPage extends React.Component{
                                 <Grid item>
                                     <TextField type="text" helperText={touched.email && errors.email ? this.emailError(errors.email) : ""}
                                         onChange={handleChange} onBlur={handleBlur} value={values.email} 
+
                                         name="email"variant="outlined" placeholder="Email" label="Email"
                                         margin="dense"/>
                                 </Grid>
@@ -218,7 +250,6 @@ class RegisterPage extends React.Component{
      
                     </Grid>
                     </CardContent>
-                
                 </Card> 
     
             </Fragment>

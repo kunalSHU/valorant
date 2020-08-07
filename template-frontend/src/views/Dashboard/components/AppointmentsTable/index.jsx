@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 // Material helpers
 import { withStyles } from '@material-ui/core';
@@ -18,8 +19,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Tooltip,
-  TableSortLabel, 
   Modal
 } from '@material-ui/core';
 
@@ -60,7 +59,7 @@ class AppointmentsTable extends Component {
     limit: 10,
     orders: [],
     ordersTotal: 0,
-    open: false
+    openAddBookingModal: false,
   };
 
   async getOrders(limit) {
@@ -89,6 +88,7 @@ class AppointmentsTable extends Component {
   componentDidMount() {
     this.signal = true;
 
+
     const { limit } = this.state;
 
     this.getOrders(limit);
@@ -99,13 +99,26 @@ class AppointmentsTable extends Component {
   }
   
   onAppointmentClicked = () => {
-    this.setState(prevState => ({
-      open: !prevState.open
-    }));
+    // const history = ;
+    const { history } = this.props;
+    if(history) history.push('/appointments/2');
+  }
+
+  handleAppointmentAdded = (addedAppointmentInfo) => {
+    console.log(addedAppointmentInfo)
+  }
+
+  handleAppointmentDeleted = (appointmentId) => {
+    let { orders } = this.state;
+    // orders.filter(order => )
+  }
+
+  handleAppointmentUpdated = () => {
   }
 
   handleClose = () => {
-    this.setState({ open: false })
+    const newState = { ...this.state };
+    this.setState({ openAddBookingModal: !newState.openAddBookingModal })
   }
 
   render() {
@@ -135,23 +148,23 @@ class AppointmentsTable extends Component {
           </PortletToolbar>
         </PortletHeader>
         <PerfectScrollbar>
-          <PortletContent
-            className={classes.portletContent}
-            noPadding
-          >
-            
+          <PortletContent className={classes.portletContent} noPadding>
 
             {isLoading && (
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
             )}
-            <div>
 
-              <Modal
-                open={this.state.open}
-              >
-                <BookAppointment mode="add" onCancel={this.handleClose}/>
+            <div>
+              <Modal open={this.state.openAddBookingModal}>
+                <BookAppointment 
+                  mode="add"
+                  onAppointmentAdded={this.handleAppointmentAdded}
+                  onAppointmentDeleted={this.handleAppointmentDeleted}
+                  onAppointmentUpdated={this.handleAppointmentUpdated}
+                  onCancel={this.handleClose}
+                />
               </Modal>
 
               {showOrders && (
@@ -160,25 +173,14 @@ class AppointmentsTable extends Component {
                     <TableRow>
                       <TableCell>Appointment ID</TableCell>
                       <TableCell align="left">Doctor</TableCell>
-                      <TableCell
-                        align="left"
-                        sortDirection="desc"
-                      >
-                        <Tooltip
-                          enterDelay={300}
-                          title="Sort"
-                        >
-                          <TableSortLabel
-                            active
-                            direction="desc"
-                          >
-                          Appointment Date
-                          </TableSortLabel>
-                        </Tooltip>
+                      <TableCell align="left">
+                        Appointment Date
                       </TableCell>
                       <TableCell align="left">Time</TableCell>
                       <TableCell align="left">Location</TableCell>
                       <TableCell align="left">Status</TableCell>
+                      {/* Empty cell for arrow */}
+                      <TableCell align="left"><div/></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -187,6 +189,7 @@ class AppointmentsTable extends Component {
                         className={classes.tableRow}
                         hover
                         key={order.id}
+                        onClick={this.onAppointmentClicked}
                       >
                         <TableCell>{order.id}</TableCell>
                         <TableCell className={classes.customerCell}>
@@ -228,4 +231,4 @@ AppointmentsTable.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(AppointmentsTable);
+export default withStyles(styles)(withRouter(AppointmentsTable));

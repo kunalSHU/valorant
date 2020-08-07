@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, Redirect } from 'react-router-dom';
 
 // Externals
 import PropTypes from 'prop-types';
@@ -59,9 +59,19 @@ class SignIn extends Component {
     submitError: null
   };
 
+  componentDidMount() {
+    console.log('here')
+    // Redirect to dashboard if the user is already authenticated (don't show sign-in page again)
+    if (localStorage.getItem('isAuthenticated') === 'true') {
+      const { history } = this.props;
+      history.replace('/dashboard');
+    } else {
+      return;
+    }
+  }
+
   handleBack = () => {
     const { history } = this.props;
-
     history.goBack();
   };
 
@@ -87,6 +97,7 @@ class SignIn extends Component {
     this.setState(newState, this.validateForm);
   };
 
+  // TODO @kunalSHU move logic out of views to services folder (this is tightly coupled)
   handleSignIn = async () => {
       const { history } = this.props;
       const { values } = this.state;
@@ -97,11 +108,12 @@ class SignIn extends Component {
       .then((response) => {
         //account exists
         console.log(response)
-        localStorage.setItem('isAuthenticated', true);
+        localStorage.setItem('isAuthenticated', 'true');
         history.push('/profile')
         this.setState({ isLoading: true });
       })
       .catch ((error) => {
+        localStorage.setItem('isAuthenticated', 'false');
         alert('Incorrect login credentials');
         this.setState({
           isLoading: false,

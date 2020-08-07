@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
+import { PrivateRoute } from './components';
+
 // Views
 import Dashboard from './views/Dashboard';
 import MedicalRecord from './views/MedicalRecord'
@@ -32,7 +34,7 @@ export default class Routes extends Component {
           exact
           path="/dashboard"
         />
-        <Route
+        <PrivateRoute
           component={MedicalRecord}
           exact
           path="/record"

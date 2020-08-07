@@ -113,6 +113,16 @@ class SignUp extends Component {
   };
 
 
+  componentDidMount() {
+    // Redirect to dashboard if the user is already authenticated (don't show sign-up page again)
+    if (localStorage.getItem('isAuthenticated') === 'true') {
+      const { history } = this.props;
+      history.replace('/dashboard');
+    } else {
+      return;
+    }
+  }
+
   emailError = (errEmail) => {
     return(
         <p style={{color:"red"}}>{errEmail}</p>

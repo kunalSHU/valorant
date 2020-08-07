@@ -3,6 +3,8 @@ import axios from "axios";
 // Mock data
 import users from "../../data/users";
 
+// TODO rename folder from user to account
+
 export const getAccountInfoByEmail = email => {
   return new Promise(resolve => {
     setTimeout(() => {

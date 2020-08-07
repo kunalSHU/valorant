@@ -69,7 +69,3 @@ const server = app
   });
 
 module.exports = server;
-<<<<<<< HEAD
-=======
->>>>>>> edead21... Db docker setup (#11)
->>>>>>> f05a466... Rebasing from remote

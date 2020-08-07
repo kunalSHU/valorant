@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 // Material helpers
 import { withStyles } from '@material-ui/core';
+import { DateTimePicker } from '@material-ui/pickers';
 
 // Material components
 import {
@@ -16,7 +17,6 @@ import {
   Divider,
 } from '@material-ui/core';
 
-import { DateTimePicker } from '@material-ui/pickers';
 
 import {
   DeleteForeverOutlined as DeleteAppointmentIcon

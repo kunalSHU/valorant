@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core';
 import { CircularProgress, Typography } from '@material-ui/core';
 
 // Shared services
-import { getAllConditionsByAccountId } from '../../../../services/conditions';
+import { getAllConditionsByAccountId } from '../../../../services/record';
 
 // Custom components
 import { ConditionsToolbar, ConditionsTable } from './components';

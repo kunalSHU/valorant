@@ -18,30 +18,32 @@ import {
   PortletContent,
   PortletFooter,
   Status,
-  CircularProgress,
 } from '../../../../components';
 
 // Component styles
 import styles from './styles';
 
-const sexes = [
+const appointmentStatuses = [
   {
-    value: 'male',
-    label: 'Male'
+    value: 'completed',
+    label: 'Completed'
   },
   {
-    value: 'female',
-    label: 'Female'
+    value: 'cancelled',
+    label: 'Cancelled'
+  },
+  {
+    value: 'inProgress',
+    label: 'In-progress'
   }
 ];
 
-class NameGender extends Component {
+class AppointmentInfo extends Component {
   state = {
     isValid: false,
     values: {
-      firstName: 'John',
-      lastName: 'Doe',
-      sex: sexes[0].label
+      appointmentDate: (new Date()),
+      appointmentStatus: appointmentStatuses[0].label
     },
     empty: {},
     submitSuccess: false
@@ -59,7 +61,7 @@ class NameGender extends Component {
     newState.values[field] = value;
 
     newState.isValid = true;
-    if (newState.values['firstName'] === '' || newState.values['lastName'] === '') {
+    if (newState.values['appointmentDate'] === '') {
       newState.isValid = false;
     }
 
@@ -79,8 +81,8 @@ class NameGender extends Component {
       >
         <PortletHeader>
           <PortletLabel
-            subtitle="Update your name and sex"
-            title="Basic Information"
+            subtitle="Basic information about the appointment"
+            title="Appointment Info"
           />
         </PortletHeader>
         <PortletContent noPadding>
@@ -88,43 +90,28 @@ class NameGender extends Component {
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
-                label="First name"
+                disabled
+                label="Appointment Date"
                 margin="dense"
-                onChange={event =>
-                  this.handleFieldChange('firstName', event.target.value)
-                }
-                value={values.firstName}
-                error={this.state.values['firstName'] === '' ? true : false}
-                helperText={this.state.values['firstName'] === '' ? 'First name cannot be empty' : null}
-                variant="outlined"
-              />
-              <TextField
-                className={classes.textField}
-                label="Last name"
-                margin="dense"
-                onChange={event =>
-                  this.handleFieldChange('lastName', event.target.value)
-                }
-                value={values.lastName}
-                error={this.state.values['lastName'] === '' ? true : false}
-                helperText={this.state.values['lastName'] === '' ? 'Last name cannot be empty' : null}
+                value={values.appointmentDate}
                 variant="outlined"
               />
             </div>
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
-                label="Sex"
+                label="Status"
                 margin="dense"
+                required
                 onChange={event =>
-                  this.handleFieldChange('sex', event.target.value)
+                  this.handleFieldChange('status', event.target.value)
                 }
                 select
                 SelectProps={{ native: true }}
-                value={values.sex}
+                value={values.appoinmentStatus}
                 variant="outlined"
               >
-                {sexes.map(option => (
+                {appointmentStatuses.map(option => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -151,11 +138,11 @@ class NameGender extends Component {
   }
 }
 
-NameGender.propTypes = {
+AppointmentInfo.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
 
 let newStyles;
-[NameGender, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('NameGender', NameGender, styles);
-export default withStyles(newStyles)(NameGender);
+[AppointmentInfo, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('AppointmentInfo', AppointmentInfo, styles);
+export default withStyles(newStyles)(AppointmentInfo);

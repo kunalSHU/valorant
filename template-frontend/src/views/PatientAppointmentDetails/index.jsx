@@ -13,7 +13,7 @@ import { Grid } from '@material-ui/core';
 import { Dashboard as DashboardLayout } from '../../layouts';
 
 // Custom components
-import { NameGender, Location, ConditionsList, WeightTracker, HeightTracker, BloodType, Vitals, Notes } from './components';
+import { BasicInfo, Location, ConditionsList, WeightTracker, HeightTracker, BloodType, Vitals, Notes, AppointmentInfo } from './components';
 
 // Component styles
 const styles = theme => ({
@@ -83,7 +83,17 @@ class PatientAppointmentDetails extends Component {
               xl={4}
               xs={12}
             >
-              <NameGender />
+              <AppointmentInfo />
+            </Grid>
+
+            <Grid
+              item
+              lg={6}
+              md={6}
+              xl={4}
+              xs={12}
+            >
+              <BasicInfo />
             </Grid>
 
             <Grid

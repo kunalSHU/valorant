@@ -52,13 +52,6 @@ const root = {
     medicalCondition: () => knex("bookings_info.allergy_tbl").select("*"),
 };
 
-// timeout used so connection to db happens after it is started
-setTimeout(queryFunction, 5000);
-
-// Root resolver
-const root = {
-  message: () => 'Hello World!'
-};
 
 // Create an express server and a GraphQL endpoint
 const app = express();

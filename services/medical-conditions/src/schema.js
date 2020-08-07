@@ -7,15 +7,15 @@ const schema = buildSchema(`
   }
   type Mutation {
     post(
-    allergyid: Int, 
-    allergyName: String
-    otherFacts: String
+    allergyid: Int 
+    allergyname: String
+    otherfacts: String
     ): medicalCondition!
   }
   type medicalCondition {
-    allergyid: Int, 
-    allergyName: String
-    otherFacts: String
+    allergyid: Int 
+    allergyname: String
+    otherfacts: String
   }
 `);
 

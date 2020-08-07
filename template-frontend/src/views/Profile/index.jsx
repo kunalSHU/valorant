@@ -18,7 +18,6 @@ import { Grid } from '@material-ui/core';
 import { NameGender, Location } from './components';
 import { Button, TextField, Typography } from '@material-ui/core';
 import Stepper from 'react-stepper-horizontal';
-
 // Shared components
 import {
   Portlet,
@@ -65,7 +64,6 @@ class MedicalRecord extends Component {
     const { classes } = this.props;
 
     return (
-      <DashboardLayout title="Medical Record">
         <div className={classes.root}>
           <Grid
             container
@@ -92,7 +90,6 @@ class MedicalRecord extends Component {
             </Grid> : null}
           </Grid>
         </div>
-      </DashboardLayout>
     );
   }
 }

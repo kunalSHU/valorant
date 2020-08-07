@@ -9,6 +9,8 @@ import SignUp from './views/SignUp';
 import SignIn from './views/SignIn';
 import NotFound from './views/NotFound';
 import UserList from 'views/UserList';
+import Profile from 'views/Profile';
+
 import PatientAppointmentDetails from 'views/PatientAppointmentDetails';
 
 export default class Routes extends Component {
@@ -54,6 +56,11 @@ export default class Routes extends Component {
           component={SignUp}
           exact
           path="/sign-up"
+        />
+        <Route
+          component={Profile}
+          exact
+          path="/profile"
         />
         <Route
           component={SignIn}

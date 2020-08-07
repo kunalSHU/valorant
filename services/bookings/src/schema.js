@@ -78,7 +78,64 @@ const schema = buildSchema(`
             dateChecked: String
         ): Boolean!
     }
-    
+
+    type Questionare {
+        questionaireid: Int
+        flu: Boolean
+        sneeze: Boolean
+        shivers: Boolean
+        headache: Boolean
+        jointPain: Boolean
+        troubleSleeping: Boolean
+        shortnessOfBreath: Boolean
+        nausea: Boolean
+    }
+
+    type Medication {
+        medicationid: Int
+        medicationName: String 
+        medicationCost: Float
+        manufacturer: String
+        form: String
+        pack: String
+        otherDetails: String
+    }
+
+    type Vital {
+        vitalid: Int
+        userid: Int
+        bloodpressure: String
+        bloodtype: String
+        height: String
+        weight: String
+        dateChecked: String
+    }
+
+    type Appointment {
+        appointmentid: Int
+        userid: Int
+        questionaireId: Int
+        doctorid: Int
+        created_at: String
+        begins_at: String
+        ends_at: String
+        appt_type: String
+        status_appt: String
+    }
+
+    type PrescribedMedication {
+        appointmentid: Int
+        medicationid: Int
+        date_issued: String
+        quantity: Int
+        derivedCost: Float
+    }
+
+    type Allergy {
+        allergyid: Int
+        allergyName: String
+        otherFacts: String
+    }
 
 `);
 module.exports = schema;

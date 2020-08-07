@@ -9,6 +9,7 @@ import SignUp from './views/SignUp';
 import SignIn from './views/SignIn';
 import NotFound from './views/NotFound';
 import UserList from 'views/UserList';
+import PatientAppointmentDetails from 'views/PatientAppointmentDetails';
 
 export default class Routes extends Component {
   render() {
@@ -17,6 +18,11 @@ export default class Routes extends Component {
         <Redirect
           exact
           from="/"
+          to="/dashboard"
+        />
+        <Redirect
+          exact
+          from="/appointments"
           to="/dashboard"
         />
         <Route
@@ -33,6 +39,11 @@ export default class Routes extends Component {
           component={Account}
           exact
           path="/account"
+        />
+        <Route
+          component={PatientAppointmentDetails}
+          exact
+          path="/appointments/:id"
         />
         <Route
           component={UserList}

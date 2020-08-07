@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 // Material helpers
-import { withStyles } from '@material-ui/core';
+import { withStyles, InputAdornment } from '@material-ui/core';
 
 // Material components
 import { Button, TextField, Typography } from '@material-ui/core';
@@ -24,24 +24,48 @@ import {
 // Component styles
 import styles from './styles';
 
-const sexes = [
+const bloodTypes = [
   {
-    value: 'male',
-    label: 'Male'
+    value: 'o+',
+    label: 'O+'
   },
   {
-    value: 'female',
-    label: 'Female'
-  }
+    value: 'o-',
+    label: 'O-'
+  },
+  {
+    value: 'a+',
+    label: 'A+'
+  },
+  {
+    value: 'a-',
+    label: 'A-'
+  },
+  {
+    value: 'b+',
+    label: 'B+'
+  },
+  {
+    value: 'b-',
+    label: 'B-'
+  },
+  {
+    value: 'ab+',
+    label: 'AB+'
+  },
+  {
+    value: 'ab-',
+    label: 'AB-'
+  },
 ];
 
-class NameGender extends Component {
+class Vitals extends Component {
   state = {
     isValid: false,
     values: {
-      firstName: 'John',
-      lastName: 'Doe',
-      sex: sexes[0].label
+      weight: '173',
+      height: '180',
+      bloodType: bloodTypes[0].label
     },
     empty: {},
     submitSuccess: false
@@ -59,7 +83,7 @@ class NameGender extends Component {
     newState.values[field] = value;
 
     newState.isValid = true;
-    if (newState.values['firstName'] === '' || newState.values['lastName'] === '') {
+    if (newState.values['weight'] === '' || newState.values['height'] === '') {
       newState.isValid = false;
     }
 
@@ -79,8 +103,8 @@ class NameGender extends Component {
       >
         <PortletHeader>
           <PortletLabel
-            subtitle="Update your name and sex"
-            title="Basic Information"
+            subtitle="Patient's vital information"
+            title="Vitals"
           />
         </PortletHeader>
         <PortletContent noPadding>
@@ -88,43 +112,45 @@ class NameGender extends Component {
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
-                label="First name"
+                error={this.state.values['weight'] === '' ? true : false}
+                helperText={this.state.values['weight'] === '' ? 'Weight cannot be empty' : null}
+                InputProps={{ endAdornment: <InputAdornment position="end">Kg</InputAdornment>}}
+                label="Weight"
                 margin="dense"
                 onChange={event =>
-                  this.handleFieldChange('firstName', event.target.value)
+                  this.handleFieldChange('weight', event.target.value)
                 }
-                value={values.firstName}
-                error={this.state.values['firstName'] === '' ? true : false}
-                helperText={this.state.values['firstName'] === '' ? 'First name cannot be empty' : null}
+                value={values.weight}
                 variant="outlined"
               />
               <TextField
                 className={classes.textField}
-                label="Last name"
+                error={this.state.values['height'] === '' ? true : false}
+                helperText={this.state.values['height'] === '' ? 'Height cannot be empty' : null}
+                InputProps={{ endAdornment: <InputAdornment position="end">cm</InputAdornment>}}
+                label="Height"
                 margin="dense"
                 onChange={event =>
-                  this.handleFieldChange('lastName', event.target.value)
+                  this.handleFieldChange('height', event.target.value)
                 }
-                value={values.lastName}
-                error={this.state.values['lastName'] === '' ? true : false}
-                helperText={this.state.values['lastName'] === '' ? 'Last name cannot be empty' : null}
+                value={values.height}
                 variant="outlined"
               />
             </div>
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
-                label="Sex"
+                label="Blood Type"
                 margin="dense"
                 onChange={event =>
-                  this.handleFieldChange('sex', event.target.value)
+                  this.handleFieldChange('bloodType', event.target.value)
                 }
                 select
                 SelectProps={{ native: true }}
-                value={values.sex}
+                value={values.bloodType}
                 variant="outlined"
               >
-                {sexes.map(option => (
+                {bloodTypes.map(option => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -151,11 +177,11 @@ class NameGender extends Component {
   }
 }
 
-NameGender.propTypes = {
+Vitals.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
 
 let newStyles;
-[NameGender, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('NameGender', NameGender, styles);
-export default withStyles(newStyles)(NameGender);
+[Vitals, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('Vitals', Vitals, styles);
+export default withStyles(newStyles)(Vitals);

@@ -2,28 +2,13 @@ import React, { Component } from 'react';
 
 // Externals
 import classNames from 'classnames';
-import moment from 'moment';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import Palette from '../../../../../theme/palette.js';
-
 // Material helpers
 import { withStyles } from '@material-ui/core';
 
 // Material components
 import {
   Button,
-  CircularProgress,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Tooltip,
-  TableSortLabel, 
-  Modal,
-  Card,
-  CardContent,
   CardActions,
   Typography,
   TextField,
@@ -40,11 +25,7 @@ import {
 // Shared components
 import {
   Portlet,
-  PortletHeader,
-  PortletLabel,
-  PortletToolbar,
   PortletContent,
-  Status
 } from '../../../../../components';
 
 // Component styles
@@ -53,14 +34,9 @@ import styles from './styles';
 class BookAppointment extends Component {
 
   state = {
-    open: true,
     appointmentDate: (new Date()).toISOString(),
     appointmentNotes: ''
   };
-
-  handleClose = () => {
-    this.setState({ open: false })
-  }
 
   handleDateChange = (date) => {
     const pickedAppointmentDate = date.toISOString()
@@ -68,11 +44,12 @@ class BookAppointment extends Component {
   }
 
   handleFieldChange = (event) => {
-    this.setState({ appointmentDate: event.target.value });
+    this.setState({ appointmentNotes: event.target.value });
   }
 
-  onAppointmentAdd = (event) => {
-    
+  onAppointmentAdd = () => {
+    const { appointmentDate, appointmentNotes } = this.state;
+    this.props.onAppointmentAdded({ appointmentDate, appointmentNotes })
   }
 
   onAppointmentCancel = (event) => {
@@ -87,16 +64,15 @@ class BookAppointment extends Component {
 
   }
 
+  // var newDateObj = moment(oldDateObj).add(30, 'm').toDate();
+
   render() {
     const { classes, className, mode } = this.props;
     const rootClassName = classNames(classes.root, className);
 
     return (
       <Portlet className={rootClassName}>
-          <PortletContent
-            className={classes.form}
-            noPadding
-          >
+        <PortletContent className={classes.form} noPadding>
             <Typography align="center" gutterBottom variant="h3">
             {mode === "add" ? "Book Appointment" : "View Appointment"}
           </Typography>
@@ -167,7 +143,11 @@ class BookAppointment extends Component {
 
 BookAppointment.propTypes = {
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  onAppointmentAdded: PropTypes.func.isRequired,
+  onAppointmentDeleted: PropTypes.func.isRequired,
+  onAppointmentUpdated: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(BookAppointment);

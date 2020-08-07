@@ -129,15 +129,12 @@ const addAccount = async (emailAddress, password) => {
         return addedJwtTokenRows.length === 0 ? { sessionJwtToken, accountRole } : {};
       } catch (err) {
         throw new Error(`Could not add account_role to permissions_tbl. Message: ${err.message}`);
-        return;
       }
     } catch (err) {
       throw new Error(`Could not add JWT token to tokens_tbl. Message: ${err.message}`);
-      return;
     }
   } catch (err) {
     throw new Error(`Could not add the Account to accounts_tbl. Message: ${err.message}`);
-    return;
   }
 };
 

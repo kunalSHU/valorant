@@ -45,8 +45,8 @@ router.post('/create', async (req, res) => {
   const { emailAddress, password } = req.body;
 
   try {
-    const createdUserJwtSessionToken = await accountsController.addAccount(emailAddress, password);
-    res.status(httpStatusCode.OK).json({ jwt_token: createdUserJwtSessionToken });
+    const createdAccountTokenRole = await accountsController.addAccount(emailAddress, password);
+    res.status(httpStatusCode.OK).json({ data: createdAccountTokenRole });
   } catch (err) {
     logger.error(err.message);
     res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });

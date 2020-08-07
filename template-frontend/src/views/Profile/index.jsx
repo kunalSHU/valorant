@@ -57,7 +57,10 @@ class MedicalRecord extends Component {
   }
 
   lastStep = () => {
+    const { history } = this.props;
     alert("Profile Completed!")
+    history.push('/dashboard')
+    window.location.reload(false);
   }
 
   render() {

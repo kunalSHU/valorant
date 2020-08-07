@@ -3,6 +3,7 @@ DROP SCHEMA IF EXISTS BOOKINGS_INFO CASCADE;
 CREATE SCHEMA BOOKINGS_INFO;
 SET search_path TO BOOKINGS_INFO;
 
+/*DONE*/
 CREATE TABLE questionaire_tbl (
     questionaireid INTEGER     NOT NULL PRIMARY KEY,
     flu            VARCHAR     NOT NULL,
@@ -15,6 +16,7 @@ CREATE TABLE questionaire_tbl (
     nausea           VARCHAR     NOT NULL
 );
 
+/*DONE*/
 /* List of all medications available in the doctors pharmacy office */
 CREATE TABLE medication_tbl (
     medicationid   INTEGER     NOT NULL PRIMARY KEY,
@@ -26,12 +28,14 @@ CREATE TABLE medication_tbl (
     otherDetails   TEXT
 );
 
+/*DONE*/
 CREATE TABLE allergy_tbl(
     allergyid      INTEGER    NOT NULL PRIMARY KEY,
     allergyName    VARCHAR    NOT NULL,
     otherFacts     VARCHAR
 );
 
+/*DONE*/
 /* UserID should be treated like a foreign key in our code */
 CREATE TABLE user_vitals_tbl(
     vitalid        INTEGER   NOT NULL PRIMARY KEY,
@@ -43,6 +47,7 @@ CREATE TABLE user_vitals_tbl(
     dateChecked    DATE
 );
 
+/*DONE*/
 /* UserID and doctorID should be treated like a foreign key in our code */
 CREATE TABLE appointments_info_basic_tbl (
     appointmentid  INTEGER     NOT NULL PRIMARY KEY,
@@ -57,6 +62,7 @@ CREATE TABLE appointments_info_basic_tbl (
     FOREIGN KEY (questionaireid) REFERENCES questionaire_tbl(questionaireid)
 );
 
+/*DONE*/
 CREATE TABLE prescribed_medications_tbl (
     appointmentid  INTEGER NOT NULL,
     medicationid   INTEGER NOT NULL,
@@ -68,6 +74,7 @@ CREATE TABLE prescribed_medications_tbl (
     FOREIGN KEY (medicationid) REFERENCES medication_tbl(medicationid)
 );
 
+/*DONE*/
 CREATE TABLE user_allergy_tbl (
     userid    INTEGER NOT NULL,
     allergyid  INTEGER NOT NULL,

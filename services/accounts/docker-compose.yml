@@ -21,6 +21,8 @@ services:
             - '8081:8081'
         restart: always
         command: npm start
+        restart: always
+        command: npm start
         volumes:
             - .:/usr/src/app
             - /usr/src/app/node_modules

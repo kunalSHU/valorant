@@ -5,3 +5,4 @@ export { default as WeightTracker } from './WeightTracker';
 export { default as HeightTracker } from './HeightTracker';
 export { default as BloodType } from './BloodType';
 export { default as Vitals } from './Vitals';
+export { default as Notes } from './Notes';

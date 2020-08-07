@@ -187,8 +187,9 @@ class RegisterPage extends React.Component{
     }
 
     render(){
-        return (
-            <Fragment>
+
+        return (            
+            <Fragment id="reactFragment">
                 <ReactSnackBar Icon={<span></span>} Show={this.state.Show}>
                     Registered Successfully!
                 </ReactSnackBar>
@@ -210,11 +211,8 @@ class RegisterPage extends React.Component{
                                 <Grid item>
                                     <TextField type="text" helperText={touched.email && errors.email ? this.emailError(errors.email) : ""}
                                         onChange={handleChange} onBlur={handleBlur} value={values.email} 
-<<<<<<< HEAD
+
                                         name="email"variant="outlined" placeholder="Email" label="Email"
-=======
-                                        name="email"variant="outlined" placeholder="Email" label="First name"
->>>>>>> 8fb2f86... Rebasing from master
                                         margin="dense"/>
                                 </Grid>
                                 <Grid item>

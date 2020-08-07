@@ -2,9 +2,9 @@
 INSERT INTO bookings_info.medication_tbl VALUES (
 1, 'Advil', '100', 'Patheon', 'Pill', '50', 'wery effectiwe');
 INSERT INTO bookings_info.medication_tbl VALUES (
-2, 'Swethaoacid', '10', 'wery good', 'Syrup', '50', 'wery effectiwe');
+2, 'Swethaoacid', '10', 'Glaxo Smith Kline', 'Syrup', '50', 'wery effectiwe');
 INSERT INTO bookings_info.medication_tbl VALUES (
-3, 'Dodooacid', '25', 'wery dodo', 'Injection', '50', 'wery effectiwe');
+3, 'Dodooacid', '25', 'ThermoFisher', 'Injection', '50', 'wery effectiwe');
 
 INSERT INTO bookings_info.allergy_tbl VALUES (1, 'Peanuts', 'Can be severe');
 INSERT INTO bookings_info.allergy_tbl VALUES (2, 'Apples', NULL);

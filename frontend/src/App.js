@@ -12,6 +12,7 @@ import GeneralPage from "./pages/generalPage";
 import BillingPage from "./pages/billingPage";
 import AppointmentsPage from "./pages/appointmentsPage";
 import RegisterPage from "./pages/registerPage";
+import ContactUsPage from "./pages/contactUsPage";
 
 
 import "./App.css";
@@ -26,6 +27,7 @@ class App extends Component {
           <Route exact path="/billing" component={BillingPage} />
           <Route exact path="/appointments" component={AppointmentsPage} />
           <Route exact path="/register" component={RegisterPage} />
+          <Route exact path="/contactUs" component={ContactUsPage} />
         </Switch>
       </Router>
     );

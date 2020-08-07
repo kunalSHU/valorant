@@ -4,7 +4,7 @@ const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
 const { Client } = require('pg');
 const PORT = process.env.APP_PORT || 8087;
-const schema = require('./schema')
+const schema = require('./schema');
 
 //const credentials = require('../client-model');
 //credentials.database = 'patient_db';
@@ -27,23 +27,22 @@ const schema = require('./schema')
 // // timeout used so connection to db happens after it is started
 // setTimeout(queryFunction, 5000)
 
-const Knex = require("knex");
+const Knex = require('knex');
 const knex = Knex({
   client: 'pg',
-  connection: { 
-    host: '142.1.46.70', 
-    user: 'postgres', 
-    password: 'postgres', 
-    database: 'patient_db', 
+  connection: {
+    host: '142.1.46.70',
+    user: 'postgres',
+    password: 'postgres',
+    database: 'patient_db',
     port: 8088
-    },
-
+  }
 });
 
 // Root resolver
 const root = {
-    message: () => 'Hello this is patient recording!',
-    userAddress: () => knex("patient_info.address_info_tbl").select("*"),
+  message: () => 'Hello this is patient recording!',
+  userAddress: () => knex('patient_info.address_info_tbl').select('*')
 };
 
 // Create an express server and a GraphQL endpoint

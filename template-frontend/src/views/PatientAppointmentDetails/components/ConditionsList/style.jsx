@@ -1,7 +1,5 @@
 export default theme => ({
-  root: {
-    padding: theme.spacing(3)
-  },
+  root: {},
   content: {
     marginTop: theme.spacing(2)
   },

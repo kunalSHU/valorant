@@ -10,6 +10,10 @@ export default theme => ({
     display: 'flex',
     alignItems: 'center'
   },
+  noWrap: {
+    whiteSpace: 'normal',
+    wordWrap: 'break-word'
+  },
   nameText: {
     display: 'inline-block',
     marginLeft: theme.spacing(2),

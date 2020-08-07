@@ -35,7 +35,7 @@ const sexes = [
   }
 ];
 
-class NameGender extends Component {
+class BasicInfo extends Component {
   state = {
     isValid: false,
     values: {
@@ -151,11 +151,11 @@ class NameGender extends Component {
   }
 }
 
-NameGender.propTypes = {
+BasicInfo.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
 
 let newStyles;
-[NameGender, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('NameGender', NameGender, styles);
-export default withStyles(newStyles)(NameGender);
+[BasicInfo, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('BasicInfo', BasicInfo, styles);
+export default withStyles(newStyles)(BasicInfo);

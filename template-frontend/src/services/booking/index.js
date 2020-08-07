@@ -18,7 +18,8 @@ export const updateAppointmentStatusByAppointmentId = (
   });
 };
 
-export const getAllAppointmentDetailsByAppointment = appointmentId => {
+export const getAllAppointmentDetailsByAppointmentId = appointmentId => {
+  // Expect the following object returned { appointmentId, doctorName, appointmentDate, time, location, status }
   return new Promise(resolve => {
     // Make call to BE to update data
     setTimeout(() => {

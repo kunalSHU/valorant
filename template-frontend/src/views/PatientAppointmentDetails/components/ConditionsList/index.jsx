@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core';
 import { CircularProgress, Typography } from '@material-ui/core';
 
 // Shared services
-import { getAllUsers } from '../../../../services/user';
+import { getAllConditionsByAccountId } from '../../../../services/conditions';
 
 // Custom components
 import { ConditionsToolbar, ConditionsTable } from './components';
@@ -24,13 +24,13 @@ class ConditionsList extends Component {
 
   state = {
     isLoading: false,
-    users: [],
+    conditions: [],
     error: null,
     sortNameColumDirection: 'desc'
   };
 
-  sortUsers(users, sortDirection) {
-    const sortedUsers = users.sort((a, b) => {
+  sortConditions(conditions, sortDirection) {
+    const sortedUsers = conditions.sort((a, b) => {
       var nameA = a.name.toUpperCase(); // ignore upper and lowercase
       var nameB = b.name.toUpperCase(); // ignore upper and lowercase
       if (nameA < nameB) {
@@ -51,7 +51,7 @@ class ConditionsList extends Component {
   }
 
   sortNameColumn = () => {
-    let { users, sortNameColumDirection } = this.state;
+    let { conditions, sortNameColumDirection } = this.state;
 
     if (sortNameColumDirection === 'desc') {
       this.setState({sortNameColumDirection: 'asc'})
@@ -59,22 +59,22 @@ class ConditionsList extends Component {
       this.setState({sortNameColumDirection: 'desc'})
     }
 
-    this.setState({ users: this.sortUsers(users, this.state.sortNameColumDirection) });
+    this.setState({ users: this.sortConditions(conditions, this.state.sortNameColumDirection) });
   }
 
-  async getAllUsers() {
+  async getAllConditionsByAccountId(id) {
     try {
       this.setState({ isLoading: true });
-      let { users } = await getAllUsers();
+      let { conditions } = await getAllConditionsByAccountId(id);
 
       if (this.signal) {
         this.setState({
           isLoading: false,
-          users: this.sortUsers(users, this.state.sortNameColumDirection)
+          conditions: this.sortConditions(conditions, this.state.sortNameColumDirection)
         });
 
-        this.fuse = new Fuse(users, {
-          keys:['name', 'id', 'phone', 'street', 'zipCode', 'city']
+        this.fuse = new Fuse(conditions, {
+          keys:['name', 'id', 'description']
         })
 
       }
@@ -90,7 +90,7 @@ class ConditionsList extends Component {
 
   componentDidMount() {
     this.signal = true;
-    this.getAllUsers();
+    this.getAllConditionsByAccountId();
   }
 
   componentWillUnmount() {
@@ -101,20 +101,20 @@ class ConditionsList extends Component {
     // Show all users if list is empty
     // TODO fetching all users again on empty profileName search, cache users locally (pref improvement)
     if (searchQuery === '') {
-      const { users } = await getAllUsers();
-      this.setState({ users });
+      const { conditions } = await getAllConditionsByAccountId('1');
+      this.setState({ conditions });
       return;
     } else {
-      const users = this.fuse.search(searchQuery);
-      const filteredUsers = users.map(user => user.item);
-      this.setState({ users:filteredUsers });
+      const conditions = this.fuse.search(searchQuery);
+      const filteredConditions = conditions.map(condition => condition.item);
+      this.setState({ conditions: filteredConditions });
       return;
     }
   }
 
   renderUsers() {
     const { classes } = this.props;
-    const { isLoading, users, error } = this.state;
+    const { isLoading, conditions, error } = this.state;
 
     if (isLoading) {
       return (
@@ -128,7 +128,7 @@ class ConditionsList extends Component {
       return <Typography variant="h6">{error}</Typography>;
     }
 
-    if (users.length === 0) {
+    if (conditions.length === 0) {
       return <Typography variant="h6">There are no users</Typography>;
     }
 
@@ -137,7 +137,7 @@ class ConditionsList extends Component {
         onSelect={this.handleSelect}
         sortDirection={this.state.sortNameColumDirection}
         sortNameColumn={this.sortNameColumn}
-        users={users}
+        conditions={conditions}
       />
     );
   }

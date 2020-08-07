@@ -1,6 +1,8 @@
 export default theme => ({
   root: {},
-  field: {},
+  field: {
+    margin: theme.spacing(4),
+  },
   portletFooter: {
     display: 'flex',
     flexDirectory: 'row',

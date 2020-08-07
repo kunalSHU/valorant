@@ -30,9 +30,11 @@ class Notes extends Component {
     values: {
       notes: ''
     },
+    submitSuccess: false
   };
 
   submitForm = () => {
+    this.setState({ submitSuccess: true })
   }
 
   handleFieldChange = (field, value) => {
@@ -62,7 +64,6 @@ class Notes extends Component {
           <form>
             <div className={classes.field}>
               <TextField
-                className={classes.field}
                 fullWidth
                 label="Additional Notes"
                 multiline

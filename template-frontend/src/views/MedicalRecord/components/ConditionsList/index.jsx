@@ -148,7 +148,7 @@ class ConditionsList extends Component {
     return (
       <div className={classes.root}>
         <Typography className={classes.title} component="div" variant="h4">
-          Conditions, Allergies, and Illnesses
+          Conditions
         </Typography>
         <ConditionsToolbar className={classes.toolbar} searchUser={event => this.searchUser(event.target.value)}/>
         <div className={classes.content}>{this.renderUsers()}</div>

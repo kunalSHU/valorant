@@ -29,7 +29,7 @@ import styles from './styles';
 
 class ConditionsTable extends Component {
   render() {
-    const { classes, className, users, sortDirection, sortNameColumn } = this.props;
+    const { classes, className, conditions, sortDirection, sortNameColumn } = this.props;
 
     const rootClassName = classNames(classes.root, className);
 
@@ -53,13 +53,13 @@ class ConditionsTable extends Component {
                   <TableCell align="left">Description</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {users
-                  .map(user => (
+              <TableBody className={classes.tableBody}>
+                {conditions
+                  .map(condition => (
                     <TableRow
                       className={classes.tableRow}
                       hover
-                      key={user.id}
+                      key={condition.id}
                     >
                       <TableCell className={classes.tableCell}>
                         <div className={classes.tableCellInner}>
@@ -68,16 +68,16 @@ class ConditionsTable extends Component {
                               className={classes.nameText}
                               variant="body1"
                             >
-                              {user.name}
+                              {condition.name}
                             </Typography>
                           </Link>
                         </div>
                       </TableCell>
                       <TableCell className={classes.tableCell}>
-                        {user.id}
+                        {condition.id}
                       </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {user.address.state}
+                      <TableCell className={classes.noWrap}>
+                        {condition.description}
                       </TableCell>
                     </TableRow>
                   ))}

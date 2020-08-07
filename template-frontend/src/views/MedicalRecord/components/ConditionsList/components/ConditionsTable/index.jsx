@@ -46,13 +46,11 @@ class ConditionsTable extends Component {
                     direction={sortDirection}
                     onClick={sortNameColumn}
                   >
-                    Name
+                    Condition Name
                   </TableSortLabel>  
                   </TableCell>
-                  <TableCell align="left">Account ID</TableCell>
-                  <TableCell align="left">Province</TableCell>
-                  <TableCell align="left">Phone Number</TableCell>
-                  <TableCell align="left">Postal Code</TableCell>
+                  <TableCell align="left">Condition ID</TableCell>
+                  <TableCell align="left">Description</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -80,12 +78,6 @@ class ConditionsTable extends Component {
                       </TableCell>
                       <TableCell className={classes.tableCell}>
                         {user.address.state}
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {user.phone}
-                      </TableCell>
-                      <TableCell className={classes.tableCell}>
-                        {user.address.zipCode}
                       </TableCell>
                     </TableRow>
                   ))}

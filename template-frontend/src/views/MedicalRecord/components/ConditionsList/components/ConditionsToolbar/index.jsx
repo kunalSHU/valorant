@@ -25,7 +25,7 @@ class ConditionsToolbar extends Component {
           <SearchInput
             className={classes.searchInput}
             onChange={searchUser}
-            placeholder="Search users"
+            placeholder="Search conditions"
           />
           <span className={classes.spacer} />
         </div>

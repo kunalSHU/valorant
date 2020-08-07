@@ -29,24 +29,17 @@ router.get('/find', async (req, res) => {
   }
 });
 
-router.get('/role', async (req, res) => {
-  const { email } = req.query;
-
-  try {
-    const accountRole = await accountsController.getAccountRoleByEmaill(email);
-    res.status(httpStatusCode.OK).json({ data: { accountRole } });
-  } catch (err) {
-    logger.error(err.message);
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
-  }
-});
-
 router.post('/create', async (req, res) => {
-  const { emailAddress, password } = req.body;
+  const { firstName, lastName, emailAddress, password } = req.body;
 
   try {
-    const createdAccountTokenRole = await accountsController.addAccount(emailAddress, password);
-    res.status(httpStatusCode.OK).json({ data: createdAccountTokenRole });
+    const createdUserJwtSessionToken = await accountsController.addAccount({
+      firstName,
+      lastName,
+      emailAddress,
+      password
+    });
+    res.status(httpStatusCode.OK).json({ data: createdUserJwtSessionToken });
   } catch (err) {
     logger.error(err.message);
     res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
@@ -59,18 +52,6 @@ router.delete('/delete', authenticationMiddleware, async (req, res) => {
   try {
     const deletedAccount = await accountsController.deleteAccountByEmail(email);
     res.status(httpStatusCode.OK).json({ data: { deletedAccount } });
-  } catch (err) {
-    logger.error(err.message);
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });
-  }
-});
-
-router.post('/auth', async (req, res) => {
-  const { emailAddress, password } = req.body;
-
-  try {
-    const verifiedUserJwtSessionToken = await accountsController.verifyAccount(emailAddress, password);
-    res.status(httpStatusCode.OK).json({ jwt_token: verifiedUserJwtSessionToken });
   } catch (err) {
     logger.error(err.message);
     res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ err: err.message });

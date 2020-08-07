@@ -181,7 +181,11 @@ class RegisterPage extends React.Component{
                                 <Grid item>
                                     <TextField type="text" helperText={touched.email && errors.email ? this.emailError(errors.email) : ""}
                                         onChange={handleChange} onBlur={handleBlur} value={values.email} 
+<<<<<<< HEAD
                                         name="email"variant="outlined" placeholder="Email" label="Email"
+=======
+                                        name="email"variant="outlined" placeholder="Email" label="First name"
+>>>>>>> 8fb2f86... Rebasing from master
                                         margin="dense"/>
                                 </Grid>
                                 <Grid item>

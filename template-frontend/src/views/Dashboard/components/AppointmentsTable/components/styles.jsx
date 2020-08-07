@@ -14,16 +14,16 @@ export default theme => ({
   field: {
     marginTop: theme.spacing(3)
   },
+  appointmentDatePicker: {
+    marginTop: theme.spacing(3),
+    width: '100%'
+  },
   cancelButton: {
     marginLeft: "auto"
   },
-  confirmButton: {
-    color: theme.palette.white,
-    backgroundColor: theme.palette.success.main,
-    "&:hover": {
-      backgroundColor: theme.palette.success.dark,
-      color: theme.palette.white
-    }
+  deleteAppointmentButton: {
+    marginLeft: '100%',
+    color: theme.palette.danger.main
   },
   form: {
     margin: theme.spacing(3)

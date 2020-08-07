@@ -60,7 +60,7 @@ class AppointmentsTable extends Component {
     limit: 10,
     orders: [],
     ordersTotal: 0,
-    open: false
+    open: true
   };
 
   async getOrders(limit) {
@@ -105,7 +105,8 @@ class AppointmentsTable extends Component {
   }
 
   handleClose = () => {
-    this.setState({ open: false })
+    const newState = { ...this.state };
+    this.setState({ open: !newState.open })
   }
 
   render() {
@@ -150,6 +151,7 @@ class AppointmentsTable extends Component {
 
               <Modal
                 open={this.state.open}
+                onCancel={this.handleClose}
               >
                 <BookAppointment mode="add" onCancel={this.handleClose}/>
               </Modal>
@@ -160,25 +162,13 @@ class AppointmentsTable extends Component {
                     <TableRow>
                       <TableCell>Appointment ID</TableCell>
                       <TableCell align="left">Doctor</TableCell>
-                      <TableCell
-                        align="left"
-                        sortDirection="desc"
-                      >
-                        <Tooltip
-                          enterDelay={300}
-                          title="Sort"
-                        >
-                          <TableSortLabel
-                            active
-                            direction="desc"
-                          >
-                          Appointment Date
-                          </TableSortLabel>
-                        </Tooltip>
+                      <TableCell align="left">
+                        Appointment Date
                       </TableCell>
                       <TableCell align="left">Time</TableCell>
                       <TableCell align="left">Location</TableCell>
                       <TableCell align="left">Status</TableCell>
+                      <TableCell align="left"/>
                     </TableRow>
                   </TableHead>
                   <TableBody>

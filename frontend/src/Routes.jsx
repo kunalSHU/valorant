@@ -19,17 +19,17 @@ export default class Routes extends Component {
   render() {
     return (
       <Switch>
-        <Redirect
+        <PrivateRoute
           exact
           from="/"
           to="/dashboard"
         />
-        <Redirect
+        <PrivateRoute
           exact
           from="/appointments"
           to="/dashboard"
         />
-        <Route
+        <PrivateRoute
           component={Dashboard}
           exact
           path="/dashboard"
@@ -39,17 +39,17 @@ export default class Routes extends Component {
           exact
           path="/record"
         />
-        <Route
+        <PrivateRoute
           component={Account}
           exact
           path="/account"
         />
-        <Route
+        <PrivateRoute
           component={PatientAppointmentDetails}
           exact
           path="/appointments/:id"
         />
-        <Route
+        <PrivateRoute
           component={UserList}
           exact
           path="/users"
@@ -59,7 +59,7 @@ export default class Routes extends Component {
           exact
           path="/sign-up"
         />
-        <Route
+        <PrivateRoute
           component={Profile}
           exact
           path="/profile"

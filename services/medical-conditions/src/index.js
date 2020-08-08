@@ -32,7 +32,6 @@ const PORT = process.env.APP_PORT || 8080;
 //     .catch((e) => console.log(e))
 //     .finally(() => client.end());
 // };
-
 const Knex = require("knex");
 const knex = Knex({
   client: 'pg',

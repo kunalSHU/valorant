@@ -1,9 +1,7 @@
-const { authentication } = require('../middlewares/middleware-config');
-
 /**
  * Strips the token from the request authorizationHeader header and returns it. Note: The authorization header is always in the form 'Bearer <token>'.
  *
- * @param {express.Request} req - The express Request that was sent from the client.
+ * @param {object} req - The Express Request object that was sent from the client.
  *
  * @returns {string} The JWT token from the header.
  *

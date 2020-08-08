@@ -4,7 +4,7 @@ const { describe, it } = require('mocha');
 const httpStatusCode = require('../../../src/network-utils/http-status-code.js');
 const createMockRateLimitedExpressApp = require('./create-rate-limited-express-app.js');
 
-describe('[rate-limiter.test.js]: #rateLimiter()', () => {
+describe('[rate-limiter.test.js]', () => {
   context('Can rate limit requests with maxRequestWindowMs=10000 and maxRequestsAllowedPerWindow=1. ', () => {
     const app = createMockRateLimitedExpressApp(10000, 1, 'Too many requests. Please try again later');
 

@@ -4,8 +4,8 @@ const { describe, it } = require('mocha');
 const httpStatusCode = require('../../../src/network-utils/http-status-code.js');
 const gatewayServer = require('../../../index.js').server;
 
-describe('[healtcheck.test.js]: /healthcheck endpoint', () => {
-  context('Can return healthcheck information', () => {
+describe('[healthcheck.test.js]', () => {
+  context('Can return healthcheck information from /healthcheck endpoint', () => {
     it('should get approprate basic network information from the /healthcheck endpoint', async () => {
       const ipv4Matcher = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 

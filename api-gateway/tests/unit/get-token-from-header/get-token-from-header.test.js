@@ -7,7 +7,7 @@ const should = chai.should();
 
 const getTokenFromHeader = require('../../../src/network-utils/get-token-from-header.js');
 
-describe('[get-token-from-header.test.js]: #getTokenFromHeader()', () => {
+describe('[get-token-from-header.test.js]', () => {
   context("Can retrieve a token from an authorization header in the correct 'Bearer <Token>' format", () => {
     it('should retrieve token from a valid authorization header', () => {
       const validAuthorizationHeader = {

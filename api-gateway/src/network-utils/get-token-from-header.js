@@ -8,7 +8,7 @@
  * @example
  * req.headers.authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
  * const jwtToken = await getTokenFromHeader(req);
- * console.log(jwtToken) // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+ * consocle.log(jwtToken) // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
  */
 const getTokenFromRequestHeader = (req) => {
   const { authorization: authorizationHeader } = req.headers;

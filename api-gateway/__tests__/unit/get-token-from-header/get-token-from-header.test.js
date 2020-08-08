@@ -1,9 +1,13 @@
-const { equals, expect } = require('chai');
+const chai = require('chai');
 const { describe, it } = require('mocha');
+
+const { expect } = chai;
+// eslint-disable-next-line no-unused-vars
+const should = chai.should();
 
 const getTokenFromHeader = require('../../../src/network-utils/get-token-from-header.js');
 
-describe('[get-token-fromheader.test.js]: #getTokenFromHeader()', () => {
+describe('[get-token-from-header.test.js]: #getTokenFromHeader()', () => {
   context("Can retrieve a token from an authorization header in the correct 'Bearer <Token>' format", () => {
     it('should retrieve token from a valid authorization header', () => {
       const validAuthorizationHeader = {
@@ -12,13 +16,13 @@ describe('[get-token-fromheader.test.js]: #getTokenFromHeader()', () => {
         }
       };
 
-      getTokenFromHeader(validAuthorizationHeader).should.be.a('string').to.be.equals('ABC123');
+      getTokenFromHeader(validAuthorizationHeader).should.be.a('string').to.be.equal('ABC123');
     });
 
     it('should return an empty string if authorization header is not sent', () => {
       const nonExistentAuthorizationHeader = { headers: {} };
 
-      getTokenFromHeader(nonExistentAuthorizationHeader).should.be.a('string').to.be.equals('');
+      getTokenFromHeader(nonExistentAuthorizationHeader).should.be.a('string').to.be.equal('');
     });
   });
 
@@ -26,7 +30,7 @@ describe('[get-token-fromheader.test.js]: #getTokenFromHeader()', () => {
     it('should return an empty string if authorization header is not sent in a request', () => {
       const nonExistentAuthorizationHeader = { headers: {} };
 
-      getTokenFromHeader(nonExistentAuthorizationHeader).should.be.a('string').to.be.equals('');
+      getTokenFromHeader(nonExistentAuthorizationHeader).should.be.a('string').to.be.equal('');
     });
 
     it("should return an empty string if authorization header is not in 'Bearer <token>' format", () => {
@@ -36,7 +40,7 @@ describe('[get-token-fromheader.test.js]: #getTokenFromHeader()', () => {
         }
       };
 
-      getTokenFromHeader(invalidAuthorizationHeaderFormatHeader).should.be.a('string').to.be.equals('');
+      getTokenFromHeader(invalidAuthorizationHeaderFormatHeader).should.be.a('string').to.be.equal('');
     });
   });
 

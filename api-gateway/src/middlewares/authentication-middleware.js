@@ -1,6 +1,6 @@
 const getTokenFromRequestHeader = require('../network-utils/get-token-from-header.js');
 
-const authenticationController = require('../controllers/accounts-controller.js');
+const accountsController = require('../controllers/accounts-controller.js');
 const httpStatusCode = require('../network-utils/http-status-code.js');
 
 /**
@@ -22,7 +22,7 @@ const authenticationMiddleware = async (req, res, next) => {
       .json({ err: 'JWT token or email query param not provided' });
   }
 
-  const matchingAccountToken = await authenticationController.findMatchingAccountTokenByEmail(email);
+  const matchingAccountToken = await accountsController.findMatchingAccountTokenByEmail(email);
 
   if (matchingAccountToken === '') {
     // If Account not found

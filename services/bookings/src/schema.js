@@ -9,7 +9,7 @@ const schema = buildSchema(`
         vitalsByUserId(userId: Int): [Vital]
         latestVitalsByUserId(userId: Int): Vital
         appointmentById(id: Int): Appointment
-        appointmentByUserId(userId: int): Appointment
+        appointmentByUserId(userId: Int): [Appointment]
         prescribedMedicationByAppointmentId(appointmentId: Int): PrescribedMedication
         userAllergiesByUserId(userId: Int): [Allergy]
     }

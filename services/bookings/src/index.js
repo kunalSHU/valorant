@@ -6,17 +6,17 @@ const PORT = 8081;
 // GraphQL schema
 const schema = require('./schema');
 
-// const Knex = require("knex");
-// const knex = Knex({
-//   client: 'pg',
-//   connection: { 
-//     host: '142.1.46.70', 
-//     user: 'postgres', 
-//     password: 'postgres', 
-//     database: 'patient_db', 
-//     port: 8088
-//     },
-// });
+const Knex = require("knex");
+const knex = Knex({
+   client: 'pg',
+   connection: { 
+     host: '142.1.46.70', 
+     user: 'postgres', 
+     password: 'postgres', 
+     database: 'bookings_db', 
+     port: 8083
+     },
+});
 
 // Root resolver
 const root = {

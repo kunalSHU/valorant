@@ -17,7 +17,11 @@ services:
         image: medical-conditions-web
         # depends_on: 
         #     - db
+        command: npm start
+        restart: always
+        command: npm start
         ports: 
             - '8080:8080'
         volumes:
             - .:/usr/src/app
+            - /usr/src/app/node_modules

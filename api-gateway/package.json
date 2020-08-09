@@ -34,6 +34,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "apollo-server": "^2.16.1",
     "chai": "^4.2.0",
     "doxdox": "^3.0.0",
     "eslint": "^7.4.0",
@@ -41,6 +42,8 @@
     "eslint-plugin-jsdoc": "^25.4.2",
     "eslint-plugin-mocha": "^7.0.0",
     "eslint-plugin-security": "^1.4.0",
+    "gql": "^1.1.2",
+    "graphql-tools": "^6.0.16",
     "jsdoc": "^3.6.4",
     "mocha": "^7.1.2",
     "nodemon": "^2.0.4",

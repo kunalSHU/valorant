@@ -24,7 +24,16 @@ const fetch = require('node-fetch');
  *     // Do something with the error and its message
  *   });
  */
-const sendGqlRequest = async (endpointUrl, gqlQueryString = '', gqlQueryVariables = {}) => {
+const sendGqlRequest = async (endpointUrl, gqlQueryString, gqlQueryVariables = {}) => {
+  if (
+    gqlQueryString === '' ||
+    gqlQueryString === null ||
+    gqlQueryString === 'undefined' ||
+    gqlQueryString.trim() === ''
+  ) {
+    throw new TypeError('Invalid gqlQueryString provided. Must be a string');
+  }
+
   try {
     const requestConfig = {
       method: 'POST',
@@ -37,10 +46,12 @@ const sendGqlRequest = async (endpointUrl, gqlQueryString = '', gqlQueryVariable
     };
 
     const response = await fetch(endpointUrl, requestConfig);
+
     const { status: responseStatus } = response;
 
     if (responseStatus >= 200 && responseStatus <= 299) {
-      return await response.json();
+      const responseFromGqlEndpoint = await response.json();
+      return { data: responseFromGqlEndpoint.data, status: responseStatus };
     } else {
       throw new Error(`Request to ${endpointUrl} failed. Endpoint returned status: ${responseStatus}`);
     }

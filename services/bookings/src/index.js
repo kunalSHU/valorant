@@ -6,17 +6,17 @@ const PORT = 8081;
 // GraphQL schema
 const schema = require('./schema');
 
-// const Knex = require("knex");
-// const knex = Knex({
-//   client: 'pg',
-//   connection: { 
-//     host: '142.1.46.70', 
-//     user: 'postgres', 
-//     password: 'postgres', 
-//     database: 'patient_db', 
-//     port: 8088
-//     },
-// });
+const Knex = require("knex");
+const knex = Knex({
+   client: 'pg',
+   connection: { 
+     host: '142.1.46.70', 
+     user: 'postgres', 
+     password: 'postgres', 
+     database: 'bookings_db', 
+     port: 8083
+     },
+});
 
 // Root resolver
 const root = {
@@ -94,7 +94,16 @@ const root = {
       weight: weight,
       dateChecked: dateChecked,
     })
-  }
+  },
+  questionare: ({id}) => knex("bookings_db.questionaire_tbl").select("*").where({ questionaireid:id }),
+  medicationById: ({id}) => knex("bookings_db.medication_tbl").select("*").where({ medicationid:id }),
+  medicationByName: ({name}) => knex("bookings_db.medication_tbl").select("*").where({ medicationName:name }),
+  vitalsByUserId: ({userId}) => knex("bookings_db.user_vitals_tbl").select("*").where({ userid:userId }),
+  latestVitalsByUserId: ({userId}) => knex("bookings_db.user_vitals_tbl").select("*").where({ userid:userId }),
+  appointmentById: ({id}) => knex("bookings_db.appointments_info_basic_tbl").select("*").where({ appointmentid:id }),
+  appointmentByUserId: ({userId}) => knex("bookings_db.appointments_info_basic_tbl").select("*").where({ userid:userId }),
+  prescribedMedicationByAppointmentId: ({appointmentId}) => knex("bookings_db.prescribed_medications_tbl").select("*").where({ appointmentid:appointmentId }),
+  userAllergiesByUserId: ({userId}) => knex("bookings_db.user_allergy_tbl").select("*").where({ userid:userId }),
 };
 
 // Create an express server and a GraphQL endpoint

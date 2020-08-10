@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "start:dev": "./node_modules/.bin/nodemon index.js",
-    "test:all": "./node_modules/.bin/nyc ./node_modules/.bin/mocha --exit --timeout=10000 --config ./.mocharc.js \"tests/**/*.test.js\"",
+    "test:all": "./node_modules/.bin/mocha --exit --timeout=10000 --config ./.mocharc.js \"tests/**/*.test.js\"",
     "test:unit": "./node_modules/.bin/mocha --config ./.mocharc.js --exit --timeout=10000 \"tests/unit/**/*.test.js\"",
     "generate-docs": "./node_modules/.bin/doxdox \"src/**/*.js\" --layout bootstrap --output docs/api/index.html",
     "eslint": "./node_modules/.bin/eslint --config ./.eslintrc.js src/ tests/",
@@ -47,7 +47,6 @@
     "jsdoc": "^3.6.4",
     "mocha": "^7.1.2",
     "nodemon": "^2.0.4",
-    "nyc": "^15.0.1",
     "prettier": "^2.0.5",
     "supertest": "^4.0.2"
   }

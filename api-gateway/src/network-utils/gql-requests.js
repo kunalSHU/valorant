@@ -1,7 +1,5 @@
 const fetch = require('node-fetch');
 
-// TODO Add Unit Tests (i.e. valid query, query nonexistent service, query invalid endpoint on valid service, sending non-gql queries, etc.)
-
 /**
  * Sends a GQL query to the specified endpoint and returns the JSON data returned from the endpoint.
  *

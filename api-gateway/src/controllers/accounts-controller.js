@@ -135,10 +135,6 @@ const addAccount = async (emailAddress, password) => {
     }
   } catch (err) {
     throw new Error(`Could not add the Account to accounts_tbl. Message: ${err.message}`);
-<<<<<<< HEAD
-    return;
-=======
->>>>>>> master
   }
 };
 

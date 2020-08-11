@@ -37,9 +37,9 @@ const styles = theme => ({
 
 class MedicalRecord extends Component {
   state = { tabIndex: 0, activeStep: 0, showStep1: true, showStep2: false, lastStepState: false,
-          firstName: '', lastName: '', sex: ''};
+          firstName: '', lastName: '', sex: '', phoneNumber: '', dateofbirth: ''};
 
-  nextStep = (firstName, lastName, sex) => {
+  nextStep = (firstName, lastName, phoneNumber, dateofbirth, sex) => {
 
     console.log(firstName)
     console.log(lastName)
@@ -50,6 +50,8 @@ class MedicalRecord extends Component {
       activeStep: this.state.activeStep+1,
       firstName: firstName,
       lastName: lastName,
+      phoneNumber: phoneNumber,
+      dateofbirth: dateofbirth,
       sex: sex
     })
 
@@ -57,6 +59,10 @@ class MedicalRecord extends Component {
     console.log(this.state.firstName)
     console.log(this.state.lastName)
     console.log(this.state.sex)
+    console.log(this.state.dateofbirth)
+    console.log(this.state.phoneNumber)
+    
+
   }
 
   back = () => {

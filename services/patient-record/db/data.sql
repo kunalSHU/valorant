@@ -1,9 +1,9 @@
 INSERT INTO patient_info.address_info_tbl VALUES (
-	    1, 'DisneyLand', 'Idk', 'idk', 'somewhereinamerica', 'whoknows', 'hell'
+	    1, 'DisneyLand', 'Idk', 'idk', 'somewhereinamerica'
 );
 
 INSERT INTO patient_info.address_info_tbl VALUES (
-	    2, 'WhiteHouses', 'trump', 'donald', 'huuuugee', 'Iknoweverything', 'hell'
+	    2, 'WhiteHouses', 'trump', 'donald', 'huuuugee'
 );
 
 INSERT INTO patient_info.patient_basic_info_tbl VALUES (

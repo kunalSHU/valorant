@@ -9,8 +9,6 @@ CREATE TABLE address_info_tbl(
 	    city           VARCHAR     NOT NULL,
 	    postal_code    VARCHAR     NOT NULL,
 	    province       VARCHAR     NOT NULL,
-	    country        VARCHAR     NOT NULL,
-	    otherdetails   VARCHAR
 );
 
 CREATE TABLE patient_basic_info_tbl(

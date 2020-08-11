@@ -166,7 +166,7 @@ class NameGender extends Component {
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
           <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={() => this.props.nextStep(this.state.values.firstName,
-            this.state.values.lastName, this.state.values.sex)}>
+            this.state.values.lastName, this.state.values.sex, this.state.values.phoneNumber, this.state.values.dateofbirth)}>
             Next
           </Button>
           { this.state.submitSuccess &&

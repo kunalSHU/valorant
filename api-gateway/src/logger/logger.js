@@ -5,7 +5,7 @@ const format = winston.format;
 const options = {
   file: {
     level: 'info',
-    filename: `${appRoot}/logs/app.log`,
+    filename: `${appRoot}/logs/app-${new Date().toISOString()}.log`,
     handleExceptions: true,
     json: true,
     maxsize: 10000000, // 10MB in bytes
@@ -30,15 +30,20 @@ const logger = winston.createLogger({
   exitOnError: false
 });
 
-// Log to the console if not in production
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console(options.console));
+// Initialize environment specific loggers
+switch (process.env.NODE_ENV) {
+  case 'development':
+    logger.add(new winston.transports.Console(options.console));
+    break;
+  case 'production':
+    logger.add(new winston.transports.Console(options.file));
+    break;
+  default:
+    break;
 }
 
 logger.stream = {
-  write: (message, encoding) => {
-    logger.info(message);
-  }
+  write: (message) => logger.info(message)
 };
 
 module.exports = logger;

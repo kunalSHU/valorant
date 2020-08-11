@@ -1,9 +1,5 @@
-const chai = require('chai');
+const { expect } = require('chai');
 const { describe, it } = require('mocha');
-
-const { expect } = chai;
-// eslint-disable-next-line no-unused-vars
-const should = chai.should();
 
 const getTokenFromHeader = require('../../../src/network-utils/get-token-from-header.js');
 

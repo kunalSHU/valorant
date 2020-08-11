@@ -16,13 +16,12 @@ CREATE TABLE address_info_tbl(
 CREATE TABLE patient_basic_info_tbl(
     userid         INTEGER     NOT NULL PRIMARY KEY,
     addressid      INTEGER     NOT NULL,
-    username       VARCHAR     NOT NULL,
     first_name     VARCHAR     NOT NULL,
     last_name      VARCHAR     NOT NULL,
     phone_number   VARCHAR     NOT NULL,
     email          VARCHAR     NOT NULL,
     birthdate      DATE        NOT NULL,
     date_became_patient DATE   NOT NULL,
-    gender         TEXT     NOT NULL,
+    sex         TEXT     NOT NULL,
     FOREIGN KEY (addressid) REFERENCES address_info_tbl(addressid)
 );

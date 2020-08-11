@@ -36,16 +36,27 @@ const styles = theme => ({
 });
 
 class MedicalRecord extends Component {
-  state = { tabIndex: 0, activeStep: 0, showStep1: true, showStep2: false, lastStepState: false};
+  state = { tabIndex: 0, activeStep: 0, showStep1: true, showStep2: false, lastStepState: false,
+          firstName: '', lastName: '', sex: ''};
 
-  nextStep = () => {
+  nextStep = (firstName, lastName, sex) => {
 
+    console.log(firstName)
+    console.log(lastName)
+    console.log(sex)
     this.setState({
       showStep1: false,
       showStep2: true,
-      activeStep: this.state.activeStep+1
+      activeStep: this.state.activeStep+1,
+      firstName: firstName,
+      lastName: lastName,
+      sex: sex
     })
 
+    console.log("in here")
+    console.log(this.state.firstName)
+    console.log(this.state.lastName)
+    console.log(this.state.sex)
   }
 
   back = () => {
@@ -56,7 +67,12 @@ class MedicalRecord extends Component {
     })
   }
 
-  lastStep = () => {
+  lastStep = (street, postalCode, city, province) => {
+    console.log("last step clicked")
+    console.log(street)
+    console.log(postalCode)
+    console.log(city)
+    console.log(province)
     const { history } = this.props;
     alert("Profile Completed!")
     history.push('/dashboard')

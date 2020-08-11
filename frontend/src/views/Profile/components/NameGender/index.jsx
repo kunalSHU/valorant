@@ -66,6 +66,7 @@ class NameGender extends Component {
     }
 
     this.setState(newState);
+    console.log(this.state.values.firstName)
   };
 
   render() {
@@ -135,7 +136,8 @@ class NameGender extends Component {
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={this.props.nextStep}>
+          <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={() => this.props.nextStep(this.state.values.firstName,
+            this.state.values.lastName, this.state.values.sex)}>
             Next
           </Button>
           { this.state.submitSuccess &&

@@ -3,7 +3,7 @@ DROP SCHEMA IF EXISTS PATIENT_INFO CASCADE;
 CREATE SCHEMA PATIENT_INFO;
 SET search_path TO PATIENT_INFO;
 
-CREATE TABLE address_info_tbl(
+CREATE TABLE address_info_tbl( 
 	    addressid      INTEGER     NOT NULL PRIMARY KEY,
 	    streetname     VARCHAR     NOT NULL,
 	    city           VARCHAR     NOT NULL,

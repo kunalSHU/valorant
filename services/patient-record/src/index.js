@@ -45,6 +45,7 @@ const root = {
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
   postUserAddress: ({streetname, city, postal_code, province}) => {
     return knex('patient_info.address_info_tbl').insert({
+      addressid,
       streetname: streetname,
       city: city,
       postal_code: postal_code,

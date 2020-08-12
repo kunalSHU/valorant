@@ -43,9 +43,8 @@ const knex = Knex({
 const root = {
   message: () => 'Hello this is patient recording!',
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
-  postUserAddress: ({addressid, streetname, city, postal_code, province}) => {
+  postUserAddress: ({streetname, city, postal_code, province}) => {
     return knex('patient_info.address_info_tbl').insert({
-      addressid: addressid,
       streetname: streetname,
       city: city,
       postal_code: postal_code,

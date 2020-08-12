@@ -10,7 +10,7 @@ const schema = buildSchema(`
     addressid: Int 
     streetname: String
     city: String
-    postalCode: String
+    postal_code: String
     province: String
     country: String
     ): UserAddress!
@@ -30,7 +30,7 @@ const schema = buildSchema(`
     addressid: Int
     streetname: String
     city: String
-    postalCode: String
+    postal_code: String
     province: String
     country: String
   }

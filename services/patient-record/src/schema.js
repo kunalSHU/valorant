@@ -13,7 +13,6 @@ const schema = buildSchema(`
     postalCode: String
     province: String
     country: String
-    otherdetails: String
     ): UserAddress!
     postUserInfo(
      userid: String
@@ -34,7 +33,6 @@ const schema = buildSchema(`
     postalCode: String
     province: String
     country: String
-    otherdetails: String
   }
   type UserInfo {
     userid: String

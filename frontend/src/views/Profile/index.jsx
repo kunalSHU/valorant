@@ -27,6 +27,7 @@ import {
   PortletFooter,
   Status
 } from '../../components';
+import {postUserAddress} from '../../services/record/index'
 
 // Component styles
 const styles = theme => ({
@@ -37,7 +38,8 @@ const styles = theme => ({
 
 class MedicalRecord extends Component {
   state = { tabIndex: 0, activeStep: 0, showStep1: true, showStep2: false, lastStepState: false,
-          firstName: '', lastName: '', sex: '', phoneNumber: '', dateofbirth: ''};
+          firstName: '', lastName: '', sex: '', phoneNumber: '', dateofbirth: '', street: '',
+        postalCode: '', city: '', province: ''};
 
   nextStep = (firstName, lastName, phoneNumber, dateofbirth, sex) => {
 
@@ -79,10 +81,24 @@ class MedicalRecord extends Component {
     console.log(postalCode)
     console.log(city)
     console.log(province)
-    const { history } = this.props;
+    this.setState({
+      street: street,
+      postalCode: postalCode,
+      city: city,
+      province: province
+    })
     alert("Profile Completed!")
+    //Post user address first
+    postUserAddress(street, postalCode, city, province)
+    
+    const { history } = this.props;
+    
+
+    //make call to the record file in services, post address first with the id, then patient info
+
+
     history.push('/dashboard')
-    window.location.reload(false);
+    //window.location.reload(false);
   }
 
   render() {

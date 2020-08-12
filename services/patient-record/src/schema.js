@@ -7,7 +7,6 @@ const schema = buildSchema(`
   }
   type Mutation {
     postUserAddress(
-    addressid: Int 
     streetname: String
     city: String
     postal_code: String

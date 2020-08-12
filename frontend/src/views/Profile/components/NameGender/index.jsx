@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 import validate from 'validate.js';
 // Material helpers
 import { withStyles } from '@material-ui/core';
-
+import { DateTimePicker, DatePicker } from '@material-ui/pickers';
+ 
+import "react-datepicker/dist/react-datepicker.css";
 // Material components
 import { Button, TextField, Typography } from '@material-ui/core';
 
@@ -20,7 +22,7 @@ import {
   Status,
   CircularProgress,
 } from '../../../../components';
-
+import DatePickerField from '../../../../views/Dashboard/components/AppointmentsTable/components/DatePickerField/DatePickerField'
 // Component styles
 import styles from './styles';
 import Stepper from 'react-stepper-horizontal';
@@ -43,7 +45,9 @@ class NameGender extends Component {
     values: {
       firstName: 'John',
       lastName: 'Doe',
-      sex: sexes[0].label
+      sex: sexes[0].label,
+      phoneNumber: '000-000-0000',
+      dateofbirth: (new Date()).toISOString()
     },
     empty: {},
     submitSuccess: false
@@ -61,11 +65,13 @@ class NameGender extends Component {
     newState.values[field] = value;
 
     newState.isValid = true;
-    if (newState.values['firstName'] === '' || newState.values['lastName'] === '') {
+    if (newState.values['firstName'] === '' || newState.values['lastName'] === ''
+      || newState.values['phoneNumber'] === '') {
       newState.isValid = false;
     }
 
     this.setState(newState);
+    console.log(this.state.values.firstName)
   };
 
   render() {
@@ -114,6 +120,30 @@ class NameGender extends Component {
             </div>
             <div className={classes.field}>
               <TextField
+              className={classes.textField}
+                label="Phone Number"
+                margin="dense"
+                onChange={event =>
+                  this.handleFieldChange('phoneNumber', event.target.value)
+                }
+                value={values.phoneNumber}
+                error={this.state.values['phoneNumber'] === '' ? true : false}
+                helperText={this.state.values['phoneNumber'] === '' ? 'Phone Number cannot be empty' : null}
+                variant="outlined"
+              />
+            </div>
+            <div className={classes.field}>
+              <DatePicker
+              className={classes.appointmentDatePicker}
+              disableFuture
+              inputVariant="outlined"
+              label="Date of Birth"
+              onChange={(date) => this.handleFieldChange('dateofbirth', date)}
+              value={this.state.dateofbirth}
+              />
+            </div>
+            <div className={classes.field}>
+              <TextField
                 classNameclassName={classes.textField}
                 label="Sex"
                 margin="dense"
@@ -135,7 +165,8 @@ class NameGender extends Component {
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={this.props.nextStep}>
+          <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={() => this.props.nextStep(this.state.values.firstName,
+            this.state.values.lastName, this.state.values.sex, this.state.values.phoneNumber, this.state.values.dateofbirth)}>
             Next
           </Button>
           { this.state.submitSuccess &&

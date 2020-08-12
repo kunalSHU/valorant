@@ -57,6 +57,7 @@ const root = {
       return knex('patient_info.patient_basic_info_tbl').insert({
         userid: userid,
         addressid: addressid,
+        first_name: first_name,
         last_name: last_name,
         phone_number: phone_number,
         email: email,

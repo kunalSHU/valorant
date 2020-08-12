@@ -7,7 +7,7 @@ const schema = buildSchema(`
   }
   type Mutation {
     postUserAddress(
-    addressid: String 
+    addressid: Int 
     streetname: String
     city: String
     postalCode: String
@@ -15,8 +15,8 @@ const schema = buildSchema(`
     country: String
     ): UserAddress!
     postUserInfo(
-     userid: String
-    addressid: String
+     userid: Int
+    addressid: Int
     first_name: String
     last_name: String
     phone_number: String
@@ -27,7 +27,7 @@ const schema = buildSchema(`
     ): UserInfo!
   }
   type UserAddress {
-    addressid: String
+    addressid: Int
     streetname: String
     city: String
     postalCode: String
@@ -35,8 +35,8 @@ const schema = buildSchema(`
     country: String
   }
   type UserInfo {
-    userid: String
-    addressid: String
+    userid: Int
+    addressid: Int
     first_name: String
     last_name: String
     phone_number: String

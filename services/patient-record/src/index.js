@@ -48,7 +48,7 @@ const root = {
       addressid: addressid,
       streetname: streetname,
       city: city,
-      postalCode: postalCode,
+      postal_code: postal_code,
       province: province,
       country: country    
     })

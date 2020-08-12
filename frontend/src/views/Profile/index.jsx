@@ -38,14 +38,15 @@ const styles = theme => ({
 
 class MedicalRecord extends Component {
   state = { tabIndex: 0, activeStep: 0, showStep1: true, showStep2: false, lastStepState: false,
-          firstName: '', lastName: '', sex: '', phoneNumber: '', dateofbirth: '', street: '',
+          firstName: '', lastName: '', sex: '', email: '', phoneNumber: '', dateofbirth: '', street: '',
         postalCode: '', city: '', province: ''};
 
-  nextStep = (firstName, lastName, phoneNumber, dateofbirth, sex) => {
+  nextStep = (firstName, lastName, phoneNumber, dateofbirth, sex, email) => {
 
     console.log(firstName)
     console.log(lastName)
     console.log(sex)
+    console.log(email)
     this.setState({
       showStep1: false,
       showStep2: true,
@@ -54,7 +55,8 @@ class MedicalRecord extends Component {
       lastName: lastName,
       phoneNumber: phoneNumber,
       dateofbirth: dateofbirth,
-      sex: sex
+      sex: sex,
+      email: email
     })
 
     console.log("in here")

@@ -49,7 +49,10 @@ const root = {
       city: city,
       postal_code: postal_code,
       province: province
-    }).into('patient_info.address_info_tbl').returning('addressid')
+    }).returning('addressid').into('patient_info.address_info_tbl')
+    .then(function (addressid){
+      console.log(addressid)
+    })
     // return knex('patient_info.address_info_tbl').insert({
     //   streetname: streetname,
     //   city: city,

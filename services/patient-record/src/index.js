@@ -49,7 +49,7 @@ const root = {
   message: () => 'Hello this is patient recording!',
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
   postUserAddress: ({streetname, city, postal_code, province}) => {
-    return await knex('patient_info.address_info_tbl').insert({
+    return knex('patient_info.address_info_tbl').insert({
       addressid: undefined,
       streetname: streetname,
       city: city,

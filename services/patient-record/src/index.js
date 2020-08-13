@@ -49,8 +49,9 @@ const root = {
   message: () => 'Hello this is patient recording!',
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
   postUserAddress: ({streetname, city, postal_code, province}) => {
+    max = knex.raw('SELECT MAX(addressid) FROM patient_info.address_info_tbl')
     return knex('patient_info.address_info_tbl').insert({
-      addressid: undefined,
+      addressid: max+1,
       streetname: streetname,
       city: city,
       postal_code: postal_code,

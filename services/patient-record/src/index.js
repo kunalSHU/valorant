@@ -48,6 +48,13 @@ const knex = Knex({
 
 test = () => {
   console.log('inside test')
+  console.log(knex('patient_info.address_info_tbl').max('addressid'))
+  var result = knex('patient_info.address_info_tbl').max('addressid');
+  return result.then(function(rows){
+    console.log('the rows')
+    console.log(rows)
+    return rows;
+})
 }
 
 const root = {

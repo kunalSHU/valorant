@@ -47,15 +47,8 @@ const knex = Knex({
 // }
 var maxVal = 0
 test = () => {
-  console.log('inside test')
-  console.log(knex('patient_info.address_info_tbl').max('addressid'))
   var result = knex('patient_info.address_info_tbl').max('addressid');
   return result.then(function(rows){
-    console.log('the rows')
-    console.log(rows)
-        console.log(rows[0])
-	 console.log(rows[0]['max']+1)
-    console.log(rows[0]['max']+1)
     maxVal = rows[0]['max']+1
     return rows[0]['max']+1;
   })
@@ -63,14 +56,9 @@ test = () => {
 
 const root = {
   message: () => 'Hello this is patient recording!',
-  test: () => knex('patient_info.address_info_tbl').max('addressid').first(),
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
-  postUserAddress: ({streetname, city, postal_code, province}) => {
-    //max = knex('patient_info.address_info_tbl').max('addressid').first()
-    console.log("i am here")
-    test()
-    console.log('this is maxVal')
-    console.log(maxVal)
+  postUserAddress: async ({streetname, city, postal_code, province}) => {
+    await test()
     return knex('patient_info.address_info_tbl').insert({
       addressid: maxVal,
       streetname: streetname,

@@ -39,12 +39,6 @@ const knex = Knex({
   }
 });
 
-// Root resolver
-// async function insert(user: any) {
-//   return await knex('users')
-//     .insert(user)
-//     .returning('*');
-// }
 var maxVal = 0
 test = () => {
   var result = knex('patient_info.address_info_tbl').max('addressid');

@@ -45,6 +45,11 @@ const knex = Knex({
 //     .insert(user)
 //     .returning('*');
 // }
+
+test = () => {
+  console.log('inside test')
+}
+
 const root = {
   message: () => 'Hello this is patient recording!',
   test: () => knex('patient_info.address_info_tbl').max('addressid').first(),
@@ -52,9 +57,9 @@ const root = {
   postUserAddress: ({streetname, city, postal_code, province}) => {
     max = knex('patient_info.address_info_tbl').max('addressid').first()
     console.log("i am here")
-    console.log(max)
+    test()
     return knex('patient_info.address_info_tbl').insert({
-      addressid: undefined,
+      addressid: max['max'],
       streetname: streetname,
       city: city,
       postal_code: postal_code,

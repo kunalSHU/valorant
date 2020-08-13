@@ -53,7 +53,10 @@ test = () => {
   return result.then(function(rows){
     console.log('the rows')
     console.log(rows)
-    return rows;
+        console.log(rows[0])
+	 console.log(rows[0]['max'])
+	  console.log(rows[0]['max']+1)
+    return rows[0]['max']+1;
 })
 }
 
@@ -62,11 +65,13 @@ const root = {
   test: () => knex('patient_info.address_info_tbl').max('addressid').first(),
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
   postUserAddress: ({streetname, city, postal_code, province}) => {
-    max = knex('patient_info.address_info_tbl').max('addressid').first()
+    //max = knex('patient_info.address_info_tbl').max('addressid').first()
     console.log("i am here")
-    test()
+    var maxVal = test()
+    console.log('this is maxVal')
+    console.log(maxVal)
     return knex('patient_info.address_info_tbl').insert({
-      addressid: max['max'],
+      addressid: maxVal,
       streetname: streetname,
       city: city,
       postal_code: postal_code,

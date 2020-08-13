@@ -3,6 +3,7 @@ const buildSchema = require('graphql').buildSchema;
 const schema = buildSchema(`
   type Query {
     message: String
+    test: Int
     userAddress: [UserAddress]
   }
   type Mutation {

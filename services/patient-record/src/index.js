@@ -45,7 +45,7 @@ const knex = Knex({
 //     .insert(user)
 //     .returning('*');
 // }
-const maxVal = 0
+var maxVal = 0
 test = () => {
   console.log('inside test')
   console.log(knex('patient_info.address_info_tbl').max('addressid'))

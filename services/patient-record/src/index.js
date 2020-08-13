@@ -55,7 +55,7 @@ const root = {
       city: city,
       postal_code: postal_code,
       province: province
-    }).returning('*')
+    }).returning('addressid')
   },
   postUserInfo: ({userid, addressid, first_name, last_name, phone_number, email, birthdate, 
     date_became_patient, sex}) => {

@@ -54,7 +54,7 @@ test = () => {
     console.log('the rows')
     console.log(rows)
         console.log(rows[0])
-	 console.log(rows[0]['max'])
+	 console.log(irows[0]['max']+1)
 	  console.log(rows[0]['max']+1)
     return rows[0]['max']+1;
 })

@@ -44,21 +44,13 @@ const root = {
   message: () => 'Hello this is patient recording!',
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
   postUserAddress: ({streetname, city, postal_code, province}) => {
-    return knex.insert({
+    return knex('patient_info.address_info_tbl').insert({
+      addressid: undefined,
       streetname: streetname,
       city: city,
       postal_code: postal_code,
       province: province
-    }).returning('addressid').into('patient_info.address_info_tbl')
-    .then(function (addressid){
-      console.log(addressid)
     })
-    // return knex('patient_info.address_info_tbl').insert({
-    //   streetname: streetname,
-    //   city: city,
-    //   postal_code: postal_code,
-    //   province: province
-    // }).returning('addressid')
   },
   postUserInfo: ({userid, addressid, first_name, last_name, phone_number, email, birthdate, 
     date_became_patient, sex}) => {

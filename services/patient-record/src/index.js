@@ -47,7 +47,7 @@ const knex = Knex({
 // }
 const root = {
   message: () => 'Hello this is patient recording!',
-  test: () => (knex('patient_info.address_info_tbl').max('addressid').first())['max'],
+  test: () => knex('patient_info.address_info_tbl').max('addressid'),
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
   postUserAddress: ({streetname, city, postal_code, province}) => {
     max = knex('patient_info.address_info_tbl').max('addressid').first()

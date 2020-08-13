@@ -40,17 +40,22 @@ const knex = Knex({
 });
 
 // Root resolver
+// async function insert(user: any) {
+//   return await knex('users')
+//     .insert(user)
+//     .returning('*');
+// }
 const root = {
   message: () => 'Hello this is patient recording!',
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
   postUserAddress: ({streetname, city, postal_code, province}) => {
-    return knex('patient_info.address_info_tbl').insert({
+    return await knex('patient_info.address_info_tbl').insert({
       addressid: undefined,
       streetname: streetname,
       city: city,
       postal_code: postal_code,
       province: province
-    })
+    }).returning('*')
   },
   postUserInfo: ({userid, addressid, first_name, last_name, phone_number, email, birthdate, 
     date_became_patient, sex}) => {

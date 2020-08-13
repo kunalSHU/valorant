@@ -50,6 +50,8 @@ const root = {
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
   postUserAddress: ({streetname, city, postal_code, province}) => {
     max = knex('patient_info.address_info_tbl').select('MAX(addressid)')
+    console.log("i am here")
+    console.log(max)
     return knex('patient_info.address_info_tbl').insert({
       addressid: max+1,
       streetname: streetname,

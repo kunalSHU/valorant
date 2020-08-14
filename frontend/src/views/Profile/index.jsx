@@ -27,7 +27,7 @@ import {
   PortletFooter,
   Status
 } from '../../components';
-import {postUserAddress} from '../../services/record/index'
+import {postUserAddress, postUserInfo} from '../../services/record/index'
 
 // Component styles
 const styles = theme => ({
@@ -47,6 +47,11 @@ class MedicalRecord extends Component {
     console.log(lastName)
     console.log(sex)
     console.log(email)
+    console.log("this is DOB")
+    console.log(dateofbirth)   
+    //console.log(dateofbirth.format('YYYY-MM-DD'))
+    console.log(typeof(dateofbirth))
+    console.log(dateofbirth instanceof Object)
     this.setState({
       showStep1: false,
       showStep2: true,
@@ -77,7 +82,7 @@ class MedicalRecord extends Component {
     })
   }
 
-  lastStep = (street, postalCode, city, province) => {
+  lastStep = async (street, postalCode, city, province) => {
     console.log("last step clicked")
     console.log(street)
     console.log(postalCode)
@@ -91,7 +96,9 @@ class MedicalRecord extends Component {
     })
     alert("Profile Completed!")
     //Post user address first
-    postUserAddress(street, postalCode, city, province)
+    await postUserAddress(street, postalCode, city, province)
+    await postUserInfo(this.state.firstName, this.state.lastName, this.state.phoneNumber, this.state.dateofbirth,
+      this.state.sex, this.state.email)
     
     const { history } = this.props;
     

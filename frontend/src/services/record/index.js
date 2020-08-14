@@ -2,6 +2,7 @@
 import users from "../../data/users";
 import conditions from "../../data/conditions";
 import axios from 'axios';
+import { ContactlessOutlined } from "@material-ui/icons";
 
 const API_GATEWAY = 'http://142.1.46.70:8082';
 
@@ -37,6 +38,40 @@ export const postUserAddress = (street, postalCode, city, province) => {
     query: `mutation {
       postUserAddress(streetname:"${street}" 
       city:"${city}" postal_code:"${postalCode}" province:"${province}") {
+        addressid
+      }
+    }`
+  }).then((response) => {
+    console.log(response.status)
+  })
+}
+
+export const postUserInfo = (firstName, lastName, phoneNumber, dateofbirth, sex, email) => {
+  console.log(firstName)
+  console.log(lastName)
+  console.log(phoneNumber)
+  console.log(dateofbirth)
+  console.log(sex)
+  console.log(email)
+  // mutation{
+  //   postUserInfo(first_name: "Kunal" last_name: "shukla"
+  //   phone_number: "233-232-3232" email: "hello@mail.com"
+  //   birthdate: "05-11-2018" date_became_patient: "08-08-2020"
+  //   sex: "Male") {
+  //     userid
+  //     addressid
+  //   }
+
+  //check to see if its a moment obj, then convert to yyyy-mm-dd format
+  if (dateofbirth instanceof Object) {
+    var formatDOB = dateofbirth.format('YYYY-MM-DD')
+  } 
+  axios.post(`${API_GATEWAY}/services/patient-record`, {
+    query: `mutation {
+      postUserInfo(first_name:"${firstName}" 
+      last_name:"${lastName}" phone_number:"${phoneNumber}" email:"${email}" birthdate:"${formatDOB}"
+      date_became_patient:"${(new Date()).toISOString()}" sex:"${sex}") {
+        userid
         addressid
       }
     }`

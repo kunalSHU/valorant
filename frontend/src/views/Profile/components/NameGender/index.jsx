@@ -154,7 +154,7 @@ class NameGender extends Component {
               inputVariant="outlined"
               label="Date of Birth"
               onChange={(date) => this.handleFieldChange('dateofbirth', date)}
-              value={this.state.dateofbirth}
+              value={this.state.values.dateofbirth}
               />
             </div>
             <div className={classes.field}>

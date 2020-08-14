@@ -39,11 +39,20 @@ const knex = Knex({
   }
 });
 
-var maxVal = 0
-test = () => {
+var maxValUserAddress = 0
+setPrimaryKeyUserAddress = () => {
   var result = knex('patient_info.address_info_tbl').max('addressid');
   return result.then(function(rows){
-    maxVal = rows[0]['max']+1
+    maxValUserAddress = rows[0]['max']+1
+    return rows[0]['max']+1;
+  })
+}
+
+var maxValUserInfo = 0
+setPrimaryKeyUserInfo = () => {
+  var result = knex('patient_info.patient_basic_info_tbl').max('userid');
+  return result.then(function(rows){
+    maxValUserInfo = rows[0]['max']+1
     return rows[0]['max']+1;
   })
 }
@@ -52,20 +61,24 @@ const root = {
   message: () => 'Hello this is patient recording!',
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
   postUserAddress: async ({streetname, city, postal_code, province}) => {
-    await test()
+    await setPrimaryKeyUserAddress()
     return knex('patient_info.address_info_tbl').insert({
-      addressid: maxVal,
+      addressid: maxValUserAddress,
       streetname: streetname,
       city: city,
       postal_code: postal_code,
       province: province
     })
   },
-  postUserInfo: ({userid, addressid, first_name, last_name, phone_number, email, birthdate, 
-    date_became_patient, sex}) => {
+  postUserInfo: async ({first_name, last_name, phone_number, email, birthdate, date_became_patient, sex}) => {
+      await setPrimaryKeyUserInfo()
+      await knex('patient_info.address_info_tbl').max('addressid')
+      .then(function(rows){
+        maxValUserAddress = rows[0]['max']
+      })
       return knex('patient_info.patient_basic_info_tbl').insert({
-        userid: userid,
-        addressid: addressid,
+        userid: maxValUserInfo,
+        addressid: maxValUserAddress,
         first_name: first_name,
         last_name: last_name,
         phone_number: phone_number,

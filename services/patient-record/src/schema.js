@@ -14,8 +14,6 @@ const schema = buildSchema(`
     province: String
     ): UserAddress!
     postUserInfo(
-     userid: Int
-    addressid: Int
     first_name: String
     last_name: String
     phone_number: String

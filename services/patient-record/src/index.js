@@ -75,7 +75,6 @@ const root = {
       await knex('patient_info.address_info_tbl').max('addressid')
       .then(function(rows){
         maxValUserAddressStep2 = rows[0]['max']+1
-        return;
       })
       await setPrimaryKeyUserInfo()
       return knex('patient_info.patient_basic_info_tbl').insert({

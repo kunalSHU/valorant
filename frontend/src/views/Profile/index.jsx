@@ -82,7 +82,7 @@ class MedicalRecord extends Component {
     })
   }
 
-  lastStep = async (street, postalCode, city, province) => {
+  lastStep = (street, postalCode, city, province) => {
     console.log("last step clicked")
     console.log(street)
     console.log(postalCode)
@@ -96,8 +96,8 @@ class MedicalRecord extends Component {
     })
     alert("Profile Completed!")
     //Post user address first
-    await postUserAddress(street, postalCode, city, province)
-    await postUserInfo(this.state.firstName, this.state.lastName, this.state.phoneNumber, this.state.dateofbirth,
+    postUserAddress(street, postalCode, city, province)
+    postUserInfo(this.state.firstName, this.state.lastName, this.state.phoneNumber, this.state.dateofbirth,
       this.state.sex, this.state.email)
     
     const { history } = this.props;

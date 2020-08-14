@@ -71,11 +71,11 @@ const root = {
     })
   },
   postUserInfo: async ({first_name, last_name, phone_number, email, birthdate, date_became_patient, sex}) => {
-      await setPrimaryKeyUserInfo()
       await knex('patient_info.address_info_tbl').max('addressid')
       .then(function(rows){
         maxValUserAddress = rows[0]['max']
       })
+      await setPrimaryKeyUserInfo()
       return knex('patient_info.patient_basic_info_tbl').insert({
         userid: maxValUserInfo,
         addressid: maxValUserAddress,

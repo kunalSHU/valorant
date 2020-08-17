@@ -61,7 +61,7 @@ setPrimaryKeyUserInfo = () => {
 const root = {
   message: () => 'Hello this is patient recording!',
   userAddress: () => knex('patient_info.address_info_tbl').select('*'),
-  getUserInfoByEmail: (email) => knex('patient_info.patient_basic_info_tbl').select('*').where({email:email}),
+  getUserInfoByEmail: () => knex('patient_info.patient_basic_info_tbl').select('*'),
   postUserAddress: async ({streetname, city, postal_code, province}) => {
     await setPrimaryKeyUserAddress()
     return knex('patient_info.address_info_tbl').insert({

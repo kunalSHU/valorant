@@ -38,15 +38,14 @@ const styles = theme => ({
 
 class MedicalRecord extends Component {
   state = { tabIndex: 0, activeStep: 0, showStep1: true, showStep2: false, lastStepState: false,
-          firstName: '', lastName: '', sex: '', email: '', phoneNumber: '', dateofbirth: '', street: '',
+          firstName: '', lastName: '', sex: '', phoneNumber: '', dateofbirth: '', street: '',
         postalCode: '', city: '', province: ''};
 
-  nextStep = (firstName, lastName, phoneNumber, dateofbirth, sex, email) => {
+  nextStep = (firstName, lastName, phoneNumber, dateofbirth, sex) => {
 
     console.log(firstName)
     console.log(lastName)
     console.log(sex)
-    console.log(email)
     console.log("this is DOB")
     console.log(dateofbirth)   
     //console.log(dateofbirth.format('YYYY-MM-DD'))
@@ -61,7 +60,6 @@ class MedicalRecord extends Component {
       phoneNumber: phoneNumber,
       dateofbirth: dateofbirth,
       sex: sex,
-      email: email
     })
 
     console.log("in here")
@@ -97,8 +95,10 @@ class MedicalRecord extends Component {
     alert("Profile Completed!")
     //Post user address first
     postUserAddress(street, postalCode, city, province)
+
+    //get the email from localstorage
     postUserInfo(this.state.firstName, this.state.lastName, this.state.phoneNumber, this.state.dateofbirth,
-      this.state.sex, this.state.email)
+      this.state.sex, localStorage.getItem("Email"))
     
     const { history } = this.props;
     

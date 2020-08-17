@@ -109,6 +109,7 @@ class SignIn extends Component {
         //account exists
         console.log(response)
         localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('Email', values.email);
         history.push('/profile')
         this.setState({ isLoading: true });
       })

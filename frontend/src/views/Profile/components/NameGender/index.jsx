@@ -48,7 +48,6 @@ class NameGender extends Component {
       sex: sexes[0].label,
       phoneNumber: '000-000-0000',
       dateofbirth: (new Date()).toISOString(),
-      email: 'example@email.com'
     },
     empty: {},
     submitSuccess: false
@@ -134,20 +133,6 @@ class NameGender extends Component {
               />
             </div>
             <div className={classes.field}>
-              <TextField
-              className={classes.textField}
-                label="Email"
-                margin="dense"
-                onChange={event =>
-                  this.handleFieldChange('email', event.target.value)
-                }
-                value={values.email}
-                error={this.state.values['email'] === '' ? true : false}
-                helperText={this.state.values['email'] === '' ? 'Email cannot be empty' : null}
-                variant="outlined"
-              />
-            </div>
-            <div className={classes.field}>
               <DatePicker
               className={classes.appointmentDatePicker}
               disableFuture
@@ -181,7 +166,7 @@ class NameGender extends Component {
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
           <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={() => this.props.nextStep(this.state.values.firstName,
-            this.state.values.lastName, this.state.values.phoneNumber, this.state.values.dateofbirth, this.state.values.sex, this.state.values.email)}>
+            this.state.values.lastName, this.state.values.phoneNumber, this.state.values.dateofbirth, this.state.values.sex)}>
             Next
           </Button>
           { this.state.submitSuccess &&

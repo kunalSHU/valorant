@@ -48,6 +48,7 @@ router.post('/medical-conditions', async (req, res) => {
 
 router.post('/patient-record', async (req, res) => {
   // Set timeout for request to MS
+  console.log("HERE BOI")
   req.setTimeout(microserviceConfig.defaultRequestTimeoutMs);
 
   const { query: gqlQueryString, variables: gqlQueryVariables } = req.body;
@@ -63,7 +64,8 @@ router.post('/patient-record', async (req, res) => {
     gqlQueryString,
     gqlQueryVariables
   );
-
+  console.log("waiting for response")
+  conseole.log(response)
   res.json(response);
 });
 

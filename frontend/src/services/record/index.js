@@ -82,15 +82,6 @@ export const postUserInfo = (firstName, lastName, phoneNumber, dateofbirth, sex,
 
 export const retrieveBasicInfoByAccountId = accountId => {
   // Expect { firstName, lastName, sex } to be returned from BE
-
-  return new Promise(resolve => {
-    // Make call to BE update data
-    setTimeout(() => {
-      resolve({
-        // Some resolution here
-      });
-    }, 700);
-  });
 };
 
 export const updateBasicInfoByAccountId = (accountId, basicInfo) => {
@@ -106,17 +97,34 @@ export const updateBasicInfoByAccountId = (accountId, basicInfo) => {
   });
 };
 
-export const retrieveLocationInfoByAccountId = accountId => {
+export const retrieveLocationInfoByAccountId = (email) => {
   // Expect { street, postalCode, city, province } to be returned from BE
-
-  return new Promise(resolve => {
-    // Make call to BE update data
-    setTimeout(() => {
-      resolve({
-        // Some resolution here
-      });
-    }, 700);
-  });
+  console.log('IN HERE');
+  console.log(localStorage.getItem("Email"));
+  // query{
+  //   getUserInfoByEmail(email: "kunkun@gmail.com") {
+  //     userid
+  //     addressid
+  //     first_name
+  //     last_name
+  //     phone_number
+  //     email
+  //     birthdate
+  //     date_became_patient
+  //     sex
+  //   }
+  // }
+  
+  return axios.post(`${API_GATEWAY}/services/patient-record`,  {
+    query: `
+      query {
+        getUserInfoByEmail(email: "${localStorage.getItem("Email")}") {
+          first_name
+          last_name
+          sex
+        }
+      }`
+  })
 };
 
 export const updateLocationInfoByAccountId = (accountId, locationInfo) => {

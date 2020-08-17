@@ -172,10 +172,10 @@ class SignUp extends Component {
   submitValues = (data) => {
     const { history } = this.props;
 
-    axios.get(`http://142.1.46.70:8086/account/find?email=${data.email}`)
+    axios.get(`http://142.1.46.70:8082/account/find?email=${data.email}`)
     .then((response) => {
         if(Object.keys(response.data.data.foundAccount).length===0){
-            axios.post('http://142.1.46.70:8086/account/create', {
+            axios.post('http://142.1.46.70:8082/account/create', {
                 emailAddress: data.email,
                 password: data.password
             })

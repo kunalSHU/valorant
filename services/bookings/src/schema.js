@@ -3,14 +3,13 @@ const GraphQLScalarType = require('graphql').GraphQLScalarType;
 
 const schema = buildSchema(`
     type Query {
-        questionare(id: Int): Questionare
-        medicationById(id: Int): Medication
-        medicationByName(name: String): Medication
+        questionare(id: Int): [Questionare]
+        medicationById(id: Int): [Medication]
+        medicationByName(name: String): [Medication]
         vitalsByUserId(userId: Int): [Vital]
-        latestVitalsByUserId(userId: Int): Vital
-        appointmentById(id: Int): Appointment
+        appointmentById(id: Int): [Appointment]
         appointmentByUserId(userId: Int): [Appointment]
-        prescribedMedicationByAppointmentId(appointmentId: Int): PrescribedMedication
+        prescribedMedicationByAppointmentId(appointmentId: Int): [PrescribedMedication]
         userAllergiesByUserId(userId: Int): [Allergy]
     }
 
@@ -81,24 +80,24 @@ const schema = buildSchema(`
 
     type Questionare {
         questionaireid: Int
-        flu: Boolean
-        sneeze: Boolean
-        shivers: Boolean
-        headache: Boolean
-        jointPain: Boolean
-        troubleSleeping: Boolean
-        shortnessOfBreath: Boolean
-        nausea: Boolean
+        flu: String
+        sneeze: String
+        shivers: String
+        headache: String
+        jointPain: String
+        troubleSleeping: String
+        shortnessOfBreath: String
+        nausea: String
     }
 
     type Medication {
         medicationid: Int
-        medicationName: String 
-        medicationCost: Float
+        medicationname: String 
+        medicationcost: Float
         manufacturer: String
         form: String
         pack: String
-        otherDetails: String
+        otherdetails: String
     }
 
     type Vital {
@@ -108,13 +107,13 @@ const schema = buildSchema(`
         bloodtype: String
         height: String
         weight: String
-        dateChecked: String
+        datechecked: String
     }
 
     type Appointment {
         appointmentid: Int
         userid: Int
-        questionaireId: Int
+        questionaireid: Int
         doctorid: Int
         created_at: String
         begins_at: String
@@ -128,13 +127,13 @@ const schema = buildSchema(`
         medicationid: Int
         date_issued: String
         quantity: Int
-        derivedCost: Float
+        derivedcost: Float
     }
 
     type Allergy {
         allergyid: Int
-        allergyName: String
-        otherFacts: String
+        allergyname: String
+        otherfacts: String
     }
 
 `);

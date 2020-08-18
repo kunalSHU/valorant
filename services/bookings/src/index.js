@@ -26,7 +26,7 @@ const root = {
       return knex("bookings_info.appointments_info_basic_tbl").insert({
         appointmentid: appointmentid,
         userid: userid,
-        questionaireId: questionaireId,
+        questionaireid: questionaireId,
         doctorid: doctorid,
         created_at: created_at,
         begins_at: begins_at,
@@ -35,7 +35,7 @@ const root = {
         status_appt: status_appt,
       })
     },
-  newQuestionaire: ({questionaireid, flu, sneeze, shivers, headache, bejointPainns_at, troubleSleeping, shortnessOfBreath,
+  newQuestionaire: ({questionaireid, flu, sneeze, shivers, headache, jointPain, troubleSleeping, shortnessOfBreath,
     nausea}) => {
       return knex("bookings_info.questionaire_tbl").insert({
         questionaireid: questionaireid,
@@ -43,7 +43,7 @@ const root = {
         sneeze: sneeze,
         shivers: shivers,
         headache: headache,
-        bejointPainns_at: bejointPainns_at,
+        jointPain: jointPain,
         troubleSleeping: troubleSleeping,
         shortnessOfBreath: shortnessOfBreath,
         nausea: nausea,
@@ -79,7 +79,7 @@ const root = {
     })
   },
   newUserAllergy: ({userid, allergyid}) => {
-    return knex("bookings_db.user_allergy_tbl").insert({
+    return knex("bookings_info.user_allergy_tbl").insert({
       userid: userid,
       allergyid: allergyid,
     })
@@ -97,13 +97,12 @@ const root = {
   },
   questionare: ({id}) => knex("bookings_info.questionaire_tbl").select("*").where({ questionaireid:id }),
   medicationById: ({id}) => knex("bookings_info.medication_tbl").select("*").where({ medicationid:id }),
-  medicationByName: ({name}) => knex("bookings_info.medication_tbl").select("*").where({ medicationName:name }),
+  medicationByName: ({name}) => knex("bookings_info.medication_tbl").select("*").where({ medicationname:name }),
   vitalsByUserId: ({userId}) => knex("bookings_info.user_vitals_tbl").select("*").where({ userid:userId }),
-  latestVitalsByUserId: ({userId}) => knex("bookings_info.user_vitals_tbl").select("*").where({ userid:userId }),
   appointmentById: ({id}) => knex("bookings_info.appointments_info_basic_tbl").select("*").where({ appointmentid:id }),
   appointmentByUserId: ({userId}) => knex("bookings_info.appointments_info_basic_tbl").select("*").where({ userid:userId }),
   prescribedMedicationByAppointmentId: ({appointmentId}) => knex("bookings_info.prescribed_medications_tbl").select("*").where({ appointmentid:appointmentId }),
-  userAllergiesByUserId: ({userId}) => knex("bookings_info.user_allergy_tbl").select("*").where({ userid:userId }),
+  userAllergiesByUserId: ({userId}) => knex("bookings_info.allergy_tbl").select("*").where({ allergyid: knex("bookings_info.user_allergy_tbl").select("allergyid").where({ userid:userId }) })
 };
 
 // Create an express server and a GraphQL endpoint

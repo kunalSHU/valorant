@@ -6,8 +6,8 @@ const schema = buildSchema(`
     userAddress: [UserAddress]
   }
   type Mutation {
-    post(
-    addressid: String, 
+    postUserAddress(
+    addressid: String 
     streetname: String
     city: String
     postalCode: String
@@ -15,6 +15,17 @@ const schema = buildSchema(`
     country: String
     otherdetails: String
     ): UserAddress!
+    postUserInfo(
+     userid: String
+    addressid: String
+    first_name: String
+    last_name: String
+    phone_number: String
+    email: String
+    birthdate: String
+    date_became_patient: String
+    sex: String
+    ): UserInfo!
   }
   type UserAddress {
     addressid: String
@@ -24,6 +35,17 @@ const schema = buildSchema(`
     province: String
     country: String
     otherdetails: String
+  }
+  type UserInfo {
+    userid: String
+    addressid: String
+    first_name: String
+    last_name: String
+    phone_number: String
+    email: String
+    birthdate: String
+    date_became_patient: String
+    sex: String
   }
 `);
 

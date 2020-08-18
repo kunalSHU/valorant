@@ -44,10 +44,10 @@ class Location extends Component {
   state = {
     isValid: false,
     values: {
-      'postalCode': 'L1M 9T2',
-      'street': 'Dovehouse Drive',
-      'city': 'Mississauga',
-      'province': provinces[0].label
+      postalCode: 'L1M 9T2',
+      street: 'Dovehouse Drive',
+      city: 'Mississauga',
+      province: provinces[0].label
     },
     empty: {},
   };
@@ -149,7 +149,8 @@ class Location extends Component {
           <Button color="primary" variant="contained" onClick={this.props.back}>
             Back
           </Button>
-          <Button color="primary" variant="contained" onClick={this.props.nextStep}>
+          <Button color="primary" variant="contained" onClick={() => this.props.nextStep(this.state.values.street, this.state.values.postalCode,
+            this.state.values.city, this.state.values.province)}>
             Finish
           </Button>
           { this.state.submitSuccess &&

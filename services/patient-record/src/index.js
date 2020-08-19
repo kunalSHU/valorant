@@ -65,7 +65,7 @@ const root = {
   getUserInfoByEmail: ({email}) => knex('patient_info.patient_basic_info_tbl').select('*').where({email:email}),
   postUserAddress: async ({streetname, city, postal_code, province}) => {
     await setPrimaryKeyUserAddress();
-    return knex('patient_info.address_info_tbl').insert({
+    return await knex('patient_info.address_info_tbl').insert({
       addressid: maxValUserAddress,
       streetname: streetname,
       city: city,
@@ -83,7 +83,7 @@ const root = {
       })
       await setPrimaryKeyUserInfo()
       console.log(maxValUserAddressStep2)
-      return knex('patient_info.patient_basic_info_tbl').insert({
+      return await knex('patient_info.patient_basic_info_tbl').insert({
         userid: maxValUserInfo,
         addressid: maxValUserAddressStep2,
         first_name: first_name,

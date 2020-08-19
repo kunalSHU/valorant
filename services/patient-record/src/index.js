@@ -64,14 +64,14 @@ const root = {
   getUserInfo: () => knex('patient_info.patient_basic_info_tbl').select('*'),
   getUserInfoByEmail: ({email}) => knex('patient_info.patient_basic_info_tbl').select('*').where({email:email}),
   postUserAddress: async ({streetname, city, postal_code, province}) => {
-    let result = knex('patient_info.address_info_tbl').insert({
+    await setPrimaryKeyUserAddress();
+    return knex('patient_info.address_info_tbl').insert({
+      addressid: maxValUserAddress,
       streetname: streetname,
       city: city,
       postal_code: postal_code,
       province: province
-    }).returning('*')
-    console.log(result)
-    console.log(result._single.insert.addressid)
+    })
     
   },
   postUserInfo: async ({first_name, last_name, phone_number, email, birthdate, date_became_patient, sex}) => {

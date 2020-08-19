@@ -87,7 +87,7 @@ const root = {
       console.log(maxValUserAddressStep2)
       return await knex('patient_info.patient_basic_info_tbl').insert({
         userid: maxValUserInfo,
-        addressid: maxValUserAddressStep2,
+        addressid: maxValUserAddress,
         first_name: first_name,
         last_name: last_name,
         phone_number: phone_number,

@@ -77,6 +77,8 @@ const root = {
   postUserInfo: async ({first_name, last_name, phone_number, email, birthdate, date_became_patient, sex}) => {
       await knex('patient_info.address_info_tbl').max('addressid')
       .then(function(rows){
+        console.log('other')
+        console.log(maxValUserAddress)
         maxValUserAddressStep2 = rows[0]['max']
         console.log('maxValUserAddressStep2')
         console.log(maxValUserAddressStep2)

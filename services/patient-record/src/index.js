@@ -82,7 +82,7 @@ const root = {
       await setPrimaryKeyUserInfo()
       return knex('patient_info.patient_basic_info_tbl').insert({
         userid: maxValUserInfo,
-        addressid: maxValUserAddressStep2 + 1,
+        addressid: maxValUserAddressStep2,
         first_name: first_name,
         last_name: last_name,
         phone_number: phone_number,

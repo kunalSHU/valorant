@@ -65,6 +65,7 @@ const root = {
   getUserInfoByEmail: ({email}) => knex('patient_info.patient_basic_info_tbl').select('*').where({email:email}),
   postUserAddress: async ({streetname, city, postal_code, province}) => {
     return await knex('patient_info.address_info_tbl').insert({
+      addressid: undefined,
       streetname: streetname,
       city: city,
       postal_code: postal_code,

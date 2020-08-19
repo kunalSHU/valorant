@@ -77,26 +77,31 @@ const root = {
   postUserInfo: async ({first_name, last_name, phone_number, email, birthdate, date_became_patient, sex}) => {
       await knex('patient_info.address_info_tbl').max('addressid')
       .then(function(rows){
-        console.log('other')
+        console.log('first Chain')
         console.log(maxValUserAddress)
         maxValUserAddressStep2 = rows[0]['max']
         console.log('maxValUserAddressStep2')
         console.log(maxValUserAddressStep2)
+      }).then((response) => {
+        await setPrimaryKeyUserInfo()
+        console.log('second chain')
+        console.log(maxValUserAddress)
+      }).then((response) => {
+        console.log('third chain')
+        console.log(maxValUserAddress)
+        return await knex('patient_info.patient_basic_info_tbl').insert({
+          userid: maxValUserInfo,
+          addressid: maxValUserAddress,
+          first_name: first_name,
+          last_name: last_name,
+          phone_number: phone_number,
+          email: email,
+          birthdate: birthdate,
+          date_became_patient: date_became_patient,
+          sex: sex
+        })
       })
-      await setPrimaryKeyUserInfo()
-      console.log('outside')
-      console.log(maxValUserAddress)
-      return await knex('patient_info.patient_basic_info_tbl').insert({
-        userid: maxValUserInfo,
-        addressid: maxValUserAddress,
-        first_name: first_name,
-        last_name: last_name,
-        phone_number: phone_number,
-        email: email,
-        birthdate: birthdate,
-        date_became_patient: date_became_patient,
-        sex: sex
-      })
+      .then((response) => {})
   }
 };
 

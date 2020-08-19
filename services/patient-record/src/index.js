@@ -83,13 +83,13 @@ const root = {
         console.log('maxValUserAddressStep2')
         console.log(maxValUserAddressStep2)
       }).then((response) => {
-        await setPrimaryKeyUserInfo()
+        setPrimaryKeyUserInfo()
         console.log('second chain')
         console.log(maxValUserAddress)
       }).then((response) => {
         console.log('third chain')
         console.log(maxValUserAddress)
-        return await knex('patient_info.patient_basic_info_tbl').insert({
+        return knex('patient_info.patient_basic_info_tbl').insert({
           userid: maxValUserInfo,
           addressid: maxValUserAddress,
           first_name: first_name,

@@ -84,7 +84,8 @@ const root = {
         console.log(maxValUserAddressStep2)
       })
       await setPrimaryKeyUserInfo()
-      console.log(maxValUserAddressStep2)
+      console.log('outside')
+      console.log(maxValUserAddress)
       return await knex('patient_info.patient_basic_info_tbl').insert({
         userid: maxValUserInfo,
         addressid: maxValUserAddress,

@@ -7,6 +7,7 @@ const schema = buildSchema(`
     userAddress: [UserAddress]
     getUserInfo: [UserInfo]
     getUserInfoByEmail(email: String): [UserInfo]
+    getAddressById(addressid: String): [UserAddress]
   }
   type Mutation {
     postUserAddress(

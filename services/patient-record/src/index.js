@@ -82,8 +82,8 @@ const root = {
         maxValUserAddressStep2 = rows[0]['max']
         console.log('maxValUserAddressStep2')
         console.log(maxValUserAddressStep2)
-      }).then((response) => {
-        setPrimaryKeyUserInfo()
+      }).then(async (response) => {
+        await setPrimaryKeyUserInfo()
         console.log('second chain')
         console.log(maxValUserAddress)
       }).then((response) => {

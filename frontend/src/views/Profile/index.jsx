@@ -95,10 +95,10 @@ class MedicalRecord extends Component {
     alert("Profile Completed!")
     //Post user address first
     postUserAddress(street, postalCode, city, province)
-
-    //get the email from localstorage
+    .then((response) => 
     postUserInfo(this.state.firstName, this.state.lastName, this.state.phoneNumber, this.state.dateofbirth,
       this.state.sex, localStorage.getItem("Email"))
+      .then((response) => {}))
     
     const { history } = this.props;
     

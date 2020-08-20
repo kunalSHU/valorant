@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core';
 
 // Material components
 import { Button, TextField, Typography } from '@material-ui/core';
-import {retrieveLocationInfoByAccountId} from '../../../../services/record/index'
+import {retrieveBasicInfoByAccountId} from '../../../../services/record/index'
 // Shared components
 import {
   Portlet,
@@ -61,8 +61,8 @@ class BasicInfo extends Component {
 
   componentDidMount(){
     console.log("Component Mounted");
-    let result = retrieveLocationInfoByAccountId(localStorage.getItem('Email'));
-    result.then((response) => {
+    let basicInfoResult = retrieveBasicInfoByAccountId(localStorage.getItem('Email'));
+    basicInfoResult.then((response) => {
       console.log(response)
       console.log(response.data.data.getUserInfoByEmail[0].first_name)
       this.setState({
@@ -72,7 +72,16 @@ class BasicInfo extends Component {
           sex: response.data.data.getUserInfoByEmail[0].sex
         }
       })
+      localStorage.setItem('addressid', response.data.data.getUserInfoByEmail[0].addressid)
     })
+    .catch((err) => {
+      console.log(err)
+    })
+
+    //retrieve address id based on email first
+    //then use that address id to get the addresss
+    //let addressResult = 
+
   }
 
   handleFieldChange = (field, value) => {

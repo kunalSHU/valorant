@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core';
 
 // Material components
 import { Button, TextField, Typography } from '@material-ui/core';
+import {retrieveAddressInfoByAddressId} from '../../../../services/record/index'
 
 // Shared components
 import {
@@ -43,13 +44,31 @@ class Location extends Component {
   state = {
     isValid: false,
     values: {
-      'postalCode': 'L1M 9T2',
-      'street': 'Dovehouse Drive',
-      'city': 'Mississauga',
-      'province': provinces[0].label
+      postalCode: 'L1M 9T2',
+      street: 'Dovehouse Drive',
+      city: 'Mississauga',
+      province: provinces[0].label
     },
     empty: {},
   };
+
+  componentDidMount() {
+    console.log(localStorage.getItem('addressid'));
+    console.log('WE mounted');
+    let result = retrieveAddressInfoByAddressId(localStorage.getItem('addressid'));
+    result.then((response) => {
+      console.log(response)
+      this.setState({
+        values: {
+          postalCode: response.data.data.getAddressById[0].postal_code,
+          street: response.data.data.getAddressById[0].streetname,
+          city: response.data.data.getAddressById[0].city,
+          province: response.data.data.getAddressById[0].province
+        }
+      })
+    })
+    console.log('did we get the response?')
+  }
 
   handleFieldChange = (field, value) => {
     const newState = { ...this.state };

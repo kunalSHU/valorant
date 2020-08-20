@@ -34,15 +34,15 @@ export const postUserAddress = (street, postalCode, city, province) => {
   console.log(postalCode)
   console.log(city)
   console.log(province)
-  axios.post(`${API_GATEWAY}/services/patient-record`, {
+  return axios.post(`${API_GATEWAY}/services/patient-record`, {
     query: `mutation {
       postUserAddress(streetname:"${street}" 
       city:"${city}" postal_code:"${postalCode}" province:"${province}") {
         addressid
       }
     }`
-  }).then((response) => {
-    console.log(response.status)
+  // }).then((response) => {
+  //   console.log(response.status)
   })
 }
 
@@ -66,7 +66,7 @@ export const postUserInfo = (firstName, lastName, phoneNumber, dateofbirth, sex,
   if (dateofbirth instanceof Object) {
     var formatDOB = dateofbirth.format('YYYY-MM-DD')
   } 
-  axios.post(`${API_GATEWAY}/services/patient-record`, {
+  return axios.post(`${API_GATEWAY}/services/patient-record`, {
     query: `mutation {
       postUserInfo(first_name:"${firstName}" 
       last_name:"${lastName}" phone_number:"${phoneNumber}" email:"${email}" birthdate:"${formatDOB}"
@@ -75,12 +75,12 @@ export const postUserInfo = (firstName, lastName, phoneNumber, dateofbirth, sex,
         addressid
       }
     }`
-  }).then((response) => {
-    console.log(response.status)
+  // }).then((response) => {
+  //   console.log(response.status)
   })
 }
 
-export const retrieveBasicInfoByAccountId = accountId => {
+export const retrieveLocationInfoByAccountId = accountId => {
   // Expect { firstName, lastName, sex } to be returned from BE
 };
 
@@ -97,7 +97,7 @@ export const updateBasicInfoByAccountId = (accountId, basicInfo) => {
   });
 };
 
-export const retrieveLocationInfoByAccountId = (email) => {
+export const retrieveBasicInfoByAccountId = (email) => {
   // Expect { street, postalCode, city, province } to be returned from BE
   console.log('IN HERE');
   console.log(localStorage.getItem("Email"));
@@ -119,6 +119,7 @@ export const retrieveLocationInfoByAccountId = (email) => {
     query: `
       query {
         getUserInfoByEmail(email: "${localStorage.getItem("Email")}") {
+          addressid
           first_name
           last_name
           sex
@@ -126,6 +127,21 @@ export const retrieveLocationInfoByAccountId = (email) => {
       }`
   })
 };
+
+export const retrieveAddressInfoByAddressId = (addressid) => {
+
+  return axios.post(`${API_GATEWAY}/services/patient-record`, {
+    query: `
+      query {
+        getAddressById(addressid: ${addressid}) {
+          streetname
+          city
+          postal_code
+          province
+        }
+      }`
+  })
+}
 
 export const updateLocationInfoByAccountId = (accountId, locationInfo) => {
   const { street, postalCode, city, province } = locationInfo;

@@ -1,10 +1,10 @@
 // Mock data
 import users from "../../data/users";
 import conditions from "../../data/conditions";
-import axios from 'axios';
+import axios from "axios";
 import { ContactlessOutlined } from "@material-ui/icons";
 
-const API_GATEWAY = 'http://142.1.46.70:8082';
+const API_GATEWAY = "http://142.1.46.70:8082";
 
 export const getAllConditionsByAccountId = accountId => {
   // TODO retrieve from server instead of local file
@@ -30,10 +30,10 @@ export const getAllUsers = () => {
 };
 
 export const postUserAddress = (street, postalCode, city, province) => {
-  console.log(street)
-  console.log(postalCode)
-  console.log(city)
-  console.log(province)
+  console.log(street);
+  console.log(postalCode);
+  console.log(city);
+  console.log(province);
   return axios.post(`${API_GATEWAY}/services/patient-record`, {
     query: `mutation {
       postUserAddress(streetname:"${street}" 
@@ -41,18 +41,25 @@ export const postUserAddress = (street, postalCode, city, province) => {
         addressid
       }
     }`
-  // }).then((response) => {
-  //   console.log(response.status)
-  })
-}
+    // }).then((response) => {
+    //   console.log(response.status)
+  });
+};
 
-export const postUserInfo = (firstName, lastName, phoneNumber, dateofbirth, sex, email) => {
-  console.log(firstName)
-  console.log(lastName)
-  console.log(phoneNumber)
-  console.log(dateofbirth)
-  console.log(sex)
-  console.log(email)
+export const postUserInfo = (
+  firstName,
+  lastName,
+  phoneNumber,
+  dateofbirth,
+  sex,
+  email
+) => {
+  console.log(firstName);
+  console.log(lastName);
+  console.log(phoneNumber);
+  console.log(dateofbirth);
+  console.log(sex);
+  console.log(email);
   // mutation{
   //   postUserInfo(first_name: "Kunal" last_name: "shukla"
   //   phone_number: "233-232-3232" email: "hello@mail.com"
@@ -64,21 +71,21 @@ export const postUserInfo = (firstName, lastName, phoneNumber, dateofbirth, sex,
 
   //check to see if its a moment obj, then convert to yyyy-mm-dd format
   if (dateofbirth instanceof Object) {
-    var formatDOB = dateofbirth.format('YYYY-MM-DD')
-  } 
+    var formatDOB = dateofbirth.format("YYYY-MM-DD");
+  }
   return axios.post(`${API_GATEWAY}/services/patient-record`, {
     query: `mutation {
       postUserInfo(first_name:"${firstName}" 
       last_name:"${lastName}" phone_number:"${phoneNumber}" email:"${email}" birthdate:"${formatDOB}"
-      date_became_patient:"${(new Date()).toISOString()}" sex:"${sex}") {
+      date_became_patient:"${new Date().toISOString()}" sex:"${sex}") {
         userid
         addressid
       }
     }`
-  // }).then((response) => {
-  //   console.log(response.status)
-  })
-}
+    // }).then((response) => {
+    //   console.log(response.status)
+  });
+};
 
 export const retrieveLocationInfoByAccountId = accountId => {
   // Expect { firstName, lastName, sex } to be returned from BE
@@ -97,9 +104,9 @@ export const updateBasicInfoByAccountId = (accountId, basicInfo) => {
   });
 };
 
-export const retrieveBasicInfoByAccountId = (email) => {
+export const retrieveBasicInfoByAccountId = email => {
   // Expect { street, postalCode, city, province } to be returned from BE
-  console.log('IN HERE');
+  console.log("IN HERE");
   console.log(localStorage.getItem("Email"));
   // query{
   //   getUserInfoByEmail(email: "kunkun@gmail.com") {
@@ -114,8 +121,8 @@ export const retrieveBasicInfoByAccountId = (email) => {
   //     sex
   //   }
   // }
-  
-  return axios.post(`${API_GATEWAY}/services/patient-record`,  {
+
+  return axios.post(`${API_GATEWAY}/services/patient-record`, {
     query: `
       query {
         getUserInfoByEmail(email: "${localStorage.getItem("Email")}") {
@@ -125,11 +132,10 @@ export const retrieveBasicInfoByAccountId = (email) => {
           sex
         }
       }`
-  })
+  });
 };
 
-export const retrieveAddressInfoByAddressId = (addressid) => {
-
+export const retrieveAddressInfoByAddressId = addressid => {
   return axios.post(`${API_GATEWAY}/services/patient-record`, {
     query: `
       query {
@@ -140,8 +146,8 @@ export const retrieveAddressInfoByAddressId = (addressid) => {
           province
         }
       }`
-  })
-}
+  });
+};
 
 export const updateLocationInfoByAccountId = (accountId, locationInfo) => {
   const { street, postalCode, city, province } = locationInfo;

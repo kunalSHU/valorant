@@ -46,14 +46,7 @@ export const postUserAddress = (street, postalCode, city, province) => {
   });
 };
 
-export const postUserInfo = (
-  firstName,
-  lastName,
-  phoneNumber,
-  dateofbirth,
-  sex,
-  email
-) => {
+export const postUserInfo = (firstName, lastName, phoneNumber, dateofbirth,sex, email) => {
   console.log(firstName);
   console.log(lastName);
   console.log(phoneNumber);
@@ -84,7 +77,8 @@ export const postUserInfo = (
     }`
     // }).then((response) => {
     //   console.log(response.status)
-  });
+  })
+}
 
 export const retrieveLocationInfoByAccountId = accountId => {
   // Expect { firstName, lastName, sex } to be returned from BE
@@ -146,21 +140,6 @@ export const retrieveAddressInfoByAddressId = addressid => {
       }`
   });
 };
-
-export const retrieveAddressInfoByAddressId = (addressid) => {
-
-  return axios.post(`${API_GATEWAY}/services/patient-record`, {
-    query: `
-      query {
-        getAddressById(addressid: ${addressid}) {
-          streetname
-          city
-          postal_code
-          province
-        }
-      }`
-  })
-}
 
 export const updateLocationInfoByAccountId = (accountId, locationInfo) => {
   const { street, postalCode, city, province } = locationInfo;

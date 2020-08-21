@@ -66,7 +66,6 @@ const root = {
   getAddressById: ({addressid}) => knex('patient_info.address_info_tbl').select('*').where({addressid:addressid}),
   postUserAddress: async ({streetname, city, postal_code, province}) => {
     await setPrimaryKeyUserAddress();
-    localStorage.setItem('addressid', maxValUserAddresss)
     return await knex('patient_info.address_info_tbl').insert({
       addressid: maxValUserAddress,
       streetname: streetname,

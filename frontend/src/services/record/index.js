@@ -141,21 +141,6 @@ export const retrieveAddressInfoByAddressId = addressid => {
   });
 };
 
-export const retrieveAddressInfoByAddressId = (addressid) => {
-
-  return axios.post(`${API_GATEWAY}/services/patient-record`, {
-    query: `
-      query {
-        getAddressById(addressid: ${addressid}) {
-          streetname
-          city
-          postal_code
-          province
-        }
-      }`
-  })
-}
-
 export const updateLocationInfoByAccountId = (accountId, locationInfo) => {
   const { street, postalCode, city, province } = locationInfo;
 

@@ -97,12 +97,13 @@ const root = {
   },
   questionare: ({id}) => knex("bookings_info.questionaire_tbl").select("*").where({ questionaireid:id }),
   medicationById: ({id}) => knex("bookings_info.medication_tbl").select("*").where({ medicationid:id }),
-  medicationByName: ({name}) => knex("bookings_info.medication_tbl").select("*").where({ medicationname:name }),
+  medicationByName: ({name}) => knex("bookings_info.medication_tbl").select("*").where({ medicationName:name }),
   vitalsByUserId: ({userId}) => knex("bookings_info.user_vitals_tbl").select("*").where({ userid:userId }),
+  latestVitalsByUserId: ({userId}) => knex("bookings_info.user_vitals_tbl").select("*").where({ userid:userId }),
   appointmentById: ({id}) => knex("bookings_info.appointments_info_basic_tbl").select("*").where({ appointmentid:id }),
   appointmentByUserId: ({userId}) => knex("bookings_info.appointments_info_basic_tbl").select("*").where({ userid:userId }),
   prescribedMedicationByAppointmentId: ({appointmentId}) => knex("bookings_info.prescribed_medications_tbl").select("*").where({ appointmentid:appointmentId }),
-  userAllergiesByUserId: ({userId}) => knex("bookings_info.allergy_tbl").select("*").where({ allergyid: knex("bookings_info.user_allergy_tbl").select("allergyid").where({ userid:userId }) })
+  userAllergiesByUserId: ({userId}) => knex("bookings_info.user_allergy_tbl").select("*").where({ userid:userId }),
 };
 
 // Create an express server and a GraphQL endpoint

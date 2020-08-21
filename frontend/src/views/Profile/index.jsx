@@ -27,6 +27,7 @@ import {
   PortletFooter,
   Status
 } from '../../components';
+import {postUserAddress, postUserInfo} from '../../services/record/index'
 
 // Component styles
 const styles = theme => ({
@@ -37,13 +38,19 @@ const styles = theme => ({
 
 class MedicalRecord extends Component {
   state = { tabIndex: 0, activeStep: 0, showStep1: true, showStep2: false, lastStepState: false,
-          firstName: '', lastName: '', sex: '', phoneNumber: '', dateofbirth: ''};
+          firstName: '', lastName: '', sex: '', phoneNumber: '', dateofbirth: '', street: '',
+        postalCode: '', city: '', province: ''};
 
   nextStep = (firstName, lastName, phoneNumber, dateofbirth, sex) => {
 
     console.log(firstName)
     console.log(lastName)
     console.log(sex)
+    console.log("this is DOB")
+    console.log(dateofbirth)   
+    //console.log(dateofbirth.format('YYYY-MM-DD'))
+    console.log(typeof(dateofbirth))
+    console.log(dateofbirth instanceof Object)
     this.setState({
       showStep1: false,
       showStep2: true,
@@ -52,7 +59,7 @@ class MedicalRecord extends Component {
       lastName: lastName,
       phoneNumber: phoneNumber,
       dateofbirth: dateofbirth,
-      sex: sex
+      sex: sex,
     })
 
     console.log("in here")
@@ -79,10 +86,28 @@ class MedicalRecord extends Component {
     console.log(postalCode)
     console.log(city)
     console.log(province)
-    const { history } = this.props;
+    this.setState({
+      street: street,
+      postalCode: postalCode,
+      city: city,
+      province: province
+    })
     alert("Profile Completed!")
+    //Post user address first
+    postUserAddress(street, postalCode, city, province)
+    .then((response) => 
+    postUserInfo(this.state.firstName, this.state.lastName, this.state.phoneNumber, this.state.dateofbirth,
+      this.state.sex, localStorage.getItem("Email"))
+      .then((response) => {}))
+    
+    const { history } = this.props;
+    
+
+    //make call to the record file in services, post address first with the id, then patient info
+
+
     history.push('/dashboard')
-    window.location.reload(false);
+    //window.location.reload(false);
   }
 
   render() {

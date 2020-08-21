@@ -47,7 +47,7 @@ class NameGender extends Component {
       lastName: 'Doe',
       sex: sexes[0].label,
       phoneNumber: '000-000-0000',
-      dateofbirth: (new Date()).toISOString()
+      dateofbirth: (new Date()).toISOString(),
     },
     empty: {},
     submitSuccess: false
@@ -139,7 +139,7 @@ class NameGender extends Component {
               inputVariant="outlined"
               label="Date of Birth"
               onChange={(date) => this.handleFieldChange('dateofbirth', date)}
-              value={this.state.dateofbirth}
+              value={this.state.values.dateofbirth}
               />
             </div>
             <div className={classes.field}>
@@ -166,7 +166,7 @@ class NameGender extends Component {
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
           <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={() => this.props.nextStep(this.state.values.firstName,
-            this.state.values.lastName, this.state.values.sex, this.state.values.phoneNumber, this.state.values.dateofbirth)}>
+            this.state.values.lastName, this.state.values.phoneNumber, this.state.values.dateofbirth, this.state.values.sex)}>
             Next
           </Button>
           { this.state.submitSuccess &&

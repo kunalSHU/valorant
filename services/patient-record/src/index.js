@@ -39,10 +39,72 @@ const knex = Knex({
   }
 });
 
-// Root resolver
+var maxValUserAddress = 0
+var maxValUserAddressStep2 = 0
+setPrimaryKeyUserAddress = () => {
+  var result = knex('patient_info.address_info_tbl').max('addressid');
+  return result.then(function(rows){
+    maxValUserAddress = rows[0]['max']+1
+    return rows[0]['max']+1;
+  })
+}
+
+var maxValUserInfo = 0
+setPrimaryKeyUserInfo = () => {
+  var result = knex('patient_info.patient_basic_info_tbl').max('userid');
+  return result.then(function(rows){
+    maxValUserInfo = rows[0]['max']+1
+    return rows[0]['max']+1;
+  })
+}
+
 const root = {
   message: () => 'Hello this is patient recording!',
-  userAddress: () => knex('patient_info.address_info_tbl').select('*')
+  userAddress: () => knex('patient_info.address_info_tbl').select('*'),
+  getUserInfo: () => knex('patient_info.patient_basic_info_tbl').select('*'),
+  getUserInfoByEmail: ({email}) => knex('patient_info.patient_basic_info_tbl').select('*').where({email:email}),
+  getAddressById: ({addressid}) => knex('patient_info.address_info_tbl').select('*').where({addressid:addressid}),
+  postUserAddress: async ({streetname, city, postal_code, province}) => {
+    await setPrimaryKeyUserAddress();
+    localStorage.setItem('addressid', maxValUserAddresss)
+    return await knex('patient_info.address_info_tbl').insert({
+      addressid: maxValUserAddress,
+      streetname: streetname,
+      city: city,
+      postal_code: postal_code,
+      province: province
+    })
+    
+  },
+  postUserInfo: async ({first_name, last_name, phone_number, email, birthdate, date_became_patient, sex}) => {
+      await knex('patient_info.address_info_tbl').max('addressid')
+      .then(function(rows){
+        console.log('first Chain')
+        console.log(maxValUserAddress)
+        maxValUserAddressStep2 = rows[0]['max']
+        console.log('maxValUserAddressStep2')
+        console.log(maxValUserAddressStep2)
+      }).then(async (response) => {
+        await setPrimaryKeyUserInfo()
+        console.log('second chain')
+        console.log(maxValUserAddress)
+      }).then((response) => {
+        console.log('third chain')
+        console.log(maxValUserAddress)
+        return knex('patient_info.patient_basic_info_tbl').insert({
+          userid: maxValUserInfo,
+          addressid: maxValUserAddress,
+          first_name: first_name,
+          last_name: last_name,
+          phone_number: phone_number,
+          email: email,
+          birthdate: birthdate,
+          date_became_patient: date_became_patient,
+          sex: sex
+        })
+      })
+      .then((response) => {})
+  }
 };
 
 // Create an express server and a GraphQL endpoint

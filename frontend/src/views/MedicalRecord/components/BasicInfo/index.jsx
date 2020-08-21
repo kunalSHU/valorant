@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core';
 
 // Material components
 import { Button, TextField, Typography } from '@material-ui/core';
-
+import {retrieveBasicInfoByAccountId} from '../../../../services/record/index'
 // Shared components
 import {
   Portlet,
@@ -51,6 +51,37 @@ class BasicInfo extends Component {
     const newState = { ...this.state };
     newState.submitSuccess = true;
     this.setState(newState);
+  }
+
+  //Before component mounts, get Basic info from db
+  componentWillMount() {
+    // retrieveBasicInfoByAccountId();
+    
+  }
+
+  componentDidMount(){
+    console.log("Component Mounted");
+    let basicInfoResult = retrieveBasicInfoByAccountId(localStorage.getItem('Email'));
+    basicInfoResult.then((response) => {
+      console.log(response)
+      console.log(response.data.data.getUserInfoByEmail[0].first_name)
+      this.setState({
+        values: {
+          firstName: response.data.data.getUserInfoByEmail[0].first_name,
+          lastName: response.data.data.getUserInfoByEmail[0].last_name,
+          sex: response.data.data.getUserInfoByEmail[0].sex
+        }
+      })
+      localStorage.setItem('addressid', response.data.data.getUserInfoByEmail[0].addressid)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
+    //retrieve address id based on email first
+    //then use that address id to get the addresss
+    //let addressResult = 
+
   }
 
   handleFieldChange = (field, value) => {

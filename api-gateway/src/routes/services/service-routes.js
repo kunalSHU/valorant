@@ -19,14 +19,16 @@ router.post('/bookings', async (req, res) => {
 
   try {
     const response = await gqlRequests.sendGqlRequest(
-      microserviceConfig.servicesEndpoints.bookings,
+      microserviceConfig.servicesEndpoints.booking,
       gqlQueryString,
       gqlQueryVariables
     );
     res.json(response);
   } catch (err) {
     logger.error(err);
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ data: err });
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
+      data: { error: err.message }
+    });
   }
 });
 
@@ -51,7 +53,9 @@ router.post('/medical-conditions', async (req, res) => {
     res.json(response);
   } catch (err) {
     logger.error(err);
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ data: err });
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
+      data: { error: err.message }
+    });
   }
 });
 
@@ -76,7 +80,9 @@ router.post('/patient-record', async (req, res) => {
     res.json(response);
   } catch (err) {
     logger.error(err);
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ data: err });
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
+      data: { error: err.message }
+    });
   }
 });
 

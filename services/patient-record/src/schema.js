@@ -34,17 +34,6 @@ const schema = buildSchema(`
     province: String
   }
   type UserInfo {
-    userid: Int
-    addressid: Int
-    first_name: String
-    last_name: String
-    phone_number: String
-    email: String
-    birthdate: String
-    date_became_patient: String
-    sex: String
-  }
-  type UserInfo {
     userid: String
     addressid: String
     first_name: String

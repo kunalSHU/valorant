@@ -2,9 +2,8 @@
 import users from "../../data/users";
 import conditions from "../../data/conditions";
 import axios from "axios";
-import { ContactlessOutlined } from "@material-ui/icons";
 
-const API_GATEWAY = 'http://142.1.46.70:8082';
+const API_GATEWAY = "http://142.1.46.70:8082";
 
 export const getAllConditionsByAccountId = accountId => {
   // TODO retrieve from server instead of local file
@@ -46,7 +45,14 @@ export const postUserAddress = (street, postalCode, city, province) => {
   });
 };
 
-export const postUserInfo = (firstName, lastName, phoneNumber, dateofbirth,sex, email) => {
+export const postUserInfo = (
+  firstName,
+  lastName,
+  phoneNumber,
+  dateofbirth,
+  sex,
+  email
+) => {
   console.log(firstName);
   console.log(lastName);
   console.log(phoneNumber);
@@ -75,10 +81,8 @@ export const postUserInfo = (firstName, lastName, phoneNumber, dateofbirth,sex, 
         addressid
       }
     }`
-    // }).then((response) => {
-    //   console.log(response.status)
-  })
-}
+  });
+};
 
 export const retrieveLocationInfoByAccountId = accountId => {
   // Expect { firstName, lastName, sex } to be returned from BE

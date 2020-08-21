@@ -3,6 +3,7 @@ const router = require('express').Router();
 const microserviceConfig = require('./services-config.js');
 const gqlRequests = require('../../network-utils/gql-requests.js');
 const httpStatusCode = require('../../network-utils/http-status-code.js');
+const logger = require('../../logger/logger.js');
 
 router.post('/bookings', async (req, res) => {
   // Set timeout for request to MS
@@ -24,7 +25,8 @@ router.post('/bookings', async (req, res) => {
     );
     res.json(response);
   } catch (err) {
-    res.json(err);
+    logger.error(err);
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ data: err });
   }
 });
 
@@ -48,7 +50,8 @@ router.post('/medical-conditions', async (req, res) => {
     );
     res.json(response);
   } catch (err) {
-    res.json(err);
+    logger.error(err);
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ data: err });
   }
 });
 
@@ -72,7 +75,8 @@ router.post('/patient-record', async (req, res) => {
     );
     res.json(response);
   } catch (err) {
-    res.json(err);
+    logger.error(err);
+    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({ data: err });
   }
 });
 

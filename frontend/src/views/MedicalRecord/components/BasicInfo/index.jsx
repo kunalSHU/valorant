@@ -72,7 +72,7 @@ class BasicInfo extends Component {
           sex: response.data.data.getUserInfoByEmail[0].sex
         }
       })
-      localStorage.setItem('addressid', response.data.data.getUserInfoByEmail[0].addressid)
+      localStorage.setItem('addressid', parseInt(response.data.data.getUserInfoByEmail[0].addressid))
     })
     .catch((err) => {
       console.log(err)

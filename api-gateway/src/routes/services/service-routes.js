@@ -16,13 +16,16 @@ router.post('/bookings', async (req, res) => {
       .json({ data: 'Query was not provided for Bookings service' });
   }
 
-  const response = await gqlRequests.sendGqlRequest(
-    microserviceConfig.servicesEndpoints.bookings,
-    gqlQueryString,
-    gqlQueryVariables
-  );
-
-  res.json(response);
+  try {
+    const response = await gqlRequests.sendGqlRequest(
+      microserviceConfig.servicesEndpoints.bookings,
+      gqlQueryString,
+      gqlQueryVariables
+    );
+    res.json(response);
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 router.post('/medical-conditions', async (req, res) => {
@@ -37,13 +40,16 @@ router.post('/medical-conditions', async (req, res) => {
       .json({ data: 'Query was not provided for Medical Conditions service' });
   }
 
-  const response = await gqlRequests.sendGqlRequest(
-    microserviceConfig.servicesEndpoints.medicalConditions,
-    gqlQueryString,
-    gqlQueryVariables
-  );
-
-  res.json(response);
+  try {
+    const response = await gqlRequests.sendGqlRequest(
+      microserviceConfig.servicesEndpoints.medicalConditions,
+      gqlQueryString,
+      gqlQueryVariables
+    );
+    res.json(response);
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 router.post('/patient-record', async (req, res) => {
@@ -58,13 +64,16 @@ router.post('/patient-record', async (req, res) => {
       .json({ data: 'Query was not provided Patient service' });
   }
 
-  const response = await gqlRequests.sendGqlRequest(
-    microserviceConfig.servicesEndpoints.patientRecord,
-    gqlQueryString,
-    gqlQueryVariables
-  );
-
-  res.json(response);
+  try {
+    const response = await gqlRequests.sendGqlRequest(
+      microserviceConfig.servicesEndpoints.patientRecord,
+      gqlQueryString,
+      gqlQueryVariables
+    );
+    res.json(response);
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 module.exports = router;

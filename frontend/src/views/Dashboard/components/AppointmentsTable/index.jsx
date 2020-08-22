@@ -22,11 +22,6 @@ import {
   Modal
 } from '@material-ui/core';
 
-
-import {
-  ArrowForward as ArrowForward
-} from '@material-ui/icons';
-
 // Shared components
 import {
   Portlet,
@@ -52,11 +47,9 @@ const statusColors = {
 };
 
 class AppointmentsTable extends Component {
-  signal = false;
 
   state = {
     isLoading: false,
-    limit: 10,
     appointments: [],
     appointmentsTotal: 0,
     openAddBookingModal: false,
@@ -83,10 +76,6 @@ class AppointmentsTable extends Component {
     });
   }
 
-  componentWillUnmount() {
-    this.signal = false;
-  }
-  
   onAppointmentClicked = () => {
     // const history = ;
     const { history } = this.props;
@@ -105,6 +94,10 @@ class AppointmentsTable extends Component {
   handleAppointmentUpdated = () => {
   }
 
+  openBookingModal = () => {
+    this.setState({ openAddBookingModal: true });
+  }
+
   handleClose = () => {
     const newState = { ...this.state };
     this.setState({ openAddBookingModal: !newState.openAddBookingModal })
@@ -119,7 +112,7 @@ class AppointmentsTable extends Component {
 
     return (
       <Portlet className={rootClassName}>
-        <PortletHeader noDivider>
+        <PortletHeader className={classes.portletHeader} noDivider>
           <PortletLabel
             subtitle={`${appointmentsTotal} in total`}
             title="Your Appointments"
@@ -128,7 +121,7 @@ class AppointmentsTable extends Component {
             <Button
               className={classes.newEntryButton}
               color="primary"
-              onClick={this.onAppointmentClicked}
+              onClick={() => this.openBookingModal()}
               size="small"
               variant="outlined"
             >
@@ -168,8 +161,6 @@ class AppointmentsTable extends Component {
                       <TableCell align="left">Time</TableCell>
                       <TableCell align="left">Location</TableCell>
                       <TableCell align="left">Status</TableCell>
-                      {/* Empty cell for arrow */}
-                      {/* <TableCell align="left"><div/></TableCell> */}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -205,9 +196,6 @@ class AppointmentsTable extends Component {
                             {appointmentStatus}
                           </div>
                         </TableCell>
-                        {/* <TableCell className={classes.arrow}>
-                          <ArrowForward/>
-                        </TableCell> */}
                       </TableRow>
                     ))}
                   </TableBody>

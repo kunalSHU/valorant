@@ -6,10 +6,14 @@ export default theme => ({
     transform: "translate(-50%, -50%)",
     outline: "none",
     boxShadow: theme.shadows[20],
-    width: 700,
+    width: '700px',
     maxHeight: "100%",
     overflowY: "auto",
-    maxWidth: "100%"
+    maxWidth: "100%",
+
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '300px',
+    }
   },
   field: {
     marginTop: theme.spacing(3)

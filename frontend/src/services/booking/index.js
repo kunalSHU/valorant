@@ -103,7 +103,6 @@ export const getAllAppointmentsByAccountId = accountId => {
           // Add doctor name to list of appointments
           for (let i = 0; i < allPatientAppointments.length; i++) {
             const doctorId = allPatientAppointments[i].doctorid;
-            console.log(doctorId);
             allPatientAppointments[i].doctor_full_name =
               doctorIdNameMap[doctorId];
           }

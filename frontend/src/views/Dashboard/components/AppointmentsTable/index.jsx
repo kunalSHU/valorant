@@ -33,7 +33,7 @@ import {
 } from '../../../../components';
 
 import BookAppointment from './components/BookAppointment.jsx';
-
+import {bookAppointment} from '../../../../services/booking/index'
 // Component styles
 import styles from './styles';
 
@@ -60,6 +60,7 @@ class AppointmentsTable extends Component {
 
     getAllAppointmentsByAccountId(localStorage.getItem('accountId'))
       .then(appointments => {
+        console.log(appointments)
         this.setState({
           appointments: appointments,
           appointmentsTotal: appointments.length,
@@ -86,6 +87,35 @@ class AppointmentsTable extends Component {
 
   handleAppointmentAdded = (addedAppointmentInfo) => {
     console.log(addedAppointmentInfo)
+    console.log(this.state.appointments)
+    console.log(typeof(addedAppointmentInfo.appointmentDate ))
+    var time = moment(addedAppointmentInfo.appointmentDate).format('hh:mm:ss');
+    console.log(time)
+    console.log(moment.unix(time / 1000).format("hh:mm A"))
+    //use axios to persist the appointment in the db
+
+
+    const newAppt = {
+      appointmentid: 9,
+      appt_type: "In Person",
+      begins_at: addedAppointmentInfo.appointmentDate,
+      ends_at: addedAppointmentInfo.appointmentDate,
+      doctorid: 1,
+      doctor_full_name: "Swetha Maramganty",
+      status_appt: "Awaiting Confirmation"
+    }
+    const date = new Date(newAppt.begins_at)
+    const unixTimestamp = date.getTime();
+    console.log(unixTimestamp)
+    newAppt.begins_at = unixTimestamp;
+    newAppt.ends_at = unixTimestamp;
+    bookAppointment(newAppt)
+    const appointments = this.state.appointments;
+    appointments.push(newAppt);
+    this.setState({ appointments: appointments })
+    console.log('here')
+    console.log(this.state.appointments)
+
   }
 
   handleAppointmentDeleted = (appointmentId) => {

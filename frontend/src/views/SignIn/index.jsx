@@ -144,6 +144,7 @@ class SignIn extends Component {
               </div>
             </div>
           </Grid>
+
           <Grid
             className={classes.content}
             item
@@ -160,13 +161,15 @@ class SignIn extends Component {
                   </Typography>
                 
                   <Typography
-                    className={classes.sugestion}
+                    className={classes.subtitle}
                     variant="body1"
                   >
                     Login with your email address
                   </Typography>
                   <div className={classes.fields}>
-                    <TextField className={classes.textField} label="Email address" name="email"
+                    <TextField 
+                      className={classes.textField} 
+                      label="Email address" name="email"
                       onChange={event => this.handleFieldChange('email', event.target.value)}
                       type="text" value={values.email} variant="outlined"
                     />
@@ -175,26 +178,38 @@ class SignIn extends Component {
                         {errors.email[0]}
                       </Typography>
                     )}
-                    <TextField className={classes.textField} label="Password" name="password"
+                    <TextField className={classes.textField} 
+                      label="Password" name="password"
                       onChange={event => this.handleFieldChange('password', event.target.value)}
-                      type="password" value={values.password} variant="outlined"
+                      type="password" 
+                      value={values.password} 
+                      variant="outlined"
                     />
                     {showPasswordError && (
-                      <Typography className={classes.fieldError} variant="body2">
+                      <Typography className={classes.fieldError} 
+                        variant="body2"
+                      >
                         {errors.password[0]}
                       </Typography>
                     )}
                   </div>
                   {submitError && (
-                    <Typography className={classes.submitError} variant="body2">
+                    <Typography 
+                      className={classes.submitError} 
+                      variant="body2"
+                    >
                       {submitError}
                     </Typography>
                   )}
                   {isLoading ? (
                     <CircularProgress className={classes.progress} />
                   ) : (
-                    <Button className={classes.signInButton} color="primary"
-                      disabled={!isValid} onClick={() => this.handleSignIn()} size="large" variant="contained"
+                    <Button
+                      className={classes.signInButton} 
+                      color="primary"
+                      disabled={!isValid} onClick={() => this.handleSignIn()} 
+                      size="large" 
+                      variant="contained"
                     >
                       Sign in
                     </Button>

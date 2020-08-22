@@ -49,10 +49,6 @@ export default theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2)
   },
-  backButton: {},
-  logoImage: {
-    marginLeft: theme.spacing(4)
-  },
   contentBody: {
     flexGrow: 1,
     display: 'flex',
@@ -77,24 +73,6 @@ export default theme => ({
   },
   subtitle: {
     color: theme.palette.text.secondary,
-    marginTop: theme.spacing(0.5)
-  },
-  facebookButton: {
-    marginTop: theme.spacing(3),
-    width: '100%'
-  },
-  facebookIcon: {
-    marginRight: theme.spacing(1)
-  },
-  googleButton: {
-    marginTop: theme.spacing(2),
-    width: '100%'
-  },
-  googleIcon: {
-    marginRight: theme.spacing(1)
-  },
-  sugestion: {
-    color: theme.palette.text.secondary,
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(4),
   },
@@ -105,24 +83,6 @@ export default theme => ({
     width: '100%',
     '& + & ': {
       marginTop: theme.spacing(2)
-    }
-  },
-  policy: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  policyCheckbox: {
-    marginLeft: '-14px'
-  },
-  policyText: {
-    display: 'inline',
-    color: theme.palette.text.secondary
-  },
-  policyUrl: {
-    color: theme.palette.text.primary,
-    '&:hover': {
-      cursor: 'pointer',
-      color: theme.palette.primary.main
     }
   },
   progress: {

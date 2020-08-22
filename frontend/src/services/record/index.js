@@ -3,7 +3,8 @@ import users from "../../data/users";
 import conditions from "../../data/conditions";
 import axios from "axios";
 
-const API_GATEWAY = "http://142.1.46.70:8082";
+const API_GATEWAY_ENDPOINT = "http://142.1.46.70:8082";
+const PROMISE_REQUEST_DELAY_MS = 1500;
 
 export const getAllConditionsByAccountId = accountId => {
   // TODO retrieve from server instead of local file
@@ -33,7 +34,7 @@ export const postUserAddress = (street, postalCode, city, province) => {
   console.log(postalCode);
   console.log(city);
   console.log(province);
-  return axios.post(`${API_GATEWAY}/services/patient-record`, {
+  return axios.post(`${API_GATEWAY_ENDPOINT}/services/patient-record`, {
     query: `mutation {
       postUserAddress(streetname:"${street}" 
       city:"${city}" postal_code:"${postalCode}" province:"${province}") {
@@ -72,7 +73,7 @@ export const postUserInfo = (
   if (dateofbirth instanceof Object) {
     var formatDOB = dateofbirth.format("YYYY-MM-DD");
   }
-  return axios.post(`${API_GATEWAY}/services/patient-record`, {
+  return axios.post(`${API_GATEWAY_ENDPOINT}/services/patient-record`, {
     query: `mutation {
       postUserInfo(first_name:"${firstName}" 
       last_name:"${lastName}" phone_number:"${phoneNumber}" email:"${email}" birthdate:"${formatDOB}"
@@ -102,23 +103,43 @@ export const updateBasicInfoByAccountId = (accountId, basicInfo) => {
 };
 
 export const retrieveBasicInfoByAccountId = accountId => {
-  // Expect { street, postalCode, city, province } to be returned from BE
+  localStorage.setItem("addressId", "");
 
-  return axios.post(`${API_GATEWAY}/services/patient-record`, {
-    query: `
-      query {
-        getUserInfoByAccountId(accountId: ${accountId}) {
-          addressid
-          first_name
-          last_name
-          sex
-        }
-      }`
+  return new Promise(resolve => {
+    setTimeout(() => {
+      return axios
+        .post(`${API_GATEWAY_ENDPOINT}/services/patient-record`, {
+          query: `
+            query {
+              getUserInfoByAccountId(accountId: ${accountId}) {
+                addressid
+                first_name
+                last_name
+                sex
+              }
+            }
+          `
+        })
+        .then(response => {
+          const data = response.data.data.getUserInfoByAccountId[0];
+
+          localStorage.setItem("addressId", data.addressId);
+
+          resolve({
+            firstName: data.first_name,
+            lastName: data.last_name,
+            sex: data.sex
+          });
+        })
+        .catch(() => {
+          resolve({ errMessage: "Could not retrieve appointments" });
+        });
+    }, PROMISE_REQUEST_DELAY_MS);
   });
 };
 
 export const retrieveAddressInfoByAddressId = addressId => {
-  return axios.post(`${API_GATEWAY}/services/patient-record`, {
+  return axios.post(`${API_GATEWAY_ENDPOINT}/services/patient-record`, {
     query: `
       query {
         getAddressById(addressid: ${addressId}) {

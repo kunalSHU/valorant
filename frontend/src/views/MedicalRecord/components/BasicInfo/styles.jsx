@@ -28,5 +28,17 @@ export default theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center' 
-  }
+  },
+  progressWrapper: {
+    padding: theme.spacing(3),
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  progress: {
+    display: 'block',
+    marginTop: theme.spacing(2),
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  },
 });

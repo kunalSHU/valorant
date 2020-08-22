@@ -45,10 +45,13 @@ import BookAppointment from './components/BookAppointment.jsx';
 // Component styles
 import styles from './styles';
 
+import { getAllAppointmentsByAccountId } from '../../../../services/booking/index.js';
+
 const statusColors = {
-  delivered: 'success',
-  pending: 'info',
-  refund: 'danger'
+  'Completed': 'success',
+  'Upcoming': 'info',
+  'Awaiting Confirmation': 'warning',
+  'Cancelled': 'danger'
 };
 
 class AppointmentsTable extends Component {
@@ -57,41 +60,31 @@ class AppointmentsTable extends Component {
   state = {
     isLoading: false,
     limit: 10,
-    orders: [],
-    ordersTotal: 0,
+    appointments: [],
+    appointmentsTotal: 0,
     openAddBookingModal: false,
   };
 
-  async getOrders(limit) {
-    try {
-      this.setState({ isLoading: true });
-
-      const { orders, ordersTotal } = await getOrders(limit);
-
-      if (this.signal) {
-        this.setState({
-          isLoading: false,
-          orders,
-          ordersTotal
-        });
-      }
-    } catch (error) {
-      if (this.signal) {
-        this.setState({
-          isLoading: false,
-          error
-        });
-      }
-    }
-  }
-
   componentDidMount() {
-    this.signal = true;
+    this.setState({ isLoading: true });
 
-
-    const { limit } = this.state;
-
-    this.getOrders(limit);
+    getAllAppointmentsByAccountId(localStorage.getItem('accountId'))
+    .then(appointments => {
+      console.log(appointments);
+      this.setState({
+        appointments: appointments,
+        appointmentsTotal: appointments.length,
+        isLoading: false,
+        showAppointments: true
+      })
+    })
+    .catch(err => {
+      this.setState({
+        showAppointments: false,
+        isLoading: false,
+        err,
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -109,7 +102,7 @@ class AppointmentsTable extends Component {
   }
 
   handleAppointmentDeleted = (appointmentId) => {
-    let { orders } = this.state;
+    let { appointments } = this.state;
     // orders.filter(order => )
   }
 
@@ -123,16 +116,16 @@ class AppointmentsTable extends Component {
 
   render() {
     const { classes, className } = this.props;
-    const { isLoading, orders, ordersTotal } = this.state;
+    const { isLoading, appointments, appointmentsTotal } = this.state;
 
     const rootClassName = classNames(classes.root, className);
-    const showOrders = !isLoading && orders.length > 0;
+    const showAppointments = !isLoading && appointments.length > 0;
 
     return (
       <Portlet className={rootClassName}>
         <PortletHeader noDivider>
           <PortletLabel
-            subtitle={`${ordersTotal} in total`}
+            subtitle={`${appointmentsTotal} in total`}
             title="Your Appointments"
           />
           <PortletToolbar>
@@ -167,7 +160,7 @@ class AppointmentsTable extends Component {
                 />
               </Modal>
 
-              {showOrders && (
+              {showAppointments && (
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -184,30 +177,36 @@ class AppointmentsTable extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {orders.map(order => (
+                    {appointments.map(({ 
+                      appointmentid: appointmentId,
+                      doctorid: doctorId, 
+                      begins_at: appointmentDateUnixTimestamp, 
+                      status_appt: appointmentStatus, 
+                      appt_type: appointmentLocation 
+                    }) => (
                       <TableRow
                         className={classes.tableRow}
                         hover
-                        key={order.id}
+                        key={appointmentId}
                         onClick={this.onAppointmentClicked}
                       >
-                        <TableCell>{order.id}</TableCell>
+                        <TableCell>{appointmentId}</TableCell>
                         <TableCell className={classes.customerCell}>
-                          {order.customer.name}
+                          {doctorId}
                         </TableCell>
                         <TableCell>
-                          {moment(order.createdAt).format('DD/MM/YYYY')}
+                          {moment.unix(appointmentDateUnixTimestamp / 1000).format('DD/MM/YYYY')}
                         </TableCell>
-                        <TableCell>1:00PM</TableCell>
-                        <TableCell>Online</TableCell>
+                    <TableCell>{moment.unix(appointmentDateUnixTimestamp / 1000).format("hh:mm A")}</TableCell>
+                        <TableCell>{appointmentLocation}</TableCell>
                         <TableCell>
                           <div className={classes.statusWrapper}>
                             <Status
                               className={classes.status}
-                              color={statusColors[order.status]}
+                              color={statusColors[appointmentStatus]}
                               size="sm"
                             />
-                            {order.status}
+                            {appointmentStatus}
                           </div>
                         </TableCell>
                         <TableCell className={classes.arrow}>

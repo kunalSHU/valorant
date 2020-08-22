@@ -12,15 +12,11 @@ export default theme => ({
     }
   },
   quote: {
-    backgroundColor: theme.palette.common.neutral,
+    backgroundColor: theme.palette.primary.main,
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/images/sign_up_1.jpg)',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center'
   },
   quoteInner: {
     textAlign: 'center',
@@ -28,11 +24,13 @@ export default theme => ({
   },
   quoteText: {
     color: theme.palette.common.white,
-    fontWeight: 300
+    fontWeight: 900
   },
   name: {
     marginTop: theme.spacing(3),
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
+    fontSize: '1.2rem',
+    fontStyle: 'italic',
   },
   bio: {
     color: theme.palette.common.white
@@ -51,10 +49,6 @@ export default theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2)
   },
-  backButton: {},
-  logoImage: {
-    marginLeft: theme.spacing(4)
-  },
   contentBody: {
     flexGrow: 1,
     display: 'flex',
@@ -70,7 +64,8 @@ export default theme => ({
     flexBasis: '700px',
     [theme.breakpoints.down('sm')]: {
       paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2)
+      paddingRight: theme.spacing(2),
+      paddingBottom: '0',
     }
   },
   title: {
@@ -78,7 +73,8 @@ export default theme => ({
   },
   subtitle: {
     color: theme.palette.text.secondary,
-    marginTop: theme.spacing(0.5)
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(4),
   },
   fields: {
     marginTop: theme.spacing(5)
@@ -87,24 +83,6 @@ export default theme => ({
     width: '100%',
     '& + & ': {
       marginTop: theme.spacing(2)
-    }
-  },
-  policy: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  policyCheckbox: {
-    marginLeft: '-14px'
-  },
-  policyText: {
-    display: 'inline',
-    color: theme.palette.text.secondary
-  },
-  policyUrl: {
-    color: theme.palette.text.primary,
-    '&:hover': {
-      cursor: 'pointer',
-      color: theme.palette.primary.main
     }
   },
   progress: {

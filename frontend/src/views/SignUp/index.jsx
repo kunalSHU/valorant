@@ -13,23 +13,15 @@ import { withStyles } from '@material-ui/core';
 // Material components
 import {
   Button,
-  Checkbox,
-  CircularProgress,
   Grid,
-  IconButton,
   TextField,
   Typography
 } from '@material-ui/core';
 import ReactSnackBar from "react-js-snackbar";
 import { Formik} from 'formik';
 import * as Yup from 'yup';
-import {Form} from 'antd'
-import {Card, CardContent, MenuItem, Divider, TableFooter} from '@material-ui/core';
+import {CardContent } from '@material-ui/core';
 import axios from 'axios';
-
-
-// Material icons
-import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 
 // Shared utilities
 import validators from '../../common/validators';
@@ -42,19 +34,11 @@ import schema from './schema';
 
 validate.validators.checked = validators.checked;
 
-// Service methods
-const signUp = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(true);
-    }, 1500);
-  });
-};
-
-const FormItem = Form.Item;
+// const FormItem = Form.Item;
 const lowercaseRegex = /(?=.*[a-z])/;
 const uppercaseRegex = /(?=.*[A-Z])/;
 const numericRegex = /(?=.*[0-9])/;
+// eslint-disable-next-line no-useless-escape
 const specialCharacterRegex = /(?=.[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?])/;
 
 const validationSchema  = Yup.object({
@@ -202,25 +186,25 @@ class SignUp extends Component {
 
   render() {
     const { classes } = this.props;
-    const {
-      values,
-      touched,
-      errors,
-      isValid,
-      submitError,
-      isLoading
-    } = this.state;
+    // const {
+    //   values,
+    //   touched,
+    //   errors,
+    //   isValid,
+    //   submitError,
+    //   isLoading
+    // } = this.state;
 
-    const showFirstNameError =
-      touched.firstName && errors.firstName ? errors.firstName[0] : false;
-    const showLastNameError =
-      touched.lastName && errors.lastName ? errors.lastName[0] : false;
-    const showEmailError =
-      touched.email && errors.email ? errors.email[0] : false;
-    const showPasswordError =
-      touched.password && errors.password ? errors.password[0] : false;
-    const showPolicyError =
-      touched.policy && errors.policy ? errors.policy[0] : false;
+    // const showFirstNameError =
+    //   touched.firstName && errors.firstName ? errors.firstName[0] : false;
+    // const showLastNameError =
+    //   touched.lastName && errors.lastName ? errors.lastName[0] : false;
+    // const showEmailError =
+    //   touched.email && errors.email ? errors.email[0] : false;
+    // const showPasswordError =
+    //   touched.password && errors.password ? errors.password[0] : false;
+    // const showPolicyError =
+    //   touched.policy && errors.policy ? errors.policy[0] : false;
 
     return (
       <div className={classes.root}>
@@ -247,96 +231,126 @@ class SignUp extends Component {
                     className={classes.name}
                     variant="body1"
                   >
-                    Takamaru Ayako
-                  </Typography>
-                  <Typography
-                    className={classes.bio}
-                    variant="body2"
-                  >
-                    Manager at inVision
+                    Helping you recieve the care you deserve faster!
                   </Typography>
                 </div>
               </div>
             </div>
           </Grid>
+          
           <Grid
             className={classes.content}
             item
             lg={7}
             xs={12}
           >
-              <div className={classes.contentBody}>
-                <form className={classes.form}>
-                  <Typography
-                    className={classes.title}
-                    variant="h2"
-                  >
-                    Create new account
-                  </Typography>
-                  <Typography
-                    className={classes.subtitle}
-                    variant="body1"
-                  >
-                    Use your work email to create new account... it's free.
-                  </Typography>
-                  <ReactSnackBar Icon={<span></span>} Show={this.state.Show}>
-                    Registered Successfully!
+            <div className={classes.contentBody}>
+              <form className={classes.form}>
+
+                <Typography
+                  className={classes.title}
+                  variant="h2"
+                >
+                  Create new account
+                </Typography>
+
+                <Typography
+                  className={classes.subtitle}
+                  variant="body1"
+                >
+                  Create an account to get started
+                </Typography>
+
+                <ReactSnackBar Icon={<span />} Show={this.state.Show}>
+                  Registered Successfully!
                 </ReactSnackBar>
- 
-                    <CardContent>
 
-                        <Formik initialValues={{email:"", password:"", confirmPassword:""}} 
-                    validationSchema={validationSchema} onSubmit={(data) => {this.submitValues(data)}} validator={() => ({})}>
-
-                        {({handleSubmit, handleChange, handleBlur, values, errors, touched, dirty, isValid}) => (
-                            <Fragment>
-                            <form onSubmit={handleSubmit}>
-                                
-                                <Grid item>
-                                    <TextField className={classes.textField} type="text" helperText={touched.email && errors.email ? this.emailError(errors.email) : ""}
-                                        onChange={handleChange} onBlur={handleBlur} value={values.email} 
-                                        name="email"variant="outlined" placeholder="Email" label="Email"
-                                        margin="dense"/>
-                                </Grid>
-                                <Grid item>
-                                    <TextField className={classes.textField} type="password" helperText={touched.password && errors.password ? this.passwordError(errors.password) : ""}
-                                        onChange={handleChange} onBlur={handleBlur} value={values.password} 
-                                        name="password" variant="outlined" placeholder="Password" label="Password"
-                                        margin="dense"/>
-                                </Grid>
-                                <Grid item>
-                                    <TextField className={classes.textField} type="password" onChange={handleChange} helperText={touched.confirmPassword && errors.confirmPassword ? this.confirmPasswordError(errors.confirmPassword) : ""}
-                                        onBlur={handleBlur} value={values.confirmPassword} 
-                                        name="confirmPassword" variant="outlined" placeholder="Confirm Password" label="Confirm Password"
-                                        margin="dense"/>
-                                </Grid>
-                            </form>
-                            <br></br>
-                            <Button variant="contained" color="primary" className={classes.signUpButton}
-                                disabled={!dirty || errors.email || errors.password || errors.confirmPassword} 
-                                onClick={handleSubmit}>
-                                Submit
-                            </Button>
-                            </Fragment>
- 
-                        )}
-                        </Formik>
-     
-                    </CardContent>
-                  <Typography
-                    className={classes.signIn}
-                    variant="body1"
-                  >
-                    Have an account?{' '}
-                    <Link
-                      className={classes.signInUrl}
-                      to="/sign-in"
+                    <Formik 
+                      initialValues={{email:"", password:"", confirmPassword:""}} 
+                      onSubmit={(data) => {this.submitValues(data)}} 
+                      validationSchema={validationSchema} 
+                      validator={() => ({})}
                     >
-                      Sign In
-                    </Link>
-                  </Typography>
-                </form>
-              </div>
+
+                    {({handleSubmit, handleChange, handleBlur, values, errors, touched, dirty}) => (
+                      <Fragment>
+                        <form onSubmit={handleSubmit}>
+                            
+                            <Grid item>
+                              <TextField 
+                                className={classes.textField} 
+                                helperText={touched.email && errors.email ? this.emailError(errors.email) : ""} 
+                                label="Email"
+                                margin="dense" 
+                                name="email" 
+                                onBlur={handleBlur} 
+                                onChange={handleChange}
+                                placeholder="Email" 
+                                type="text" 
+                                value={values.email}
+                                variant="outlined"
+                              />
+                            </Grid>
+
+                            <Grid item>
+                              <TextField 
+                                className={classes.textField} 
+                                helperText={touched.password && errors.password ? this.passwordError(errors.password) : ""} 
+                                label="Password"
+                                margin="dense" name="password" 
+                                onBlur={handleBlur} 
+                                onChange={handleChange} 
+                                placeholder="Password" 
+                                type="password" 
+                                value={values.password}
+                                variant="outlined"
+                              />
+                            </Grid>
+
+                            <Grid item>
+                              <TextField 
+                                className={classes.textField}
+                                helperText={touched.confirmPassword && errors.confirmPassword ? this.confirmPasswordError(errors.confirmPassword) : ""} 
+                                label="Confirm Password" 
+                                margin="dense"
+                                name="confirmPassword" 
+                                onBlur={handleBlur} 
+                                onChange={handleChange} 
+                                placeholder="Confirm Password"
+                                type="password"
+                                value={values.confirmPassword}
+                                variant="outlined"
+                              />
+                            </Grid>
+                        </form>
+
+                        <br />
+                        <Button
+                          className={classes.signUpButton}    
+                          color="primary"
+                          disabled={!dirty || errors.email || errors.password || errors.confirmPassword} 
+                          onClick={handleSubmit}
+                          variant="contained" 
+                        >
+                            Create account
+                        </Button>
+                      </Fragment>
+                    )}
+                    </Formik>
+                <Typography
+                  className={classes.signIn}
+                  variant="body1"
+                >
+                  Have an account?{' '}
+                  <Link
+                    className={classes.signInUrl}
+                    to="/sign-in"
+                  >
+                    Sign In
+                  </Link>
+                </Typography>
+              </form>
+            </div>
           </Grid>
         </Grid>
       </div>

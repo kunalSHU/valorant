@@ -53,21 +53,29 @@ class Location extends Component {
   };
 
   componentDidMount() {
-    console.log(localStorage.getItem('addressid'));
-    console.log('WE mounted');
-    let result = retrieveAddressInfoByAddressId(localStorage.getItem('addressid'));
-    result.then((response) => {
-      console.log(response)
+    retrieveAddressInfoByAddressId(localStorage.getItem('addressId'))
+    .then((response) => {
+      const data = response.data.data.getAddressById;
+
+      const {
+        city,
+        postal_code: postalCode,
+        streetname: streetName,
+        province,
+      } = data[0];
+
       this.setState({
         values: {
-          postalCode: response.data.data.getAddressById[0].postal_code,
-          street: response.data.data.getAddressById[0].streetname,
-          city: response.data.data.getAddressById[0].city,
-          province: response.data.data.getAddressById[0].province
+          postalCode,
+          street: streetName,
+          city,
+          province
         }
       })
     })
-    console.log('did we get the response?')
+    .catch(err => {
+      console.error(err);
+    });
   }
 
   handleFieldChange = (field, value) => {
@@ -107,45 +115,46 @@ class Location extends Component {
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
+                error={this.state.values['street'] === '' ? true : false}
+                helperText={this.state.values['street'] === '' ? 'Street cannot be empty' : null}
                 label="Street"
                 margin="dense"
                 onChange={event =>
                   this.handleFieldChange('street', event.target.value)
                 }
                 value={values.street}
-                error={this.state.values['street'] === '' ? true : false}
-                helperText={this.state.values['street'] === '' ? 'Street cannot be empty' : null}
                 variant="outlined"
               />
             </div>
             <div  className={classes.field}>
               <TextField
                 className={classes.textField}
+                error={this.state.values['postalCode'] === '' ? true : false}
+                helperText={this.state.values['postalCode'] === '' ? 'Post code cannot be empty' : null}
                 label="Postal Code"
                 margin="dense"
                 onChange={event =>
                   this.handleFieldChange('postalCode', event.target.value)
                 }
                 value={values.postalCode}
-                error={this.state.values['postalCode'] === '' ? true : false}
-                helperText={this.state.values['postalCode'] === '' ? 'Post code cannot be empty' : null}
                 variant="outlined"
               />
               <TextField
                 className={classes.textField}
+                error={this.state.values['city'] === '' ? true : false}
+                helperText={this.state.values['city'] === '' ? 'City cannot be empty' : null}
                 label="City"
                 margin="dense"
                 onChange={event =>
                   this.handleFieldChange('city', event.target.value)
                 }
                 value={values.city}
-                error={this.state.values['city'] === '' ? true : false}
-                helperText={this.state.values['city'] === '' ? 'City cannot be empty' : null}
                 variant="outlined"
               />
             </div>
             <div className={classes.field}>
               <TextField
+                SelectProps={{ native: true }}
                 className={classes.textField}
                 label="Province"
                 margin="dense"
@@ -153,7 +162,6 @@ class Location extends Component {
                   this.handleFieldChange('province', event.target.value)
                 }
                 select
-                SelectProps={{ native: true }}
                 value={values.province}
                 variant="outlined"
               >
@@ -167,12 +175,12 @@ class Location extends Component {
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={this.submitForm}>
+          <Button color="primary" disabled={!this.state.isValid} onClick={this.submitForm} variant="contained">
             Update
           </Button>
           { this.state.submitSuccess &&
             <div className={classes.statusContainer}>
-              <Status className={classes.status} size='md' color='success'/>
+              <Status className={classes.status} color="success" size="md"/>
               <Typography variant="caption">
                 Information has been updated
               </Typography>

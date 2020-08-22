@@ -101,27 +101,13 @@ export const updateBasicInfoByAccountId = (accountId, basicInfo) => {
   });
 };
 
-export const retrieveBasicInfoByAccountId = email => {
+export const retrieveBasicInfoByAccountId = accountId => {
   // Expect { street, postalCode, city, province } to be returned from BE
-  console.log("IN HERE");
-  console.log(localStorage.getItem("Email"));
-  // query{
-  //   getUserInfoByEmail(email: "kunkun@gmail.com") {
-  //     userid
-  //     addressid
-  //     first_name
-  //     last_name
-  //     phone_number
-  //     email
-  //     birthdate
-  //     date_became_patient
-  //     sex
-  //   }
-  // }
+
   return axios.post(`${API_GATEWAY}/services/patient-record`, {
     query: `
       query {
-        getUserInfoByEmail(email: "${localStorage.getItem("Email")}") {
+        getUserInfoByAccountId(accountId: ${accountId}) {
           addressid
           first_name
           last_name
@@ -131,11 +117,11 @@ export const retrieveBasicInfoByAccountId = email => {
   });
 };
 
-export const retrieveAddressInfoByAddressId = addressid => {
+export const retrieveAddressInfoByAddressId = addressId => {
   return axios.post(`${API_GATEWAY}/services/patient-record`, {
     query: `
       query {
-        getAddressById(addressid: ${addressid}) {
+        getAddressById(addressid: ${addressId}) {
           streetname
           city
           postal_code

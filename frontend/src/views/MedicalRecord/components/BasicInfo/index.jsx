@@ -59,29 +59,33 @@ class BasicInfo extends Component {
     
   }
 
+
   componentDidMount(){
-    console.log("Component Mounted");
-    let basicInfoResult = retrieveBasicInfoByAccountId(localStorage.getItem('Email'));
+    let basicInfoResult = retrieveBasicInfoByAccountId(localStorage.getItem('accountId'));
+
     basicInfoResult.then((response) => {
-      console.log(response)
-      console.log(response.data.data.getUserInfoByEmail[0].first_name)
+      const data = response.data.data.getUserInfoByAccountId;
+      const { 
+        first_name: firstName, 
+        last_name: lastName, 
+        sex: sex, 
+        addressid: 
+        addressId 
+      } = data[0];
+
       this.setState({
         values: {
-          firstName: response.data.data.getUserInfoByEmail[0].first_name,
-          lastName: response.data.data.getUserInfoByEmail[0].last_name,
-          sex: response.data.data.getUserInfoByEmail[0].sex
+          firstName,
+          lastName,
+          sex
         }
       })
-      localStorage.setItem('addressid', parseInt(response.data.data.getUserInfoByEmail[0].addressid))
+
+      localStorage.setItem('addressId', addressId);
     })
     .catch((err) => {
-      console.log(err)
+      console.error(err)
     })
-
-    //retrieve address id based on email first
-    //then use that address id to get the addresss
-    //let addressResult = 
-
   }
 
   handleFieldChange = (field, value) => {
@@ -119,31 +123,32 @@ class BasicInfo extends Component {
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
+                error={this.state.values['firstName'] === '' ? true : false}
+                helperText={this.state.values['firstName'] === '' ? 'First name cannot be empty' : null}
                 label="First name"
                 margin="dense"
                 onChange={event =>
                   this.handleFieldChange('firstName', event.target.value)
                 }
                 value={values.firstName}
-                error={this.state.values['firstName'] === '' ? true : false}
-                helperText={this.state.values['firstName'] === '' ? 'First name cannot be empty' : null}
                 variant="outlined"
               />
               <TextField
                 className={classes.textField}
+                error={this.state.values['lastName'] === '' ? true : false}
+                helperText={this.state.values['lastName'] === '' ? 'Last name cannot be empty' : null}
                 label="Last name"
                 margin="dense"
                 onChange={event =>
                   this.handleFieldChange('lastName', event.target.value)
                 }
                 value={values.lastName}
-                error={this.state.values['lastName'] === '' ? true : false}
-                helperText={this.state.values['lastName'] === '' ? 'Last name cannot be empty' : null}
                 variant="outlined"
               />
             </div>
             <div className={classes.field}>
               <TextField
+                SelectProps={{ native: true }}
                 className={classes.textField}
                 label="Sex"
                 margin="dense"
@@ -151,7 +156,6 @@ class BasicInfo extends Component {
                   this.handleFieldChange('sex', event.target.value)
                 }
                 select
-                SelectProps={{ native: true }}
                 value={values.sex}
                 variant="outlined"
               >
@@ -165,12 +169,12 @@ class BasicInfo extends Component {
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={this.submitForm}>
+          <Button color="primary" disabled={!this.state.isValid} onClick={this.submitForm} variant="contained">
             Update
           </Button>
           { this.state.submitSuccess &&
             <div className={classes.statusContainer}>
-              <Status className={classes.status} size='md' color='success'/>
+              <Status className={classes.status} color="success" size="md"/>
               <Typography variant="caption">
                 Information has been updated
               </Typography>

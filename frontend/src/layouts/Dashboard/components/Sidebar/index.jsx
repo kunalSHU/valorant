@@ -51,7 +51,7 @@ class Sidebar extends Component {
   };
 
   componentDidMount() {
-    this.setState({ role: localStorage.getItem('accountRole') });
+    this.setState({ role: localStorage.getItem('accountRole') || 'patient' });
   }
   
   render() {

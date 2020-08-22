@@ -66,7 +66,6 @@ class AppointmentsTable extends Component {
     this.setState({ isLoading: true });
     getAllAppointmentsByAccountId(localStorage.getItem('accountId'))
       .then(appointments => {
-        console.log(appointments)
         this.setState({
           appointments: appointments,
           appointmentsTotal: appointments.length,
@@ -74,10 +73,11 @@ class AppointmentsTable extends Component {
           showAppointments: true
         })
       })
-      .catch(() => {
+      .catch(err => {
         this.setState({
           showAppointments: false,
-          isLoading: false
+          isLoading: false,
+          err,
         });
       });
   }

@@ -6,6 +6,9 @@ import { API_GATEWAY_ENDPOINT, PROMISE_REQUEST_DELAY_MS } from "../config.js";
 
 // TODO rename folder from user to account
 
+const API_GATEWAY_ENDPOINT = "http://localhost:8082";
+const PROMISE_REQUEST_DELAY_MS = 1500;
+
 // TODO
 export const getAccountInfoByEmail = email => {
   return new Promise(resolve => {

@@ -22,14 +22,6 @@ import {
   Modal
 } from '@material-ui/core';
 
-
-import {
-  ArrowForward as ArrowForward
-} from '@material-ui/icons';
-
-// Shared services
-import { getOrders } from '../../../../services/order';
-
 // Shared components
 import {
   Portlet,
@@ -55,11 +47,9 @@ const statusColors = {
 };
 
 class AppointmentsTable extends Component {
-  signal = false;
 
   state = {
     isLoading: false,
-    limit: 10,
     appointments: [],
     appointmentsTotal: 0,
     openAddBookingModal: false,
@@ -69,32 +59,29 @@ class AppointmentsTable extends Component {
     this.setState({ isLoading: true });
 
     getAllAppointmentsByAccountId(localStorage.getItem('accountId'))
-    .then(appointments => {
-      console.log(appointments);
-      this.setState({
-        appointments: appointments,
-        appointmentsTotal: appointments.length,
-        isLoading: false,
-        showAppointments: true
+      .then(appointments => {
+        this.setState({
+          appointments: appointments,
+          appointmentsTotal: appointments.length,
+          isLoading: false,
+          showAppointments: true
+        })
       })
-    })
-    .catch(err => {
-      this.setState({
-        showAppointments: false,
-        isLoading: false,
-        err,
+      .catch(err => {
+        this.setState({
+          showAppointments: false,
+          isLoading: false,
+          err,
+        });
       });
-    });
   }
 
-  componentWillUnmount() {
-    this.signal = false;
-  }
-  
-  onAppointmentClicked = () => {
-    // const history = ;
+  onAppointmentClicked = (appointmentId) => {
     const { history } = this.props;
-    if(history) history.push('/appointments/2');
+
+    if (history) { 
+      history.push(`/appointments/${appointmentId}`);
+    }
   }
 
   handleAppointmentAdded = (addedAppointmentInfo) => {
@@ -107,6 +94,10 @@ class AppointmentsTable extends Component {
   }
 
   handleAppointmentUpdated = () => {
+  }
+
+  openBookingModal = () => {
+    this.setState({ openAddBookingModal: true });
   }
 
   handleClose = () => {
@@ -123,26 +114,29 @@ class AppointmentsTable extends Component {
 
     return (
       <Portlet className={rootClassName}>
-        <PortletHeader noDivider>
-          <PortletLabel
-            subtitle={`${appointmentsTotal} in total`}
-            title="Your Appointments"
-          />
-          <PortletToolbar>
-            <Button
-              className={classes.newEntryButton}
-              color="primary"
-              onClick={this.onAppointmentClicked}
-              size="small"
-              variant="outlined"
-            >
-              Book Appointment
-            </Button>
-          </PortletToolbar>
-        </PortletHeader>
+
+        { showAppointments && !isLoading ? (
+          <PortletHeader className={classes.portletHeader} noDivider>
+            <PortletLabel
+              subtitle={`${appointmentsTotal} in total`}
+              title="Your Appointments"
+            />
+            <PortletToolbar>
+              <Button
+                className={classes.newEntryButton}
+                color="primary"
+                onClick={() => this.openBookingModal()}
+                size="small"
+                variant="outlined"
+              >
+                Book Appointment
+              </Button>
+            </PortletToolbar>
+          </PortletHeader>
+        ) : null }
+          
         <PerfectScrollbar>
           <PortletContent className={classes.portletContent} noPadding>
-
             {isLoading && (
               <div className={classes.progressWrapper}>
                 <CircularProgress />
@@ -166,20 +160,16 @@ class AppointmentsTable extends Component {
                     <TableRow>
                       <TableCell>Appointment ID</TableCell>
                       <TableCell align="left">Doctor</TableCell>
-                      <TableCell align="left">
-                        Appointment Date
-                      </TableCell>
+                      <TableCell align="left">Appointment Date</TableCell>
                       <TableCell align="left">Time</TableCell>
                       <TableCell align="left">Location</TableCell>
                       <TableCell align="left">Status</TableCell>
-                      {/* Empty cell for arrow */}
-                      <TableCell align="left"><div/></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {appointments.map(({ 
                       appointmentid: appointmentId,
-                      doctorid: doctorId, 
+                      doctor_full_name: doctorFullName,
                       begins_at: appointmentDateUnixTimestamp, 
                       status_appt: appointmentStatus, 
                       appt_type: appointmentLocation 
@@ -188,11 +178,11 @@ class AppointmentsTable extends Component {
                         className={classes.tableRow}
                         hover
                         key={appointmentId}
-                        onClick={this.onAppointmentClicked}
+                        onClick={() => this.onAppointmentClicked(appointmentId)}
                       >
-                        <TableCell>{appointmentId}</TableCell>
+                        <TableCell>{`APPT-${appointmentId}`}</TableCell>
                         <TableCell className={classes.customerCell}>
-                          {doctorId}
+                          {doctorFullName || "Not Found"}
                         </TableCell>
                         <TableCell>
                           {moment.unix(appointmentDateUnixTimestamp / 1000).format('DD/MM/YYYY')}
@@ -209,9 +199,6 @@ class AppointmentsTable extends Component {
                             {appointmentStatus}
                           </div>
                         </TableCell>
-                        <TableCell className={classes.arrow}>
-                          <ArrowForward/>
-                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -227,7 +214,8 @@ class AppointmentsTable extends Component {
 
 AppointmentsTable.propTypes = {
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(withRouter(AppointmentsTable));

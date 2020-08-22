@@ -71,9 +71,13 @@ router.post('/auth', async (req, res) => {
   try {
     const verifiedUserJwtSessionToken = await accountsController.verifyAccount(emailAddress, password);
     const foundAccount = await accountsController.findAccountByEmail(emailAddress);
+    const { account_role } = await accountsController.getAccountRoleByEmaill(emailAddress);
     res.status(httpStatusCode.OK).json({
-      jwt_token: verifiedUserJwtSessionToken,
-      data: { foundAccount }
+      data: {
+        ...foundAccount,
+        jwt_token: verifiedUserJwtSessionToken,
+        account_role
+      }
     });
   } catch (err) {
     logger.error(err.message);

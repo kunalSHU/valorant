@@ -15,20 +15,27 @@ INSERT INTO bookings_info.allergy_tbl VALUES (5, 'Soy', NULL);
 INSERT INTO bookings_info.questionaire_tbl VALUES (1, 'yes', 'yes', 'yes',  'yes', 'no', 'no','no','no');
 INSERT INTO bookings_info.questionaire_tbl VALUES(2, 'no', 'yes', 'yes',  'yes', 'yes', 'no','yes','no');
 INSERT INTO bookings_info.questionaire_tbl VALUES (3, 'no', 'no', 'yes',  'no', 'yes', 'no','yes','no');
+INSERT INTO bookings_info.questionaire_tbl VALUES (4, 'yes', 'yes', 'yes',  'yes', 'no', 'no','no','no');
+INSERT INTO bookings_info.questionaire_tbl VALUES(5, 'no', 'yes', 'yes',  'yes', 'yes', 'no','yes','no');
+INSERT INTO bookings_info.questionaire_tbl VALUES (6, 'no', 'no', 'yes',  'no', 'yes', 'no','yes','no');
+INSERT INTO bookings_info.questionaire_tbl VALUES(7, 'no', 'yes', 'yes',  'yes', 'yes', 'no','yes','no');
+INSERT INTO bookings_info.questionaire_tbl VALUES (8, 'no', 'no', 'yes',  'no', 'yes', 'no','yes','no');
 
+INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (1, 1, 1, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', '2020-04-12 05:05:25', 'In-Person', 'Completed');
 
+INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (2, 2, 2, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', '2020-04-12 05:05:25', 'In-Person', 'Completed');
 
-INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (1, 1, 1, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
-        '2020-04-12 05:05:25', 'In-Person', 'Upcoming');
+INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (3, 2, 3, 1, '2020-04-24 05:05:25', '2020-04-24 05:05:25', '2020-04-12 05:05:25', 'In-Person', 'Upcoming');
 
-INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (2, 2, 2, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
-        '2020-04-12 05:05:25', 'In-Person', 'Upcoming');
+INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (4, 2, 4, 1, '2020-09-12 05:05:25', '2020-09-12 05:05:25', '2020-09-12 05:05:25', 'In-Person', 'Awaiting Confirmation');
+        
+INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (5, 2, 5, 1, '2020-07-12 05:05:25', '2020-07-12 05:05:25', '2020-07-12 05:05:25', 'In-Person', 'Upcoming');
 
-INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (3, 3, 3, 3, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
-        '2020-04-12 05:05:25', 'In-Person', 'Cancelled');
+INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (6, 2, 6, 1, '2020-05-12 05:05:25', '2020-05-12 05:05:25', '2020-05-12 05:05:25', 'In-Person', 'Cancelled');
+
+INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (7, 3, 7, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', '2020-04-12 05:05:25', 'In-Person', 'Cancelled');
     
-INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (4, 2, 3, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', 
-        '2020-04-12 05:05:25', 'In-Person', 'Completed');
+INSERT INTO bookings_info.appointments_info_basic_tbl VALUES (8, 2, 8, 1, '2020-04-12 05:05:25', '2020-04-12 05:05:25', '2020-04-12 05:05:25', 'In-Person', 'Awaiting Confirmation');
 
 INSERT INTO bookings_info.user_allergy_tbl VALUES(2, 1);
 

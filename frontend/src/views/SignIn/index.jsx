@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { Link, withRouter, Redirect } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 // Externals
 import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import validate from 'validate.js';
 import _ from 'underscore';
-import axios from 'axios';
-// import history from '../history'
 
 // Material helpers
 import { withStyles } from '@material-ui/core';
@@ -16,14 +14,10 @@ import { withStyles } from '@material-ui/core';
 import {
   Grid,
   Button,
-  IconButton,
   CircularProgress,
   TextField,
   Typography
 } from '@material-ui/core';
-
-// Material icons
-import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 
 // Component styles
 import styles from './styles';
@@ -31,14 +25,7 @@ import styles from './styles';
 // Form validation schema
 import schema from './schema';
 
-// Service methods
-const signIn = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(true);
-    }, 1500);
-  });
-};
+import { authenticateUser } from '../../services/user/index.js';
 
 class SignIn extends Component {
   state = {
@@ -60,20 +47,10 @@ class SignIn extends Component {
   };
 
   componentDidMount() {
-    console.log('here')
     // Redirect to dashboard if the user is already authenticated (don't show sign-in page again)
-    if (localStorage.getItem('isAuthenticated') === 'true') {
-      const { history } = this.props;
-      history.replace('/dashboard');
-    } else {
-      return;
-    }
-  }
-
-  handleBack = () => {
     const { history } = this.props;
-    history.goBack();
-  };
+    localStorage.getItem('isAuthenticated') === 'true' ? history.replace('/dashboard') : history.replace('/sign-in')
+  }
 
   validateForm = _.debounce(() => {
     const { values } = this.state;
@@ -85,7 +62,7 @@ class SignIn extends Component {
     newState.isValid = errors ? false : true;
 
     this.setState(newState);
-  }, 300);
+  }, 500);
 
   handleFieldChange = (field, value) => {
     const newState = { ...this.state };
@@ -97,30 +74,29 @@ class SignIn extends Component {
     this.setState(newState, this.validateForm);
   };
 
-  // TODO @kunalSHU move logic out of views to services folder (this is tightly coupled)
-  handleSignIn = async () => {
-      const { history } = this.props;
-      const { values } = this.state;
-      axios.post('http://142.1.46.70:8082/account/auth', {
-        emailAddress: values.email,
-        password: values.password
-      })
-      .then((response) => {
-        //account exists
-        console.log(response)
-        localStorage.setItem('isAuthenticated', 'true');
-        localStorage.setItem('Email', values.email);
-        history.push('/profile')
-        this.setState({ isLoading: true });
-      })
-      .catch ((error) => {
-        localStorage.setItem('isAuthenticated', 'false');
-        alert('Incorrect login credentials');
-        this.setState({
-          isLoading: false,
-          serviceError: error
-        });
-      });
+  handleSignIn = () => {
+    this.setState({ isLoading: true });
+
+    const { email, password } = this.state.values;
+
+    authenticateUser(email, password)
+    .then(({ isAuthenticated, errMessage }) => {
+        if (isAuthenticated === true) {
+            this.props.history.replace('/dashboard');
+        } else {
+          this.setState({
+            isLoading: false,
+            submitError: errMessage,
+            values: { 
+              email, 
+              password: '' 
+            }
+          });
+        }
+    })
+    .catch(err => {
+      console.error(err);
+    });
   }
 
   render() {
@@ -149,7 +125,23 @@ class SignIn extends Component {
             lg={5}
           >
             <div className={classes.quote}>
-              
+              <div className={classes.quoteInner}>
+                <Typography
+                  className={classes.quoteText}
+                  variant="h1"
+                >
+                  Valorant
+                  
+                </Typography>
+                <div className={classes.person}>
+                  <Typography
+                    className={classes.name}
+                    variant="body1"
+                  >
+                    Helping you recieve the care you deserve faster!
+                  </Typography>
+                </div>
+              </div>
             </div>
           </Grid>
           <Grid
@@ -171,12 +163,13 @@ class SignIn extends Component {
                     className={classes.sugestion}
                     variant="body1"
                   >
-                    Login with email address
+                    Login with your email address
                   </Typography>
                   <div className={classes.fields}>
                     <TextField className={classes.textField} label="Email address" name="email"
                       onChange={event => this.handleFieldChange('email', event.target.value)}
-                      type="text" value={values.email} variant="outlined"/>
+                      type="text" value={values.email} variant="outlined"
+                    />
                     {showEmailError && (
                       <Typography className={classes.fieldError} variant="body2">
                         {errors.email[0]}
@@ -184,7 +177,8 @@ class SignIn extends Component {
                     )}
                     <TextField className={classes.textField} label="Password" name="password"
                       onChange={event => this.handleFieldChange('password', event.target.value)}
-                      type="password" value={values.password} variant="outlined"/>
+                      type="password" value={values.password} variant="outlined"
+                    />
                     {showPasswordError && (
                       <Typography className={classes.fieldError} variant="body2">
                         {errors.password[0]}
@@ -200,8 +194,9 @@ class SignIn extends Component {
                     <CircularProgress className={classes.progress} />
                   ) : (
                     <Button className={classes.signInButton} color="primary"
-                      disabled={!isValid} onClick={this.handleSignIn} size="large" variant="contained">
-                      Sign in now
+                      disabled={!isValid} onClick={() => this.handleSignIn()} size="large" variant="contained"
+                    >
+                      Sign in
                     </Button>
                   )}
                   <Typography className={classes.signUp} variant="body1">

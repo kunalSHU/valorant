@@ -2,9 +2,8 @@
 import users from "../../data/users";
 import conditions from "../../data/conditions";
 import axios from "axios";
-import { ContactlessOutlined } from "@material-ui/icons";
 
-const API_GATEWAY = 'http://142.1.46.70:8082';
+const API_GATEWAY = "http://142.1.46.70:8082";
 
 export const getAllConditionsByAccountId = accountId => {
   // TODO retrieve from server instead of local file
@@ -82,9 +81,8 @@ export const postUserInfo = (
         addressid
       }
     }`
-    // }).then((response) => {
-    //   console.log(response.status)
   });
+};
 
 export const retrieveLocationInfoByAccountId = accountId => {
   // Expect { firstName, lastName, sex } to be returned from BE
@@ -146,21 +144,6 @@ export const retrieveAddressInfoByAddressId = addressid => {
       }`
   });
 };
-
-export const retrieveAddressInfoByAddressId = (addressid) => {
-
-  return axios.post(`${API_GATEWAY}/services/patient-record`, {
-    query: `
-      query {
-        getAddressById(addressid: ${addressid}) {
-          streetname
-          city
-          postal_code
-          province
-        }
-      }`
-  })
-}
 
 export const updateLocationInfoByAccountId = (accountId, locationInfo) => {
   const { street, postalCode, city, province } = locationInfo;

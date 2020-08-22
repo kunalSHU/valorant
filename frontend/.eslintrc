@@ -3,6 +3,7 @@
   "rules": {
     "comma-dangle": 0,
     "jsx-quotes": 1,
+    "no-console": 0,
     "react/display-name": 1,
     "react/forbid-prop-types": 0,
     "react/sort-prop-types": 1,

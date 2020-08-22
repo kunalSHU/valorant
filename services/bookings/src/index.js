@@ -18,33 +18,32 @@ const knex = Knex({
   },
 });
 
-// let maxAppointmentKey = 0
-// setPrimaryKeyAppointment = () => {
-//   const result = knex('bookings_info.appointments_info_basic_tbl').max('appointmentid');
-//   return result.then((rows) => {
-//     maxAppointmentKey = rows[0].max + 1;
-//     return rows[0].max + 1;
-//   });
-// }
+let maxAppointmentKey = 0
+setPrimaryKeyAppointment = () => {
+  const result = knex('bookings_info.appointments_info_basic_tbl').max('appointmentid');
+  return result.then((rows) => {
+    maxAppointmentKey = rows[0].max + 1;
+    return rows[0].max + 1;
+  });
+}
 
 // Root resolver
 const root = {
   message: () => 'Hello this is the booking service connecting to the bookings and appointments db!',
-  // newAppointment: ({ userid, questionaireId, doctorid, created_at, begins_at, ends_at, appt_type,
-  //   status_appt }) => {
-  //   await setPrimaryKeyAppointment();
-  //   return await knex("bookings_info.appointments_info_basic_tbl").insert({
-  //     appointmentid: maxAppointmentKey,
-  //     userid: userid,
-  //     questionaireid: questionaireId,
-  //     doctorid: doctorid,
-  //     created_at: created_at,
-  //     begins_at: begins_at,
-  //     ends_at: ends_at,
-  //     appt_type: appt_type,
-  //     status_appt: status_appt,
-  //   })
-  // },
+  newAppointment: async ({ userid, questionaireId, doctorid, created_at, begins_at, ends_at, appt_type, status_appt }) => {
+    await setPrimaryKeyAppointment();
+    return await knex("bookings_info.appointments_info_basic_tbl").insert({
+      appointmentid: maxAppointmentKey,
+      userid: userid,
+      questionaireid: questionaireId,
+      doctorid: doctorid,
+      created_at: created_at,
+      begins_at: begins_at,
+      ends_at: ends_at,
+      appt_type: appt_type,
+      status_appt: status_appt,
+    })
+  },
   newQuestionaire: ({ questionaireid, flu, sneeze, shivers, headache, jointPain, troubleSleeping, shortnessOfBreath,
     nausea }) => {
     return knex("bookings_info.questionaire_tbl").insert({

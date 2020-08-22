@@ -47,19 +47,15 @@ const dashboardListItemsByRoles = {
 
 class Sidebar extends Component {
   state = {
-    role: 'receptionist'
+    role: 'patient'
   };
 
   componentDidMount() {
-    localStorage.setItem('role', 'patient')
-    this.setState({ role: localStorage.getItem('role') });
+    this.setState({ role: localStorage.getItem('accountRole') });
   }
   
   render() {
     const { classes, className } = this.props;
-
-    const { role } = this.state;
-
     const rootClassName = classNames(classes.root, className);
 
     return (
@@ -81,7 +77,7 @@ class Sidebar extends Component {
         
         <List component="div" disablePadding>
           {
-            dashboardListItemsByRoles[role].map((listItem, i) => {
+            dashboardListItemsByRoles[this.state.role].map((listItem, i) => {
               return (
                 <ListItem
                   activeClassName={classes.activeListItem}

@@ -5,7 +5,7 @@ import users from "../../data/users";
 
 // TODO rename folder from user to account
 
-const API_GATEWAY_ENDPOINT = "http://142.1.46.70:8082";
+const API_GATEWAY_ENDPOINT = "http://localhost:8082";
 const PROMISE_REQUEST_DELAY_MS = 1500;
 
 // TODO
@@ -29,9 +29,10 @@ export const getAllUsers = () => {
 };
 
 export const authenticateUser = (emailAddress, password) => {
-  localStorage.setItem("isAuthenticated", "false");
+  localStorage.setItem("isAuthenticated", false);
   localStorage.setItem("email", "");
   localStorage.setItem("accountId", "");
+  localStorage.setItem("accountRole", "");
 
   return new Promise(resolve => {
     setTimeout(() => {
@@ -41,15 +42,13 @@ export const authenticateUser = (emailAddress, password) => {
           password
         })
         .then(response => {
-          console.log(response.data);
-
-          localStorage.setItem("isAuthenticated", "true");
+          const data = response.data.data;
+          localStorage.setItem("isAuthenticated", true);
           localStorage.setItem("accountEmail", emailAddress);
-          localStorage.setItem("authToken", response.data.jwt_token);
-          localStorage.setItem(
-            "accountId",
-            response.data.data.foundAccount.account_id
-          );
+          localStorage.setItem("authToken", data.jwt_token);
+          localStorage.setItem("accountRole", data.account_role);
+          localStorage.setItem("accountId", data.account_id);
+
           resolve({ isAuthenticated: true });
         })
         .catch(() => {

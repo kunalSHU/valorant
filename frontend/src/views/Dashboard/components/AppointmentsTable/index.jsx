@@ -59,28 +59,28 @@ class AppointmentsTable extends Component {
     this.setState({ isLoading: true });
 
     getAllAppointmentsByAccountId(localStorage.getItem('accountId'))
-    .then(appointments => {
-      this.setState({
-        appointments: appointments,
-        appointmentsTotal: appointments.length,
-        isLoading: false,
-        showAppointments: true
+      .then(appointments => {
+        this.setState({
+          appointments: appointments,
+          appointmentsTotal: appointments.length,
+          isLoading: false,
+          showAppointments: true
+        })
       })
-    })
-    .catch(err => {
-      this.setState({
-        showAppointments: false,
-        isLoading: false,
-        err,
+      .catch(err => {
+        this.setState({
+          showAppointments: false,
+          isLoading: false,
+          err,
+        });
       });
-    });
   }
 
   onAppointmentClicked = (appointmentId) => {
     const { history } = this.props;
 
     if (history) { 
-      history.push(`/appointments/${appointmentId}`); 
+      history.push(`/appointments/${appointmentId}`);
     }
   }
 
@@ -135,8 +135,7 @@ class AppointmentsTable extends Component {
           </PortletHeader>
         ) : null }
           
-          <PerfectScrollbar>
-
+        <PerfectScrollbar>
           <PortletContent className={classes.portletContent} noPadding>
             {isLoading && (
               <div className={classes.progressWrapper}>
@@ -161,9 +160,7 @@ class AppointmentsTable extends Component {
                     <TableRow>
                       <TableCell>Appointment ID</TableCell>
                       <TableCell align="left">Doctor</TableCell>
-                      <TableCell align="left">
-                        Appointment Date
-                      </TableCell>
+                      <TableCell align="left">Appointment Date</TableCell>
                       <TableCell align="left">Time</TableCell>
                       <TableCell align="left">Location</TableCell>
                       <TableCell align="left">Status</TableCell>

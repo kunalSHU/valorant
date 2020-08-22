@@ -19,7 +19,7 @@ export default theme => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
-    fontWeight: 500
+    fontWeight: 400
   },
   statusWrapper: {
     display: 'flex',

@@ -27,9 +27,6 @@ import {
   ArrowForward as ArrowForward
 } from '@material-ui/icons';
 
-// Shared services
-import { getOrders } from '../../../../services/order';
-
 // Shared components
 import {
   Portlet,
@@ -70,7 +67,6 @@ class AppointmentsTable extends Component {
 
     getAllAppointmentsByAccountId(localStorage.getItem('accountId'))
     .then(appointments => {
-      console.log(appointments);
       this.setState({
         appointments: appointments,
         appointmentsTotal: appointments.length,
@@ -173,13 +169,13 @@ class AppointmentsTable extends Component {
                       <TableCell align="left">Location</TableCell>
                       <TableCell align="left">Status</TableCell>
                       {/* Empty cell for arrow */}
-                      <TableCell align="left"><div/></TableCell>
+                      {/* <TableCell align="left"><div/></TableCell> */}
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {appointments.map(({ 
                       appointmentid: appointmentId,
-                      doctorid: doctorId, 
+                      doctor_full_name: doctorFullName,
                       begins_at: appointmentDateUnixTimestamp, 
                       status_appt: appointmentStatus, 
                       appt_type: appointmentLocation 
@@ -190,9 +186,9 @@ class AppointmentsTable extends Component {
                         key={appointmentId}
                         onClick={this.onAppointmentClicked}
                       >
-                        <TableCell>{appointmentId}</TableCell>
+                        <TableCell>{`APPT-${appointmentId}`}</TableCell>
                         <TableCell className={classes.customerCell}>
-                          {doctorId}
+                          {doctorFullName || "Not Found"}
                         </TableCell>
                         <TableCell>
                           {moment.unix(appointmentDateUnixTimestamp / 1000).format('DD/MM/YYYY')}
@@ -209,9 +205,9 @@ class AppointmentsTable extends Component {
                             {appointmentStatus}
                           </div>
                         </TableCell>
-                        <TableCell className={classes.arrow}>
+                        {/* <TableCell className={classes.arrow}>
                           <ArrowForward/>
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     ))}
                   </TableBody>

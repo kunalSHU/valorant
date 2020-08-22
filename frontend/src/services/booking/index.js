@@ -117,14 +117,15 @@ export const getAllAppointmentsByAccountId = accountId => {
 };
 
 // Books appointment for the specific account that matches the account ID, only patients can book
-export const bookAppointmentByAccountId = (accountId, bookingInfo) => {
-  // { appointmentDate, appointmentNotes } = bookingInfo
-  return new Promise(resolve => {
-    // Make call to BE to update data
-    setTimeout(() => {
-      resolve({
-        // Some resolution here (return a string which is the notes)
-      });
-    }, 700);
-  });
+export const bookAppointment = (appointmentInfo) => {
+  console.log('in booking appointments method')
+  return axios.post(`${API_GATEWAY_ENDPOINT}/services/bookings`, {
+    query: `mutation {
+      newAppointment(userid: ${localStorage.getItem('accountId')} questionaireId: 8
+      doctorid: 1 created_at: "${new Date().toISOString()}" begins_at: "${appointmentInfo.begins_at}"
+      ends_at: "${appointmentInfo.ends_at}" appt_type: "In-Person" status_appt: "Awaiting Confirmation"){
+        appointmentid
+      }
+    }`
+  })
 };

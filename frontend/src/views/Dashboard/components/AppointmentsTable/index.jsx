@@ -76,10 +76,12 @@ class AppointmentsTable extends Component {
     });
   }
 
-  onAppointmentClicked = () => {
-    // const history = ;
+  onAppointmentClicked = (appointmentId) => {
     const { history } = this.props;
-    if(history) history.push('/appointments/2');
+
+    if (history) { 
+      history.push(`/appointments/${appointmentId}`); 
+    }
   }
 
   handleAppointmentAdded = (addedAppointmentInfo) => {
@@ -112,26 +114,30 @@ class AppointmentsTable extends Component {
 
     return (
       <Portlet className={rootClassName}>
-        <PortletHeader className={classes.portletHeader} noDivider>
-          <PortletLabel
-            subtitle={`${appointmentsTotal} in total`}
-            title="Your Appointments"
-          />
-          <PortletToolbar>
-            <Button
-              className={classes.newEntryButton}
-              color="primary"
-              onClick={() => this.openBookingModal()}
-              size="small"
-              variant="outlined"
-            >
-              Book Appointment
-            </Button>
-          </PortletToolbar>
-        </PortletHeader>
-        <PerfectScrollbar>
-          <PortletContent className={classes.portletContent} noPadding>
 
+        { showAppointments && !isLoading ? (
+          <PortletHeader className={classes.portletHeader} noDivider>
+            <PortletLabel
+              subtitle={`${appointmentsTotal} in total`}
+              title="Your Appointments"
+            />
+            <PortletToolbar>
+              <Button
+                className={classes.newEntryButton}
+                color="primary"
+                onClick={() => this.openBookingModal()}
+                size="small"
+                variant="outlined"
+              >
+                Book Appointment
+              </Button>
+            </PortletToolbar>
+          </PortletHeader>
+        ) : null }
+          
+          <PerfectScrollbar>
+
+          <PortletContent className={classes.portletContent} noPadding>
             {isLoading && (
               <div className={classes.progressWrapper}>
                 <CircularProgress />
@@ -175,7 +181,7 @@ class AppointmentsTable extends Component {
                         className={classes.tableRow}
                         hover
                         key={appointmentId}
-                        onClick={this.onAppointmentClicked}
+                        onClick={() => this.onAppointmentClicked(appointmentId)}
                       >
                         <TableCell>{`APPT-${appointmentId}`}</TableCell>
                         <TableCell className={classes.customerCell}>
@@ -211,7 +217,8 @@ class AppointmentsTable extends Component {
 
 AppointmentsTable.propTypes = {
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(withRouter(AppointmentsTable));

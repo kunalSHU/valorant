@@ -109,8 +109,8 @@ export const getAllAppointmentsByAccountId = accountId => {
 
           resolve(allPatientAppointments);
         })
-        .catch(err => {
-          resolve(err.message);
+        .catch(errMessage => {
+          resolve(errMessage);
         });
     }, PROMISE_REQUEST_DELAY_MS);
   });

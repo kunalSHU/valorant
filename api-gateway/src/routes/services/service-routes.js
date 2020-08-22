@@ -25,10 +25,16 @@ router.post('/bookings', async (req, res) => {
     );
     res.json(response);
   } catch (err) {
-    logger.error(err);
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
-      data: { error: err.message }
-    });
+    if (JSON.stringify(err) !== '{}') {
+      logger.error(err);
+      res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
+        data: { error: err.message }
+      });
+    } else {
+      res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
+        data: { error: 'Connection reset' }
+      });
+    }
   }
 });
 
@@ -52,10 +58,16 @@ router.post('/medical-conditions', async (req, res) => {
     );
     res.json(response);
   } catch (err) {
-    logger.error(err);
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
-      data: { error: err.message }
-    });
+    if (JSON.stringify(err) !== '{}') {
+      logger.error(err);
+      res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
+        data: { error: err.message }
+      });
+    } else {
+      res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
+        data: { error: 'Connection reset' }
+      });
+    }
   }
 });
 
@@ -79,10 +91,16 @@ router.post('/patient-record', async (req, res) => {
     );
     res.json(response);
   } catch (err) {
-    logger.error(err);
-    res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
-      data: { error: err.message }
-    });
+    if (JSON.stringify(err) !== '{}') {
+      logger.error(err);
+      res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
+        data: { error: err.message }
+      });
+    } else {
+      res.status(httpStatusCode.SERVER_INTERNAL_ERROR).json({
+        data: { error: 'Connection reset' }
+      });
+    }
   }
 });
 

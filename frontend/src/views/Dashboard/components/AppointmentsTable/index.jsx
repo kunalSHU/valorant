@@ -52,12 +52,11 @@ class AppointmentsTable extends Component {
     isLoading: false,
     appointments: [],
     appointmentsTotal: 0,
-    openAddBookingModal: false,
+    openAddBookingModal: false
   };
 
   componentDidMount() {
     this.setState({ isLoading: true });
-
     getAllAppointmentsByAccountId(localStorage.getItem('accountId'))
       .then(appointments => {
         console.log(appointments)
@@ -68,11 +67,10 @@ class AppointmentsTable extends Component {
           showAppointments: true
         })
       })
-      .catch(err => {
+      .catch(() => {
         this.setState({
           showAppointments: false,
-          isLoading: false,
-          err,
+          isLoading: false
         });
       });
   }
@@ -144,7 +142,6 @@ class AppointmentsTable extends Component {
 
     return (
       <Portlet className={rootClassName}>
-
         { showAppointments && !isLoading ? (
           <PortletHeader className={classes.portletHeader} noDivider>
             <PortletLabel

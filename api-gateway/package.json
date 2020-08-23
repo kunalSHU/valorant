@@ -28,6 +28,7 @@
     "http-proxy-middleware": "^1.0.5",
     "ip": "^1.1.5",
     "jsonwebtoken": "^8.5.1",
+    "kafka-node": "^5.0.0",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.0",
     "pg": "^8.3.0",

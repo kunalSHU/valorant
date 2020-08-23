@@ -72,7 +72,7 @@ class BasicInfo extends Component {
         isLoading: false,
         showForm: true
       })
-
+      
       this.props.shouldRenderGridItem(true);
     })
     .catch(({ errMessage }) => {

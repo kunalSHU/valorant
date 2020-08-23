@@ -207,7 +207,8 @@ class SignIn extends Component {
                     <Button
                       className={classes.signInButton} 
                       color="primary"
-                      disabled={!isValid} onClick={() => this.handleSignIn()} 
+                      disabled={!isValid} 
+                      onClick={() => this.handleSignIn()} 
                       size="large" 
                       variant="contained"
                     >

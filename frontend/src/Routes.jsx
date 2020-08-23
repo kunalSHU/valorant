@@ -20,6 +20,7 @@ export default class Routes extends Component {
     return (
       <Switch>
         <PrivateRoute
+          component={Dashboard}
           exact
           from="/"
           to="/dashboard"

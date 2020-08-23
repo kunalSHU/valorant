@@ -94,15 +94,10 @@ class AppointmentsTable extends Component {
     }
 
     bookAppointment(localStorage.getItem('accountId'), appointmentToBook)
-    .then(bookedAppointment => {
-      const updatedAppointments = this.state.appointments.push(bookedAppointment);
-      this.setState({
-        appointments: updatedAppointments
-      });
-    })
-    .catch(errMessage => {
-      console.error(errMessage);
-    });
+    setTimeout(() => {
+      window.location.reload()
+    } ,3000)
+
   }
 
   handleAppointmentDeleted = (appointmentId) => {

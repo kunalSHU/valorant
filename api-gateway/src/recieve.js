@@ -13,6 +13,7 @@ amqp.connect('amqp://142.1.46.70:8089', function (error0, connection) {
 
         var queue = 'hello';
 
+
         channel.assertQueue(queue, {
             durable: false
         });

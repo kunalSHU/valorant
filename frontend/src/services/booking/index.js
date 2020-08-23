@@ -117,15 +117,48 @@ export const getAllAppointmentsByAccountId = accountId => {
 };
 
 // Books appointment for the specific account that matches the account ID, only patients can book
-export const bookAppointment = (appointmentInfo) => {
-  console.log('in booking appointments method')
-  return axios.post(`${API_GATEWAY_ENDPOINT}/services/bookings`, {
-    query: `mutation {
-      newAppointment(userid: ${localStorage.getItem('accountId')} questionaireId: 8
-      doctorid: 1 created_at: "${new Date().toISOString()}" begins_at: "${appointmentInfo.begins_at}"
-      ends_at: "${appointmentInfo.ends_at}" appt_type: "In-Person" status_appt: "Awaiting Confirmation"){
-        appointmentid
-      }
-    }`
-  })
+export const bookAppointment = (accountId, appointmentInfo) => {
+  const {
+    appt_type: appointmentType,
+    begins_at: dateTimeBeginsAt,
+    ends_at: dateTimeEndsAt,
+    doctorid: doctorId,
+    status_appt: appointmentStatus
+  } = appointmentInfo;
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      axios
+        .post(`${API_GATEWAY_ENDPOINT}/services/bookings`, {
+          query: `
+            mutation {
+              newAppointment(
+                userid: ${accountId},
+                questionaireId: 8,
+                doctorid: ${doctorId},
+                created_at: "${new Date().toISOString()}",
+                begins_at: "${dateTimeBeginsAt}",
+                ends_at: "${dateTimeEndsAt}",
+                appt_type: "${appointmentType}",
+                status_appt: "${appointmentStatus}"
+              ) {
+                appointmentid
+                doctorid
+                begins_at
+                ends_at
+                appt_type
+                status_appt
+              }
+            }
+          `
+        })
+        .then(response => {
+          const data = response.data.data.newAppointment;
+          resolve(data);
+        })
+        .catch(errMessage => {
+          resolve(errMessage);
+        });
+    }, PROMISE_REQUEST_DELAY_MS);
+  });
 };

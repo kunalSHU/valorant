@@ -19,7 +19,7 @@ const knex = Knex({
 });
 
 let maxAppointmentKey = 0;
-setPrimaryKeyAppointment = () => {
+const setPrimaryKeyAppointment = () => {
   const result = knex('bookings_info.appointments_info_basic_tbl').max('appointmentid');
   return result.then((rows) => {
     maxAppointmentKey = rows[0].max + 1;

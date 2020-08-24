@@ -24,12 +24,15 @@ const config = {
 const pool = new pg.Pool(config);
 
 pool.connect(function(err, client, done) {
+	console.log("NOW HERE");
 	if(err){
 		console.log(err);
 	}
 	
 	client.on('notification', function(msg) {
 		let payload = JSON.parse(msg.payload);
+		console.log(payload);
+		console.log('PAY LOAD ENDED');
 	});
 
 	client.query('LISTEN update_status');

@@ -92,7 +92,4 @@ Topbar.defaultProps = {
 let newStyles;
 [Topbar, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('Topbar', Topbar, styles);
 
-export default compose(
-  withRouter,
-  withStyles(newStyles)
-)(Topbar);
+export default compose(withRouter, withStyles(newStyles))(Topbar);

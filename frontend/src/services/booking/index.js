@@ -4,8 +4,7 @@ import axios from "axios";
 import users from "../../data/users";
 import conditions from "../../data/conditions";
 
-const API_GATEWAY_ENDPOINT = "http://142.1.46.70:8082";
-const PROMISE_REQUEST_DELAY_MS = 1500;
+import { API_GATEWAY_ENDPOINT, PROMISE_REQUEST_DELAY_MS } from "../config.js";
 
 export const updateAppointmentStatusByAppointmentId = (
   appointmentId,

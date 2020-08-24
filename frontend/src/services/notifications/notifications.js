@@ -1,10 +1,12 @@
 import SocketIOClient from "socket.io-client";
 
+import { API_GATEWAY_ENDPOINT } from "../config.js";
+
 let socketConnection;
 
 const getSocketConnection = () => {
   if (socketConnection === undefined) {
-    socketConnection = SocketIOClient("http://localhost:8082/notifications", {
+    socketConnection = SocketIOClient(`${API_GATEWAY_ENDPOINT}/notifications`, {
       reconnectionDelayMax: 10000,
       reconnectionAttempts: 20,
       transports: ["websocket"]

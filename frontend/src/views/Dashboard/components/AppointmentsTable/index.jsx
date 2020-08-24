@@ -19,6 +19,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TextField,
   Modal
 } from '@material-ui/core';
 
@@ -44,6 +45,12 @@ const statusColors = {
   'Upcoming': 'info',
   'Awaiting Confirmation': 'warning',
   'Cancelled': 'danger'
+};
+
+const appointmentStatuses = {
+  'upcoming': 'Approved',
+  'cancelled': 'Cancel',
+  'awaiting confirmation': 'Pending',
 };
 
 class AppointmentsTable extends Component {
@@ -177,39 +184,65 @@ class AppointmentsTable extends Component {
                       <TableCell align="left">Status</TableCell>
                     </TableRow>
                   </TableHead>
+
                   <TableBody>
                     {appointments.map(({ 
                       appointmentid: appointmentId,
                       doctor_full_name: doctorFullName,
                       begins_at: appointmentDateUnixTimestamp, 
                       status_appt: appointmentStatus, 
-                      appt_type: appointmentLocation 
+                      appt_type: appointmentLocation,
                     }) => (
+                      (appointmentStatus !== 'Completed' && localStorage.getItem("accountRole") !== 'doctor') &&
                       <TableRow
                         className={classes.tableRow}
                         hover
                         key={appointmentId}
-                        onClick={() => this.onAppointmentClicked(appointmentId)}
                       >
-                        <TableCell>{`APPT-${appointmentId}`}</TableCell>
+                        <TableCell onClick={() => this.onAppointmentClicked(appointmentId)}>
+                          {`APPT-${appointmentId}`}
+                        </TableCell>
                         <TableCell className={classes.customerCell}>
                           {doctorFullName || "Not Found"}
                         </TableCell>
                         <TableCell>
                           {moment.unix(appointmentDateUnixTimestamp / 1000).format('DD/MM/YYYY')}
                         </TableCell>
-                    <TableCell>{moment.unix(appointmentDateUnixTimestamp / 1000).format("hh:mm A")}</TableCell>
+                        <TableCell>{moment.unix(appointmentDateUnixTimestamp / 1000).format("hh:mm A")}</TableCell>
                         <TableCell>{appointmentLocation}</TableCell>
-                        <TableCell>
-                          <div className={classes.statusWrapper}>
-                            <Status
-                              className={classes.status}
-                              color={statusColors[appointmentStatus]}
-                              size="sm"
-                            />
-                            {appointmentStatus}
-                          </div>
-                        </TableCell>
+
+                        { localStorage.getItem("accountRole") === 'patient' ? 
+                          (
+                            <TableCell>
+                              <TextField
+                                SelectProps={{ native: true }}
+                                className={classes.textField}
+                                margin="dense"
+                                onChange={(e) => console.log(e.target.value)}
+                                select
+                                value={appointmentStatuses[appointmentStatus.toLowerCase()]}
+                                variant="outlined"
+                              >
+                                {Object.keys(appointmentStatuses).map(status => (
+                                  <option key={status} value={appointmentStatuses[status]}>
+                                    {appointmentStatuses[status]}
+                                  </option>
+                                ))}
+                              </TextField>
+                            </TableCell>
+                            ):(
+                              <TableCell>
+                              <div className={classes.statusWrapper}>
+                                <Status
+                                  className={classes.status}
+                                  color={statusColors[appointmentStatus]}
+                                  size="sm"
+                                />
+                                {appointmentStatus}
+                              </div>
+                            </TableCell>
+                          )
+                        }
                       </TableRow>
                     ))}
                   </TableBody>

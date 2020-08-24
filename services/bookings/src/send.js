@@ -13,15 +13,24 @@ dbEventEmitter.on('update_status', (msg) => {
 	console.log('Status updated');
 });
 
+console.log("OK WE HERE?");
+const config = {
+	user: 'postgres',
+	database: 'bookings_db',
+	password: 'postgres',
+	port: 8083
+};
 
-pg.connect('postgres://postgres:postgres@142.1.46.70:8083/bookings_db', function(err, client){
+const pool = new pg.Pool(config);
+
+pool.connect(function(err, client, done) {
 	if(err){
 		console.log(err);
 	}
 	
 	client.on('notification', function(msg) {
 		let payload = JSON.parse(msg.payload);
-	}):
+	});
 
 	client.query('LISTEN update_status');
 });

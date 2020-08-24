@@ -1,6 +1,7 @@
 var pg = require('pg');
 var EventEmitter = require('events');
 var util = require('util');
+const amqp = require('amqplib/callback_api');
 
 function DbEventEmitter(){
 	EventEmitter.call(this);
@@ -33,6 +34,35 @@ pool.connect(function(err, client, done) {
 		let payload = JSON.parse(msg.payload);
 		console.log(payload);
 		console.log('PAY LOAD ENDED');
+
+		if(payload!= null){
+			amqp.connect('amqp://142.1.46.70:8089', function (error0, connection) {
+				if (error0) {
+					throw error0;
+				}
+
+				connection.createChannel(function (error1, channel) {
+				if (error1) {
+							                throw error1;
+							            }
+
+					            var queue = 'hello';
+					            var msg = `Appointment ID ${payload.appointmentid} status has been changed to ${payload.status_appt}`;
+
+					            channel.assertQueue(queue, {
+							                durable: false
+							            });
+
+					            channel.sendToQueue(queue, Buffer.from(msg));
+
+					            console.log(" [x] Sent %s", msg);
+					        });
+				    setTimeout(function () {
+					            connection.close();
+					            process.exit(0);
+					        }, 500);
+			});
+		}
 	});
 
 	client.query('LISTEN update_status');

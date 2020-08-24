@@ -9,5 +9,5 @@ EOSQL
 echo "Creating schema and populating database..."
 psql -d bookings_db -a -U postgres -f bookings_info.sql
 psql -d bookings_db -a -U postgres -f data.sql
-
-
+psql -d bookings_db -a -U postgres -f trigger.sql
+psql -d bookings_db -a -U postgres -f notify.sql

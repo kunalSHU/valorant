@@ -7,6 +7,7 @@ const schema = buildSchema(`
         medicationById(id: Int): [Medication]
         medicationByName(name: String): [Medication]
         vitalsByUserId(userId: Int): [Vital]
+        allAppointments(): [Appointment]
         appointmentById(id: Int): [Appointment]
         appointmentByUserId(userId: Int): [Appointment]
         prescribedMedicationByAppointmentId(appointmentId: Int): [PrescribedMedication]

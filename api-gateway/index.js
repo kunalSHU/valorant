@@ -55,7 +55,7 @@ rabbitMq.connect(`amqp://${AMPQ_MESSAGING_BUS_ENDPOINT}`, (connectionError, conn
 });
 
 // Match any route if it is not found within allRoutes
-app.use('*', (req, res, next) => {
+app.use('*', (req, res) => {
   return res.status(httpStatusCode.CLIENT_NOT_FOUND).json({ data: 'Route not found' });
 });
 

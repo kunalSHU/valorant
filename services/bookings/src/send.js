@@ -57,10 +57,7 @@ pool.connect(function(err, client, done) {
 
 					            console.log(" [x] Sent %s", msg);
 					        });
-				    setTimeout(function () {
-					            connection.close();
-					            process.exit(0);
-					        }, 500);
+				
 			});
 		}
 	});

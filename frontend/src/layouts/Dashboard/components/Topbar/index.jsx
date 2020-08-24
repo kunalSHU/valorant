@@ -26,19 +26,13 @@ import {
 // Component styles
 import styles from './styles';
 
-
-import { sendMessage } from '../../../../services/notifications/notifications.js';
-
 class Topbar extends Component {
 
   handleSignOut = () => {
+    const { history } = this.props;
 
-    return sendMessage('requestAllNotifications', 'Requesting all notifications')
-
-    // const { history } = this.props;
-
-    // localStorage.setItem('isAuthenticated', false);
-    // history.push('/sign-in');
+    localStorage.setItem('isAuthenticated', false);
+    history.push('/sign-in');
   };
 
   render() {

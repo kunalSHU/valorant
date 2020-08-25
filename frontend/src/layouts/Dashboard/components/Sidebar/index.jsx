@@ -31,29 +31,21 @@ import {
 import styles from './styles';
 
 const dashboardListItemsByRoles = {
-  patient: [ 
+  'patient': [ 
     { linkTo: '/dashboard', icon: <AppointmentsIcon/>, linkText: 'Appointments' },
     { linkTo: '/account', icon: <AccountIcon/>, linkText: 'Account' },
     { linkTo: '/record', icon: <MedicalRecordIcon/>, linkText: 'Medical Record' },
   ],
-  receptionist: [ 
+  'receptionist': [ 
     { linkTo: '/dashboard', icon: <AppointmentsIcon/>, linkText: 'Appointments' },
     { linkTo: '/users', icon: <UsersIcon/>, linkText: 'Users' },
   ],
-  doctor: [ 
+  'doctor': [ 
     { linkTo: '/dashboard', icon: <AppointmentsIcon/>, linkText: 'Appointments' },
   ],
 }
 
 class Sidebar extends Component {
-  state = {
-    role: 'patient'
-  };
-
-  componentDidMount() {
-    this.setState({ role: localStorage.getItem('accountRole') || 'patient' });
-  }
-  
   render() {
     const { classes, className } = this.props;
     const rootClassName = classNames(classes.root, className);
@@ -77,7 +69,7 @@ class Sidebar extends Component {
         
         <List component="div" disablePadding>
           {
-            dashboardListItemsByRoles[this.state.role].map((listItem, i) => {
+            dashboardListItemsByRoles[this.props.roleType].map((listItem, i) => {
               return (
                 <ListItem
                   activeClassName={classes.activeListItem}
@@ -132,7 +124,8 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  roleType: PropTypes.string.isRequired,
 };
 
 let newStyles;

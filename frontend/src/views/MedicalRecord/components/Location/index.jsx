@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
+import * as LocalStorageProvider from '../../../../utils/local-storage-provider.js';
+
 // Externals
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import validate from 'validate.js';
+
 // Material helpers
 import { withStyles } from '@material-ui/core';
 
@@ -53,7 +55,7 @@ class Location extends Component {
   };
 
   componentDidMount() {
-    retrieveAddressInfoByAddressId(localStorage.getItem('addressId'))
+    retrieveAddressInfoByAddressId('2')
     .then((response) => {
       const data = response.data.data.getAddressById;
 

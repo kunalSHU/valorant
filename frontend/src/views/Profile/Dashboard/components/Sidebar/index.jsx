@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
+import * as LocalStorageProvider from '../../../../../utils/local-storage-provider.js';
+
 // Externals
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -50,8 +52,11 @@ class Sidebar extends Component {
   };
 
   componentDidMount() {
-    localStorage.setItem('role', 'patient')
-    this.setState({ role: localStorage.getItem('role') });
+    LocalStorageProvider.setItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ROLE, 'patient');
+
+    this.setState({ 
+      role: LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ROLE) 
+    });
   }
   
   render() {

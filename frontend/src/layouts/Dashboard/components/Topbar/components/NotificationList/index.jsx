@@ -22,7 +22,6 @@ import {
 
 // Material icons
 import {
-  ArrowForwardIos as ArrowForwardIosIcon,
   Payment as PaymentIcon,
   PeopleOutlined as PeopleIcon,
   Code as CodeIcon,

@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
+import * as LocalStorageProvider from '../../utils/local-storage-provider.js';
+
 // Externals
 import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
@@ -99,9 +101,8 @@ class SignUp extends Component {
 
   componentDidMount() {
     // Redirect to dashboard if the user is already authenticated (don't show sign-up page again)
-    if (localStorage.getItem('isAuthenticated') === 'true') {
-      const { history } = this.props;
-      history.replace('/dashboard');
+    if (LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.IS_AUTHENTICATED) === 'true') {
+      this.props.history.replace('/dashboard');
     } else {
       return;
     }
@@ -164,8 +165,6 @@ class SignUp extends Component {
                 password: data.password
             })
             .then((response) => {
-                console.log(response)
-                
                 this.setState({ Show: true, Showing: true });
                 setTimeout(() => {
                     this.setState({ Show: false, Showing: false });
@@ -174,7 +173,7 @@ class SignUp extends Component {
                     history.push('/sign-in')
                 }, 1000);  
             }, (error) => {
-                console.log(error);
+                console.error(error);
             });
         }
         else {

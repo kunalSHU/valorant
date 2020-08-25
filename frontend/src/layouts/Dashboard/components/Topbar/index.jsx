@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import * as LocalStorageProvider from '../../../../utils/local-storage-provider.js';
+
 // Externals
 import classNames from 'classnames';
 import compose from 'recompose/compose';
@@ -48,13 +50,16 @@ class Topbar extends Component {
   getAllNotifications = () => {
     this.setState({ isLoading: true });
 
-    getAllNotifications(localStorage.getItem("accountId"))
+    getAllNotifications(
+      LocalStorageProvider.getItem(
+        LocalStorageProvider.LS_KEYS.ACCOUNT_ID
+      )
+    )
     .then((notifications) => {
       this.setState({ 
         notifications,
         isLoading: false
        });
-      console.log(notifications)
     })
     .catch(errMessage => {
       console.error(errMessage);
@@ -65,10 +70,8 @@ class Topbar extends Component {
   }
 
   handleSignOut = () => {
-    const { history } = this.props;
-
-    localStorage.setItem('isAuthenticated', false);
-    history.push('/sign-in');
+    LocalStorageProvider.clearAll();
+    this.props.history.push('/sign-in');
   };
 
   handleShowNotifications = event => {

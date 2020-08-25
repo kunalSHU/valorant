@@ -1,8 +1,7 @@
 import axios from "axios";
 
-// Mock data
-import users from "../../data/users";
 import { API_GATEWAY_ENDPOINT, PROMISE_REQUEST_DELAY_MS } from "../config.js";
+import * as LocalStorageProvider from "../../utils/local-storage-provider.js";
 
 // TODO rename folder from user to account
 
@@ -15,22 +14,18 @@ export const getAccountInfoByEmail = email => {
   });
 };
 
-// TODO
-export const getAllUsers = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        users: users
-      });
-    }, 700);
-  });
-};
-
 export const authenticateUser = (emailAddress, password) => {
-  localStorage.setItem("isAuthenticated", false);
-  localStorage.setItem("email", "");
-  localStorage.setItem("accountId", "");
-  localStorage.setItem("accountRole", "");
+  LocalStorageProvider.setItem(
+    LocalStorageProvider.LS_KEYS.IS_AUTHENTICATED,
+    false
+  );
+  LocalStorageProvider.setItem(LocalStorageProvider.LS_KEYS.ACCOUNT_EMAIL, "");
+  LocalStorageProvider.setItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ID, "");
+  LocalStorageProvider.setItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ROLE, "");
+  LocalStorageProvider.setItem(
+    LocalStorageProvider.LS_KEYS.ACCOUNT_AUTH_TOKEN,
+    ""
+  );
 
   return new Promise(resolve => {
     setTimeout(() => {
@@ -41,11 +36,29 @@ export const authenticateUser = (emailAddress, password) => {
         })
         .then(response => {
           const data = response.data.data;
-          localStorage.setItem("isAuthenticated", true);
-          localStorage.setItem("accountEmail", emailAddress);
-          localStorage.setItem("authToken", data.jwt_token);
-          localStorage.setItem("accountRole", data.account_role);
-          localStorage.setItem("accountId", data.account_id);
+
+          console.log(data);
+
+          LocalStorageProvider.setItem(
+            LocalStorageProvider.LS_KEYS.IS_AUTHENTICATED,
+            true
+          );
+          LocalStorageProvider.setItem(
+            LocalStorageProvider.LS_KEYS.ACCOUNT_EMAIL,
+            emailAddress
+          );
+          LocalStorageProvider.setItem(
+            LocalStorageProvider.LS_KEYS.ACCOUNT_ID,
+            data.account_id
+          );
+          LocalStorageProvider.setItem(
+            LocalStorageProvider.LS_KEYS.ACCOUNT_ROLE,
+            data.account_role
+          );
+          LocalStorageProvider.setItem(
+            LocalStorageProvider.LS_KEYS.ACCOUNT_AUTH_TOKEN,
+            data.jwt_token
+          );
 
           resolve({ isAuthenticated: true });
         })

@@ -10,7 +10,7 @@ import Account from './views/Account';
 import SignUp from './views/SignUp';
 import SignIn from './views/SignIn';
 import NotFound from './views/NotFound';
-import UserList from 'views/UserList';
+// import UserList from 'views/UserList';
 import Profile from 'views/Profile';
 
 import PatientAppointmentDetails from 'views/PatientAppointmentDetails';
@@ -50,11 +50,11 @@ export default class Routes extends Component {
           exact
           path="/appointments/:id"
         />
-        <PrivateRoute
+        {/* <PrivateRoute
           component={UserList}
           exact
           path="/users"
-        />
+        /> */}
         <Route
           component={SignUp}
           exact

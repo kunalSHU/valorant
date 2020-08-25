@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
+import * as LocalStorageProvider from '../../utils/local-storage-provider.js';
+
 // Externals
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 // Material helpers
 import { withStyles } from '@material-ui/core';
@@ -16,18 +17,8 @@ import { Grid } from '@material-ui/core';
 
 // Custom components
 import { NameGender, Location } from './components';
-import { Button, TextField, Typography } from '@material-ui/core';
-import Stepper from 'react-stepper-horizontal';
-// Shared components
-import {
-  Portlet,
-  PortletHeader,
-  PortletLabel,
-  PortletContent,
-  PortletFooter,
-  Status
-} from '../../components';
-import {postUserAddress, postUserInfo} from '../../services/record/index'
+
+import { postUserAddress, postUserInfo } from '../../services/record/index'
 
 // Component styles
 const styles = theme => ({
@@ -42,15 +33,6 @@ class MedicalRecord extends Component {
         postalCode: '', city: '', province: ''};
 
   nextStep = (firstName, lastName, phoneNumber, dateofbirth, sex) => {
-
-    console.log(firstName)
-    console.log(lastName)
-    console.log(sex)
-    console.log("this is DOB")
-    console.log(dateofbirth)   
-    //console.log(dateofbirth.format('YYYY-MM-DD'))
-    console.log(typeof(dateofbirth))
-    console.log(dateofbirth instanceof Object)
     this.setState({
       showStep1: false,
       showStep2: true,
@@ -61,15 +43,6 @@ class MedicalRecord extends Component {
       dateofbirth: dateofbirth,
       sex: sex,
     })
-
-    console.log("in here")
-    console.log(this.state.firstName)
-    console.log(this.state.lastName)
-    console.log(this.state.sex)
-    console.log(this.state.dateofbirth)
-    console.log(this.state.phoneNumber)
-    
-
   }
 
   back = () => {
@@ -81,32 +54,25 @@ class MedicalRecord extends Component {
   }
 
   lastStep = (street, postalCode, city, province) => {
-    console.log("last step clicked")
-    console.log(street)
-    console.log(postalCode)
-    console.log(city)
-    console.log(province)
     this.setState({
       street: street,
       postalCode: postalCode,
       city: city,
       province: province
     })
-    alert("Profile Completed!")
-    //Post user address first
     postUserAddress(street, postalCode, city, province)
-    .then((response) => 
-    postUserInfo(this.state.firstName, this.state.lastName, this.state.phoneNumber, this.state.dateofbirth,
-      this.state.sex, localStorage.getItem("Email"))
-      .then((response) => {}))
-    
-    const { history } = this.props;
-    
-
-    //make call to the record file in services, post address first with the id, then patient info
-
-
-    history.push('/dashboard')
+    .then(() => 
+      postUserInfo(
+        this.state.firstName, 
+        this.state.lastName, 
+        this.state.phoneNumber, 
+        this.state.dateofbirth,
+        this.state.sex,
+        LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_EMAIL)
+      )
+    );
+  
+    this.props.history.push('/dashboard')
     //window.location.reload(false);
   }
 
@@ -119,17 +85,18 @@ class MedicalRecord extends Component {
             container
             spacing={4}
           >
-            {this.state.showStep1 ? <Grid
+            {this.state.showStep1 ? 
+            <Grid
               item
               lg={4}
               md={6}
               xl={8}
-              xs={12}
-            >
+            >            
               <NameGender activeStep={this.state.activeStep} back={this.back} nextStep={this.nextStep}/>
             </Grid> : null}
 
-            {this.state.showStep2 ? <Grid
+            {this.state.showStep2 ? 
+            <Grid
               item
               lg={4}
               md={6}

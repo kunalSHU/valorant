@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
+import * as LocalStorageProvider from '../../utils/local-storage-provider.js';
+
 // Externals
 import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
@@ -26,6 +28,7 @@ import styles from './styles';
 import schema from './schema';
 
 import { authenticateUser } from '../../services/user/index.js';
+import { retrieveBasicInfoByAccountId } from '../../services/record/index.js';
 
 class SignIn extends Component {
   state = {
@@ -49,7 +52,10 @@ class SignIn extends Component {
   componentDidMount() {
     // Redirect to dashboard if the user is already authenticated (don't show sign-in page again)
     const { history } = this.props;
-    localStorage.getItem('isAuthenticated') === 'true' ? history.replace('/dashboard') : history.replace('/sign-in')
+
+
+    LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.IS_AUTHENTICATED) === 'true' ? 
+      history.replace('/dashboard') : history.replace('/sign-in')
   }
 
   validateForm = _.debounce(() => {
@@ -79,12 +85,14 @@ class SignIn extends Component {
 
     const { email, password } = this.state.values;
 
-    console.log(password);
-
     authenticateUser(email, password)
     .then(({ isAuthenticated, errMessage }) => {
+      retrieveBasicInfoByAccountId(
+        LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ID)
+      )
+      .then(() => {
         if (isAuthenticated === true) {
-            this.props.history.replace('/dashboard');
+          this.props.history.replace('/dashboard');
         } else {
           this.setState({
             isLoading: false,
@@ -95,9 +103,27 @@ class SignIn extends Component {
             }
           });
         }
+      })
+      .catch((errMessage) => {
+        this.setState({
+          isLoading: false,
+          submitError: errMessage,
+          values: { 
+            email, 
+            password: '' 
+          }
+        });
+      })
     })
-    .catch(err => {
-      console.error(err);
+    .catch(({ errMessage }) => {
+      this.setState({
+        isLoading: false,
+        submitError: errMessage,
+        values: { 
+          email, 
+          password: '' 
+        }
+      });
     });
   }
 

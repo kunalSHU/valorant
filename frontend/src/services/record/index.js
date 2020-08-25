@@ -1,9 +1,10 @@
 // Mock data
-import users from "../../data/users";
-import conditions from "../../data/conditions";
 import axios from "axios";
 
+import conditions from "../../data/conditions.js";
+
 import { API_GATEWAY_ENDPOINT, PROMISE_REQUEST_DELAY_MS } from "../config.js";
+import * as LocalStorageProvider from "../../utils/local-storage-provider.js";
 
 export const getAllConditionsByAccountId = accountId => {
   // TODO retrieve from server instead of local file
@@ -18,21 +19,7 @@ export const getAllConditionsByAccountId = accountId => {
   });
 };
 
-export const getAllUsers = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        users: users
-      });
-    }, 700);
-  });
-};
-
 export const postUserAddress = (street, postalCode, city, province) => {
-  console.log(street);
-  console.log(postalCode);
-  console.log(city);
-  console.log(province);
   return axios.post(`${API_GATEWAY_ENDPOINT}/services/patient-record`, {
     query: `mutation {
       postUserAddress(streetname:"${street}" 
@@ -40,8 +27,6 @@ export const postUserAddress = (street, postalCode, city, province) => {
         addressid
       }
     }`
-    // }).then((response) => {
-    //   console.log(response.status)
   });
 };
 
@@ -53,22 +38,6 @@ export const postUserInfo = (
   sex,
   email
 ) => {
-  console.log(firstName);
-  console.log(lastName);
-  console.log(phoneNumber);
-  console.log(dateofbirth);
-  console.log(sex);
-  console.log(email);
-  // mutation{
-  //   postUserInfo(first_name: "Kunal" last_name: "shukla"
-  //   phone_number: "233-232-3232" email: "hello@mail.com"
-  //   birthdate: "05-11-2018" date_became_patient: "08-08-2020"
-  //   sex: "Male") {
-  //     userid
-  //     addressid
-  //   }
-
-  //check to see if its a moment obj, then convert to yyyy-mm-dd format
   if (dateofbirth instanceof Object) {
     var formatDOB = dateofbirth.format("YYYY-MM-DD");
   }
@@ -82,10 +51,6 @@ export const postUserInfo = (
       }
     }`
   });
-};
-
-export const retrieveLocationInfoByAccountId = accountId => {
-  // Expect { firstName, lastName, sex } to be returned from BE
 };
 
 export const updateBasicInfoByAccountId = (accountId, basicInfo) => {
@@ -102,7 +67,7 @@ export const updateBasicInfoByAccountId = (accountId, basicInfo) => {
 };
 
 export const retrieveBasicInfoByAccountId = accountId => {
-  localStorage.setItem("addressId", "");
+  LocalStorageProvider.setItem(LocalStorageProvider.LS_KEYS.ADDRESS_ID, "");
 
   return new Promise(resolve => {
     setTimeout(() => {
@@ -122,7 +87,12 @@ export const retrieveBasicInfoByAccountId = accountId => {
         .then(response => {
           const data = response.data.data.getUserInfoByAccountId[0];
 
-          localStorage.setItem("addressId", data.addressId);
+          console.log(data);
+
+          LocalStorageProvider.setItem(
+            LocalStorageProvider.LS_KEYS.ADDRESS_ID,
+            data.addressid
+          );
 
           resolve({
             firstName: data.first_name,
@@ -131,23 +101,36 @@ export const retrieveBasicInfoByAccountId = accountId => {
           });
         })
         .catch(() => {
-          resolve({ errMessage: "Could not retrieve appointments" });
+          resolve("Could not retrieve profile information");
         });
     }, PROMISE_REQUEST_DELAY_MS);
   });
 };
 
 export const retrieveAddressInfoByAddressId = addressId => {
-  return axios.post(`${API_GATEWAY_ENDPOINT}/services/patient-record`, {
-    query: `
-      query {
-        getAddressById(addressid: ${addressId}) {
-          streetname
-          city
-          postal_code
-          province
-        }
-      }`
+  console.log(`ADDRESSID: ${addressId}`);
+  return new Promise(resolve => {
+    setTimeout(() => {
+      return axios
+        .post(`${API_GATEWAY_ENDPOINT}/services/patient-record`, {
+          query: `
+            query {
+              getAddressById(addressid: ${addressId}) {
+                streetname
+                city
+                postal_code
+                province
+              }
+            }`
+        })
+        .then(response => {
+          console.log(response);
+          resolve(response);
+        })
+        .catch(errMessage => {
+          resolve(errMessage);
+        });
+    }, 700);
   });
 };
 

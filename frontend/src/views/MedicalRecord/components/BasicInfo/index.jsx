@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
+import * as LocalStorageProvider from '../../../../utils/local-storage-provider.js';
+
 // Externals
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import validate from 'validate.js';
+
 // Material helpers
 import { withStyles } from '@material-ui/core';
 
@@ -57,7 +59,9 @@ class BasicInfo extends Component {
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    retrieveBasicInfoByAccountId(localStorage.getItem('accountId'))
+    retrieveBasicInfoByAccountId(
+      LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ID)
+    )
     .then(({
       firstName,
       lastName,
@@ -75,7 +79,7 @@ class BasicInfo extends Component {
       
       this.props.shouldRenderGridItem(true);
     })
-    .catch(({ errMessage }) => {
+    .catch((errMessage) => {
       console.error(errMessage)
       this.setState({ 
         isLoading: false, 

@@ -3,10 +3,9 @@ import React, { Component } from 'react';
 // Externals
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import validate from 'validate.js';
 // Material helpers
 import { withStyles } from '@material-ui/core';
-import { DateTimePicker, DatePicker } from '@material-ui/pickers';
+import { DatePicker } from '@material-ui/pickers';
  
 import "react-datepicker/dist/react-datepicker.css";
 // Material components
@@ -16,13 +15,11 @@ import { Button, TextField, Typography } from '@material-ui/core';
 import {
   Portlet,
   PortletHeader,
-  PortletLabel,
   PortletContent,
   PortletFooter,
   Status,
-  CircularProgress,
 } from '../../../../components';
-import DatePickerField from '../../../../views/Dashboard/components/AppointmentsTable/components/DatePickerField/DatePickerField'
+
 // Component styles
 import styles from './styles';
 import Stepper from 'react-stepper-horizontal';
@@ -71,7 +68,6 @@ class NameGender extends Component {
     }
 
     this.setState(newState);
-    console.log(this.state.values.firstName)
   };
 
   render() {
@@ -86,7 +82,10 @@ class NameGender extends Component {
         className={rootClassName}
       >
         <PortletHeader style={{height: "85px"}}>
-          <Stepper steps={[{title: 'Basic Info'}, {title: 'Location'}] } activeStep={this.props.activeStep} />
+          <Stepper 
+            activeStep={this.props.activeStep} 
+            steps={[{title: 'Basic Info'}, {title: 'Location'}]} 
+          />
         </PortletHeader>
         <PortletContent noPadding>
           <form
@@ -95,55 +94,56 @@ class NameGender extends Component {
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
+                error={this.state.values['firstName'] === '' ? true : false}
+                helperText={this.state.values['firstName'] === '' ? 'First name cannot be empty' : null}
                 label="First name"
                 margin="dense"
                 onChange={event =>
                   this.handleFieldChange('firstName', event.target.value)
                 }
                 value={values.firstName}
-                error={this.state.values['firstName'] === '' ? true : false}
-                helperText={this.state.values['firstName'] === '' ? 'First name cannot be empty' : null}
                 variant="outlined"
               />
               <TextField
                 className={classes.textField}
+                error={this.state.values['lastName'] === '' ? true : false}
+                helperText={this.state.values['lastName'] === '' ? 'Last name cannot be empty' : null}
                 label="Last name"
                 margin="dense"
                 onChange={event =>
                   this.handleFieldChange('lastName', event.target.value)
                 }
                 value={values.lastName}
-                error={this.state.values['lastName'] === '' ? true : false}
-                helperText={this.state.values['lastName'] === '' ? 'Last name cannot be empty' : null}
                 variant="outlined"
               />
             </div>
             <div className={classes.field}>
               <TextField
-              className={classes.textField}
+                className={classes.textField}
+                error={this.state.values['phoneNumber'] === '' ? true : false}
+                helperText={this.state.values['phoneNumber'] === '' ? 'Phone Number cannot be empty' : null}
                 label="Phone Number"
                 margin="dense"
                 onChange={event =>
                   this.handleFieldChange('phoneNumber', event.target.value)
                 }
                 value={values.phoneNumber}
-                error={this.state.values['phoneNumber'] === '' ? true : false}
-                helperText={this.state.values['phoneNumber'] === '' ? 'Phone Number cannot be empty' : null}
                 variant="outlined"
               />
             </div>
             <div className={classes.field}>
               <DatePicker
-              className={classes.appointmentDatePicker}
-              disableFuture
-              inputVariant="outlined"
-              label="Date of Birth"
-              onChange={(date) => this.handleFieldChange('dateofbirth', date)}
-              value={this.state.values.dateofbirth}
+                className={classes.appointmentDatePicker}
+                disableFuture
+                inputVariant="outlined"
+                label="Date of Birth"
+                onChange={(date) => this.handleFieldChange('dateofbirth', date)}
+                value={this.state.values.dateofbirth}
               />
             </div>
             <div className={classes.field}>
               <TextField
+                SelectProps={{ native: true }}
                 classNameclassName={classes.textField}
                 label="Sex"
                 margin="dense"
@@ -151,7 +151,6 @@ class NameGender extends Component {
                   this.handleFieldChange('sex', event.target.value)
                 }
                 select
-                SelectProps={{ native: true }}
                 value={values.sex}
                 variant="outlined"
               >
@@ -165,13 +164,14 @@ class NameGender extends Component {
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={() => this.props.nextStep(this.state.values.firstName,
-            this.state.values.lastName, this.state.values.phoneNumber, this.state.values.dateofbirth, this.state.values.sex)}>
+          <Button color="primary" disabled={!this.state.isValid} onClick={() => this.props.nextStep(this.state.values.firstName,
+            this.state.values.lastName, this.state.values.phoneNumber, this.state.values.dateofbirth, this.state.values.sex)} variant="contained"
+          >
             Next
           </Button>
           { this.state.submitSuccess &&
             <div className={classes.statusContainer}>
-              <Status className={classes.status} size='md' color='success'/>
+              <Status className={classes.status} color="success" size="md"/>
               <Typography variant="caption">
                 Information has been updated
               </Typography>

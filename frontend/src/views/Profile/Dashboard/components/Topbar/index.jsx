@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import * as LocalStorageProvider from '../../../../../utils/local-storage-provider.js';
+
 // Externals
 import classNames from 'classnames';
 import compose from 'recompose/compose';
@@ -31,7 +33,8 @@ class Topbar extends Component {
   handleSignOut = () => {
     const { history } = this.props;
 
-    localStorage.setItem('isAuthenticated', false);
+    LocalStorageProvider.clearAll();
+    
     history.push('/sign-in');
   };
 

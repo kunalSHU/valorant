@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from 'react';
 
+import * as LocalStorageProvider from '../../utils/local-storage-provider.js';
+import * as RoleTypes from '../../data/roles-types.js';
+
 // Externals
 import classNames from 'classnames';
 import compose from 'recompose/compose';
@@ -63,7 +66,11 @@ class Dashboard extends Component {
           open={isOpen}
           variant={isMobile ? 'temporary' : 'persistent'}
         >
-          <Sidebar className={classes.sidebar} />
+          <Sidebar 
+            className={classes.sidebar} 
+            roleType={LocalStorageProvider.getItem(
+              LocalStorageProvider.LS_KEYS.ACCOUNT_ROLE) || RoleTypes.ROLE_PATIENT}
+          />
         </Drawer>
         <main
           className={classNames(classes.content, {

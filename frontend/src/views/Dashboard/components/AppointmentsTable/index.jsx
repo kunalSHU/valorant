@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import * as LocalStorageProvider from '../../../../utils/local-storage-provider.js';
+import * as RoleTypes from '../../../../data/roles-types.js';
+
 // Externals
 import classNames from 'classnames';
 import moment from 'moment';
@@ -43,6 +46,7 @@ import {
   getAllAppointmentsWithStatus, 
   updateAppointmentStatus 
 } from '../../../../services/booking/index.js';
+import { BorderAll } from '@material-ui/icons';
 
 const statusColors = {
   'Completed': 'success',
@@ -69,43 +73,57 @@ class AppointmentsTable extends Component {
   componentDidMount() {
     this.setState({ isLoading: true });
     
-    const accountRole = localStorage.getItem("accountRole");
+    const accountRole = LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ROLE);
 
-    if (accountRole === "patient") {
-      getAllAppointmentsByAccountId(localStorage.getItem('accountId'))
-        .then(appointments => {
-          console.log(appointments)
-          this.setState({
-            appointments: appointments,
-            appointmentsTotal: appointments.length,
-            isLoading: false,
-            showAppointments: true
+
+    switch(accountRole) {
+      case RoleTypes.ROLE_PATIENT: {
+        getAllAppointmentsByAccountId(LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ID))
+          .then(appointments => {
+            this.setState({
+              appointments: appointments,
+              appointmentsTotal: appointments.length,
+              isLoading: false,
+              showAppointments: true
+            })
           })
-        })
-        .catch(() => {
-          this.setState({
-            showAppointments: false,
-            isLoading: false
+          .catch(() => {
+            this.setState({
+              showAppointments: false,
+              isLoading: false
+            });
           });
-        });
-    } else if (accountRole) {
-      getAllAppointmentsWithStatus(['Cancelled', 'Awaiting Confirmation', 'Upcoming'])
-        .then(appointments => {
-          console.log(appointments)
-          this.setState({
-            appointments: appointments,
-            appointmentsTotal: appointments.length,
-            isLoading: false,
-            showAppointments: true
+          break;
+        }
+
+      case RoleTypes.ROLE_RECEPTIONIST: {
+        getAllAppointmentsWithStatus(['Cancelled', 'Awaiting Confirmation', 'Upcoming'])
+          .then(appointments => {
+            this.setState({
+              appointments: appointments,
+              appointmentsTotal: appointments.length,
+              isLoading: false,
+              showAppointments: true
+            })
           })
-        })
-        .catch(() => {
-          this.setState({
-            showAppointments: false,
-            isLoading: false
+          .catch(() => {
+            this.setState({
+              showAppointments: false,
+              isLoading: false
+            });
           });
+          break;
+        }
+
+      default: {
+        this.setState({
+          showAppointments: false,
+          isLoading: false
         });
+        break;
+      }
     }
+
   }
 
   onChangeAppointmentStatus = (appointmentId, status) => {
@@ -142,7 +160,8 @@ class AppointmentsTable extends Component {
       status_appt: "Awaiting Confirmation"
     }
 
-    bookAppointment(localStorage.getItem('accountId'), appointmentToBook)
+    bookAppointment(
+      LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ID), appointmentToBook)
     setTimeout(() => {
       window.location.reload()
     } ,3000)
@@ -247,7 +266,7 @@ class AppointmentsTable extends Component {
                         <TableCell>{moment.unix(appointmentDateUnixTimestamp / 1000).format("hh:mm A")}</TableCell>
                         <TableCell>{appointmentLocation}</TableCell>
 
-                        { localStorage.getItem("accountRole") === 'receptionist' ? 
+                        { LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ROLE) === RoleTypes.ROLE_RECEPTIONIST ? 
                           (
                             <TableCell>
                               <TextField

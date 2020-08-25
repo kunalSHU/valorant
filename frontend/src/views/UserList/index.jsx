@@ -13,9 +13,6 @@ import { CircularProgress, Typography } from '@material-ui/core';
 // Shared layouts
 import { Dashboard as DashboardLayout } from '../../layouts';
 
-// Shared services
-import { getAllUsers } from '../../services/user';
-
 // Custom components
 import { UsersToolbar, UsersTable } from './components';
 
@@ -93,7 +90,7 @@ class UserList extends Component {
 
   componentDidMount() {
     this.signal = true;
-    this.getAllUsers();
+    // this.getAllUsers();
   }
 
   componentWillUnmount() {

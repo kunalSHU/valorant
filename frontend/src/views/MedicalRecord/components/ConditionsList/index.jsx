@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import * as LocalStorageProvider from '../../../../utils/local-storage-provider.js';
+
 // Externals
 import PropTypes from 'prop-types';
 import Fuse from 'fuse.js';
@@ -29,7 +31,7 @@ class ConditionsList extends Component {
     sortNameColumDirection: 'desc'
   };
 
-  sortConditions(conditions, sortDirection) {
+  sortConditions = (conditions, sortDirection) => {
     const sortedUsers = conditions.sort((a, b) => {
       var nameA = a.name.toUpperCase(); // ignore upper and lowercase
       var nameB = b.name.toUpperCase(); // ignore upper and lowercase
@@ -62,54 +64,39 @@ class ConditionsList extends Component {
     this.setState({ users: this.sortConditions(conditions, this.state.sortNameColumDirection) });
   }
 
-  async getAllConditionsByAccountId(id) {
-    try {
-      this.setState({ isLoading: true });
-      let { conditions } = await getAllConditionsByAccountId(id);
-
-      if (this.signal) {
+  componentDidMount() {
+    this.setState({ isLoading: true });
+    getAllConditionsByAccountId(
+      LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ID)
+    )
+    .then((conditions) => {
+      if (conditions.length > 0) {
         this.setState({
           isLoading: false,
           conditions: this.sortConditions(conditions, this.state.sortNameColumDirection)
         });
-
+  
         this.fuse = new Fuse(conditions, {
-          keys:['name', 'id', 'description']
+          keys:['allergyid', 'allergyname', 'otherfacts']
         })
-
+      } else {
+        throw Error();
       }
-    } catch (error) {
-      if (this.signal) {
-        this.setState({
-          isLoading: false,
-          error
-        });
-      }
-    }
+    })
+    .catch(() => {
+      this.setState({
+        isLoading: false,
+        error: "Could not retrieve all your conditions"
+      });
+    });
   }
 
-  componentDidMount() {
-    this.signal = true;
-    this.getAllConditionsByAccountId();
-  }
-
-  componentWillUnmount() {
-    this.signal = false;
-  }
-
-  async searchUser(searchQuery) {
-    // Show all users if list is empty
-    // TODO fetching all users again on empty profileName search, cache users locally (pref improvement)
-    if (searchQuery === '') {
-      const { conditions } = await getAllConditionsByAccountId('1');
-      this.setState({ conditions });
-      return;
-    } else {
-      const conditions = this.fuse.search(searchQuery);
-      const filteredConditions = conditions.map(condition => condition.item);
-      this.setState({ conditions: filteredConditions });
-      return;
-    }
+  searchCondition = (searchQuery) => {
+    const conditions = this.fuse.search(searchQuery);
+    const filteredConditions = conditions.map(condition => condition.item);
+    this.setState({ 
+      conditions: filteredConditions 
+    });
   }
 
   renderUsers() {
@@ -129,15 +116,15 @@ class ConditionsList extends Component {
     }
 
     if (conditions.length === 0) {
-      return <Typography variant="h6">There are no users</Typography>;
+      return <Typography variant="h6">There are no conditions</Typography>;
     }
 
     return (
       <ConditionsTable
+        conditions={conditions}
         onSelect={this.handleSelect}
         sortDirection={this.state.sortNameColumDirection}
         sortNameColumn={this.sortNameColumn}
-        conditions={conditions}
       />
     );
   }
@@ -150,7 +137,11 @@ class ConditionsList extends Component {
         <Typography className={classes.title} component="div" variant="h4">
           Conditions
         </Typography>
-        <ConditionsToolbar className={classes.toolbar} searchUser={event => this.searchUser(event.target.value)}/>
+        <ConditionsToolbar 
+          className={classes.toolbar} 
+          hide={this.state.conditions.length === 0}
+          searchUser={event => this.searchCondition(event.target.value)}
+        />
         <div className={classes.content}>{this.renderUsers()}</div>
       </div>
     );

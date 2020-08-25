@@ -7,15 +7,28 @@ import { API_GATEWAY_ENDPOINT, PROMISE_REQUEST_DELAY_MS } from "../config.js";
 import * as LocalStorageProvider from "../../utils/local-storage-provider.js";
 
 export const getAllConditionsByAccountId = accountId => {
-  // TODO retrieve from server instead of local file
   return new Promise(resolve => {
-    // Make request to backend (see conditions file in /data for expected output)
     setTimeout(() => {
-      resolve({
-        // Change
-        conditions
-      });
-    }, 700);
+      return axios
+        .post(`${API_GATEWAY_ENDPOINT}/services/bookings`, {
+          query: `
+            query {
+              userAllergiesByUserId(userId: 2) {
+                allergyid
+                allergyname
+                otherfacts
+              }
+            }`
+        })
+        .then(response => {
+          const data = response.data.data.userAllergiesByUserId;
+          console.log(data);
+          resolve(data);
+        })
+        .catch(errMessage => {
+          resolve(errMessage);
+        });
+    }, PROMISE_REQUEST_DELAY_MS);
   });
 };
 
@@ -86,9 +99,6 @@ export const retrieveBasicInfoByAccountId = accountId => {
         })
         .then(response => {
           const data = response.data.data.getUserInfoByAccountId[0];
-
-          console.log(data);
-
           LocalStorageProvider.setItem(
             LocalStorageProvider.LS_KEYS.ADDRESS_ID,
             data.addressid
@@ -108,7 +118,6 @@ export const retrieveBasicInfoByAccountId = accountId => {
 };
 
 export const retrieveAddressInfoByAddressId = addressId => {
-  console.log(`ADDRESSID: ${addressId}`);
   return new Promise(resolve => {
     setTimeout(() => {
       return axios
@@ -124,7 +133,6 @@ export const retrieveAddressInfoByAddressId = addressId => {
             }`
         })
         .then(response => {
-          console.log(response);
           resolve(response);
         })
         .catch(errMessage => {

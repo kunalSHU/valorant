@@ -99,15 +99,15 @@ class AppointmentInfo extends Component {
             </div>
             <div className={classes.field}>
               <TextField
+                SelectProps={{ native: true }}
                 className={classes.textField}
                 label="Status"
                 margin="dense"
-                required
                 onChange={event =>
                   this.handleFieldChange('status', event.target.value)
                 }
+                required
                 select
-                SelectProps={{ native: true }}
                 value={values.appoinmentStatus}
                 variant="outlined"
               >
@@ -121,12 +121,12 @@ class AppointmentInfo extends Component {
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button color="primary" variant="contained" disabled={!this.state.isValid} onClick={this.submitForm}>
+          <Button color="primary" disabled={!this.state.isValid} onClick={this.submitForm} variant="contained">
             Update
           </Button>
           { this.state.submitSuccess &&
             <div className={classes.statusContainer}>
-              <Status className={classes.status} size='md' color='success'/>
+              <Status className={classes.status} color="success" size="md"/>
               <Typography variant="caption">
                 Information has been updated
               </Typography>

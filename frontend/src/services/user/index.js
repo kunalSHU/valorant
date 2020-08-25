@@ -37,8 +37,6 @@ export const authenticateUser = (emailAddress, password) => {
         .then(response => {
           const data = response.data.data;
 
-          console.log(data);
-
           LocalStorageProvider.setItem(
             LocalStorageProvider.LS_KEYS.IS_AUTHENTICATED,
             true

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import * as LocalStorageProvider from '../../utils/local-storage-provider.js';
+
 // Externals
 import PropTypes from 'prop-types';
 
@@ -13,7 +15,9 @@ import { Grid } from '@material-ui/core';
 import { Dashboard as DashboardLayout } from '../../layouts';
 
 // Custom components
-import { BasicInfo, Location, ConditionsList, WeightTracker, HeightTracker, BloodType, Vitals, Notes, AppointmentInfo } from './components';
+import { WeightTracker, HeightTracker, BloodType, Vitals, Notes, AppointmentInfo } from './components';
+
+import { BasicInfo, Location, ConditionsList } from '../MedicalRecord/components'
 
 // Component styles
 const styles = theme => ({
@@ -103,7 +107,7 @@ class PatientAppointmentDetails extends Component {
               xl={4}
               xs={12}
             >
-              <Location />
+              <Location addressid={LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ADDRESS_ID)}/>
             </Grid>
 
             <Grid

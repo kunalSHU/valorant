@@ -27,9 +27,18 @@ import { Portlet, PortletContent } from '../../../../../../components';
 // Component styles
 import styles from './styles';
 
+// import { getAllConditionsByAccountId } from '../../../../../../services/record';
+ 
 class ConditionsTable extends Component {
+
   render() {
-    const { classes, className, conditions, sortDirection, sortNameColumn } = this.props;
+    const { 
+      classes, 
+      className, 
+      conditions, 
+      sortDirection, 
+      sortNameColumn 
+    } = this.props;
 
     const rootClassName = classNames(classes.root, className);
 
@@ -55,11 +64,15 @@ class ConditionsTable extends Component {
               </TableHead>
               <TableBody className={classes.tableBody}>
                 {conditions
-                  .map(condition => (
+                  .map(({
+                    allergyid: id, 
+                    allergyname: name, 
+                    otherfacts: description
+                  }) => (
                     <TableRow
                       className={classes.tableRow}
                       hover
-                      key={condition.id}
+                      key={id}
                     >
                       <TableCell className={classes.tableCell}>
                         <div className={classes.tableCellInner}>
@@ -68,16 +81,16 @@ class ConditionsTable extends Component {
                               className={classes.nameText}
                               variant="body1"
                             >
-                              {condition.name}
+                              {name}
                             </Typography>
                           </Link>
                         </div>
                       </TableCell>
                       <TableCell className={classes.tableCell}>
-                        {condition.id}
+                        {id}
                       </TableCell>
                       <TableCell className={classes.noWrap}>
-                        {condition.description}
+                        {description}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -93,17 +106,14 @@ class ConditionsTable extends Component {
 ConditionsTable.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
+  conditions: PropTypes.array.isRequired,
   onSelect: PropTypes.func,
   onShowDetails: PropTypes.func,
   sortDirection: PropTypes.string.isRequired,
   sortNameColumn: PropTypes.func,
-  users: PropTypes.array.isRequired
 };
 
 ConditionsTable.defaultProps = {
-  users: [],
-  onSelect: () => {},
-  onShowDetails: () => {}
 };
 
 export default withStyles(styles)(ConditionsTable);

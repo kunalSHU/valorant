@@ -34,11 +34,15 @@ import {
 } from '../../../../components';
 
 import BookAppointment from './components/BookAppointment.jsx';
-import {bookAppointment} from '../../../../services/booking/index'
 // Component styles
 import styles from './styles';
 
-import { getAllAppointmentsByAccountId, getAllAppointmentsWithStatus, updateAppointmentStatus } from '../../../../services/booking/index.js';
+import { 
+  bookAppointment, 
+  getAllAppointmentsByAccountId, 
+  getAllAppointmentsWithStatus, 
+  updateAppointmentStatus 
+} from '../../../../services/booking/index.js';
 
 const statusColors = {
   'Completed': 'success',

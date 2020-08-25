@@ -1,33 +1,11 @@
 const express = require('express');
 const express_graphql = require('express-graphql');
-const buildSchema = require('graphql').buildSchema;
 const cors = require('cors');
-const { Client } = require('pg');
-const PORT = process.env.APP_PORT || 8087;
 const schema = require('./schema');
-
-//const credentials = require('../client-model');
-//credentials.database = 'patient_db';
-//const client = new Client(credentials);
-// // Will query the tables here
-// const queryFunction = function () {
-// client
-//     .connect()
-//     .then(() => {
-//       console.log('Connected Successfully');
-//     })
-//     .then(() => client.query('SELECT * FROM patient_info.address_info_tbl'))
-//     .then((result) => {
-//       console.table(result.rows);
-//     })
-//     .catch((e) => console.log(e))
-//     .finally(() => client.end());
-// };
-
-// // timeout used so connection to db happens after it is started
-// setTimeout(queryFunction, 5000)
-
 const Knex = require('knex');
+
+const PORT = process.env.APP_PORT || 8087;
+
 const knex = Knex({
   client: 'pg',
   connection: {
@@ -41,7 +19,7 @@ const knex = Knex({
 
 let maxValUserAddress = 0;
 let maxValUserAddressStep2 = 0;
-setPrimaryKeyUserAddress = () => {
+const setPrimaryKeyUserAddress = () => {
   const result = knex('patient_info.address_info_tbl').max('addressid');
   return result.then((rows) => {
     maxValUserAddress = rows[0].max + 1;
@@ -50,7 +28,7 @@ setPrimaryKeyUserAddress = () => {
 };
 
 let maxValUserInfo = 0;
-setPrimaryKeyUserInfo = () => {
+const setPrimaryKeyUserInfo = () => {
   const result = knex('patient_info.patient_basic_info_tbl').max('userid');
   return result.then((rows) => {
     maxValUserInfo = rows[0].max + 1;

@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core';
 
 // Material components
 import {
-  Button,
+  CircularProgress,
   Divider,
   List,
   ListItem,
@@ -96,14 +96,27 @@ class NotificationList extends Component {
           </Fragment>
         ) : (
           <div className={classes.empty}>
-            <div className={classes.emptyImageWrapper}>
-              <img
-                alt="Empty list"
-                className={classes.emptyImage}
-                src="/images/empty.png"
-              />
-            </div>
-            <Typography variant="h4">There's nothing here...</Typography>
+            { this.props.isLoading ?
+              (
+                <div>
+                  <div className={classes.progressWrapper}>
+                    <CircularProgress />
+                  </div>
+                  <Typography variant="h4">Getting all your notifications...</Typography>
+                </div>
+              ) : (
+                <div>
+                  <div className={classes.emptyImageWrapper}>
+                    <img
+                      alt="Empty list"
+                      className={classes.emptyImage}
+                      src="/images/empty.png"
+                    />
+                  </div>
+                  <Typography variant="h4">There's nothing here...</Typography>
+                </div>
+              )
+            }
           </div>
         )}
       </div>
@@ -114,8 +127,9 @@ class NotificationList extends Component {
 NotificationList.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
   notifications: PropTypes.array.isRequired,
-  onSelect: PropTypes.func
+  onSelect: PropTypes.func,
 };
 
 NotificationList.defaultProps = {

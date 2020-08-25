@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core';
 // Material components
 import {
   Badge,
+  CircularProgress,
   IconButton,
   Popover,
   Toolbar,
@@ -36,23 +37,30 @@ import { NotificationList } from './components';
 import styles from './styles';
 
 class Topbar extends Component {
-  signal = true;
 
   state = {
     notifications: [],
-    notificationsLimit: 4,
     notificationsCount: 0,
-    notificationsEl: null
+    notificationsEl: null,
+    isLoading: false
   };
 
   getAllNotifications = () => {
+    this.setState({ isLoading: true });
+
     getAllNotifications(localStorage.getItem("accountId"))
     .then((notifications) => {
-      this.setState({ notifications });
+      this.setState({ 
+        notifications,
+        isLoading: false
+       });
       console.log(notifications)
     })
     .catch(errMessage => {
       console.error(errMessage);
+      this.setState({
+        isLoading: false
+      })
     });
   }
 
@@ -62,14 +70,6 @@ class Topbar extends Component {
     localStorage.setItem('isAuthenticated', false);
     history.push('/sign-in');
   };
-
-  componentDidMount() {
-    this.signal = true;
-  }
-
-  componentWillUnmount() {
-    this.signal = false;
-  }
 
   handleShowNotifications = event => {
     this.getAllNotifications();
@@ -146,8 +146,9 @@ class Topbar extends Component {
             vertical: 'top',
             horizontal: 'center'
           }}
-        >
+        > 
           <NotificationList
+            isLoading={this.state.isLoading}
             notifications={notifications}
             onSelect={this.handleCloseNotifications}
           />
@@ -173,7 +174,4 @@ Topbar.defaultProps = {
 let newStyles;
 [Topbar, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('Topbar', Topbar, styles);
 
-export default compose(
-  withRouter,
-  withStyles(newStyles)
-)(Topbar);
+export default compose(withRouter, withStyles(newStyles))(Topbar);

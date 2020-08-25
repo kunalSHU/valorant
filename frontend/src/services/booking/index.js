@@ -1,39 +1,6 @@
 import axios from "axios";
 
-// Mock data
-import users from "../../data/users";
-import conditions from "../../data/conditions";
-
 import { API_GATEWAY_ENDPOINT, PROMISE_REQUEST_DELAY_MS } from "../config.js";
-import { RepeatOneSharp } from "@material-ui/icons";
-
-export const updateAppointmentStatusByAppointmentId = (
-  appointmentId,
-  status
-) => {
-  // status is a string of the status
-
-  return new Promise(resolve => {
-    // Make call to BE to update data
-    setTimeout(() => {
-      resolve({
-        // Some resolution here
-      });
-    }, 700);
-  });
-};
-
-export const getAllAppointmentDetailsByAppointmentId = appointmentId => {
-  // Expect the following object returned { appointmentId, doctorName, appointmentDate, time, location, status }
-  return new Promise(resolve => {
-    // Make call to BE to update data
-    setTimeout(() => {
-      resolve({
-        // Some resolution here (return a string which is the notes)
-      });
-    }, 700);
-  });
-};
 
 export const updateAppointmentStatus = (appointmentId, appointmentStatus) => {
   return new Promise(resolve => {

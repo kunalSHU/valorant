@@ -20,6 +20,11 @@ export default theme => ({
   notificationsButton: {
     marginLeft: 'auto'
   },
+  progressWrapper: {
+    padding: theme.spacing(3),
+    display: 'flex',
+    justifyContent: 'center'
+  },
   signOutButton: {
     marginLeft: theme.spacing(1)
   }

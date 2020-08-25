@@ -56,5 +56,10 @@ export default theme => ({
     width: '240px',
     maxWidth: '100%',
     height: 'auto'
+  },
+  progressWrapper: {
+    padding: theme.spacing(3),
+    display: 'flex',
+    justifyContent: 'center'
   }
 });

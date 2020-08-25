@@ -15,23 +15,21 @@ import styles from './styles';
 
 class ConditionsToolbar extends Component {
   render() {
-    const { classes, className, searchUser, hide } = this.props;
+    const { classes, className, searchUser } = this.props;
 
     const rootClassName = classNames(classes.root, className);
 
     return (
-      !hide && (
-        <div className={rootClassName}>
-          <div className={classes.row}>
-            <SearchInput
-              className={classes.searchInput}
-              onChange={searchUser}
-              placeholder="Search conditions"
-            />
-            <span className={classes.spacer} />
-          </div>
+      <div className={rootClassName}>
+        <div className={classes.row}>
+          <SearchInput
+            className={classes.searchInput}
+            onChange={searchUser}
+            placeholder="Search conditions"
+          />
+          <span className={classes.spacer} />
         </div>
-      )
+      </div>
     );
   }
 }
@@ -39,7 +37,6 @@ class ConditionsToolbar extends Component {
 ConditionsToolbar.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  hide: PropTypes.bool,
   searchUser: PropTypes.func.isRequired
 };
 

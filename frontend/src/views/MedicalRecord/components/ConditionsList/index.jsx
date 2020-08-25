@@ -92,11 +92,39 @@ class ConditionsList extends Component {
   }
 
   searchCondition = (searchQuery) => {
-    const conditions = this.fuse.search(searchQuery);
-    const filteredConditions = conditions.map(condition => condition.item);
-    this.setState({ 
-      conditions: filteredConditions 
-    });
+
+    if (searchQuery === '') {
+      this.setState({ isLoading: true });
+    getAllConditionsByAccountId(
+      LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ID)
+    )
+    .then((conditions) => {
+      if (conditions.length > 0) {
+        this.setState({
+          isLoading: false,
+          conditions: this.sortConditions(conditions, this.state.sortNameColumDirection)
+        });
+  
+        this.fuse = new Fuse(conditions, {
+          keys:['allergyid', 'allergyname', 'otherfacts']
+        })
+      } else {
+        throw Error();
+      }
+    })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+          error: "Could not retrieve all your conditions"
+        });
+      });
+    } else {
+      const conditions = this.fuse.search(searchQuery);
+      const filteredConditions = conditions.map(condition => condition.item);
+      this.setState({ 
+        conditions: filteredConditions 
+      });
+    }
   }
 
   renderUsers() {
@@ -139,7 +167,6 @@ class ConditionsList extends Component {
         </Typography>
         <ConditionsToolbar 
           className={classes.toolbar} 
-          hide={this.state.conditions.length === 0}
           searchUser={event => this.searchCondition(event.target.value)}
         />
         <div className={classes.content}>{this.renderUsers()}</div>

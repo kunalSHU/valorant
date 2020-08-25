@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o kompose-factory
+    kompose.version: 1.19.0 (f63a961c)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: api-gateway-db
+  name: api-gateway-db
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o kompose-factory
+        kompose.version: 1.19.0 (f63a961c)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: api-gateway-db
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_DB
+          value: '''accounts_db'''
+        - name: POSTGRES_PASSWORD
+          value: '''postgres'''
+        - name: POSTGRES_USER
+          value: '''postgres'''
+        image: muhammadw123/api-gateway-db
+        name: api-gateway-db
+        ports:
+        - containerPort: 5432
+        resources: {}
+      hostname: db
+      restartPolicy: Always
+status: {}

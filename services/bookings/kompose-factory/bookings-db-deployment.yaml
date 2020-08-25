@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o kompose-factory
+    kompose.version: 1.19.0 (f63a961c)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: bookings-db
+  name: bookings-db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o kompose-factory
+        kompose.version: 1.19.0 (f63a961c)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: bookings-db
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_DB
+          value: bookings_db
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        - name: POSTGRES_USER
+          value: postgres
+        image: muhammadw123/bookings-db
+        name: postgres-bookings
+        ports:
+        - containerPort: 5432
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: bookings-db-claim0
+      restartPolicy: Always
+      volumes:
+      - name: bookings-db-claim0
+        persistentVolumeClaim:
+          claimName: bookings-db-claim0
+status: {}

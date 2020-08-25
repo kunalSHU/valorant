@@ -1,0 +1,54 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o kompose-factory
+    kompose.version: 1.19.0 (f63a961c)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: app
+  name: app
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o kompose-factory
+        kompose.version: 1.19.0 (f63a961c)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: app
+    spec:
+      containers:
+      - args:
+        - /usr/local/wait-for-it.sh
+        - --timeout=30
+        - db:5432
+        - --
+        - npm
+        - run
+        - start:dev
+        env:
+        - name: APP_PORT
+          value: '''8082'''
+        - name: JWT_SECRET
+          value: '''MCpR4kJ4geJaEsIAZgSu'''
+        - name: NODE_ENV
+          value: '''development'''
+        - name: POSTGRES_DB
+          value: '''accounts_db'''
+        - name: POSTGRES_DB_HOST
+          value: '''db'''
+        - name: POSTGRES_PASSWORD
+          value: '''postgres'''
+        - name: POSTGRES_USER
+          value: '''postgres'''
+        image: muhammadw123/api-gateway-app
+        name: api-gateway-app
+        ports:
+        - containerPort: 8082
+        resources: {}
+      hostname: gateway
+      restartPolicy: Always
+status: {}

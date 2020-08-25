@@ -13,15 +13,15 @@ services:
     #         dockerfile: ./db/Dockerfile
     #     ports:
     #         - '8081:5432'
-    web:
-        image: medical-conditions-web
+     medical-conditions-web:
+        image: 'muhammadw123/medical-conditions-web'
         # depends_on: 
         #     - db
-        command: npm start
+        #command: npm start
         restart: always
-        command: npm start
+       # command: npm start
         ports: 
             - '8080:8080'
-        volumes:
-            - .:/usr/src/app
-            - /usr/src/app/node_modules
+#        volumes:
+#            - .:/usr/src/app
+#            - /usr/src/app/node_modules

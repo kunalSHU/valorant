@@ -1,6 +1,7 @@
 version: "3.3"
 services: 
-    db: 
+    bookings-db:
+        image: "muhammadw123/bookings-db" 
         container_name: postgres-bookings
         environment: 
             POSTGRES_PASSWORD: postgres
@@ -8,19 +9,12 @@ services:
             POSTGRES_DB: bookings_db
         volumes: 
             - ./pgdata:/var/lib/postgresql/data
-        build:
-            context: .
-            dockerfile: ./db/Dockerfile
         ports:
             - '8083:5432'
-    web:
-        image: bookings-web
+    bookings-web:
+        image: 'muhammadw123/bookings-web'
         depends_on: 
             - db
         ports: 
             - '8081:8081'
         restart: always
-        command: npm start
-        volumes:
-            - .:/usr/src/app
-            - /usr/src/app/node_modules

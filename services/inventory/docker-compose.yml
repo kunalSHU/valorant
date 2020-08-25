@@ -1,20 +1,20 @@
 version: "3.7"
 services: 
-    db: 
-        image: postgres
+    inventory-db: 
+        image: 'muhammadw123/inventory-db'
         environment: 
             POSTGRES_PASSWORD: postgres
             POSTGRES_USER: postgres
             POSTGRES_DB: inventory-db
-        volumes: 
-            - ./pgdata:/var/lib/postgresql/data
+        #volumes: 
+         #   - ./pgdata:/var/lib/postgresql/data
         ports:
             - '5436:5432'
-    web:
-        image: inventory-web
+    inventory-web:
+        image: 'muhammadw123/inventory-web'
         depends_on: 
             - db
         ports: 
             - '8085:8080'
-        volumes:
-            - .:/usr/src/app
+#        volumes:
+ #           - .:/usr/src/app

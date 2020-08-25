@@ -7,7 +7,7 @@ CREATE DATABASE patient_db;
 EOSQL
 
 echo "Creating schema and populating database..."
-psql -d patient_db -a -U postgres -f patient_info.sql
-psql -d patient_db -a -U postgres -f data.sql
+psql -d patient_db -a -U postgres -f /docker-entrypoint-initdb.d/patient_info.sql
+#psql -d patient_db -a -U postgres -f /docker-entrypoint-initdb.d/data.sql
 
 

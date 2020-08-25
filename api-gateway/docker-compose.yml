@@ -1,45 +1,47 @@
 version: "3.3"
 
 services:
-  db:
+  api-gateway-db:
     container_name: api_gateway_db
+    image: 'muhammadw123/api-gateway-db'
     hostname: db
     networks:
       - gatewaynet
-    build:
-      context: . # Context is the project root directory
-      dockerfile: ./docker/db/Dockerfile
+    #build:
+    #  context: . # Context is the project root directory
+    #  dockerfile: ./docker/db/Dockerfile
     ports:
       - 9090:5432
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - ./container-data/postgres:/var/lib/postgresql/data/
+      - POSTGRES_DB='accounts_db'
+      - POSTGRES_USER='postgres'
+      - POSTGRES_PASSWORD='postgres'
+    #volumes:
+    #  - ./container-data/postgres:/var/lib/postgresql/data/
     restart: always
     
   app:
     container_name: api_gateway_app
+    image: 'muhammadw123/api-gateway-app'
     hostname: gateway
     networks:
       - gatewaynet
-    build:
-      context: . # Context is the project root directory
-      dockerfile: ./docker/app/Dockerfile
+    #build:
+    #  context: . # Context is the project root directory
+    #  dockerfile: ./docker/app/Dockerfile
     ports: 
-      - ${APP_PORT}:${APP_PORT}
+      - 8082:8082
     environment:
-      - APP_PORT=${APP_PORT}
-      - NODE_ENV=${NODE_ENV}
-      - JWT_SECRET=${JWT_SECRET}
-      - POSTGRES_DB_HOST=${POSTGRES_DB_HOST}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - .:/app # Map existing src directory to container to rebuild on any src code file change
-      - /app/node_modules
+      - APP_PORT='8082'
+      - NODE_ENV='development'
+      - JWT_SECRET='MCpR4kJ4geJaEsIAZgSu'
+      - POSTGRES_DB_HOST='db'
+      - POSTGRES_DB='accounts_db'
+      - POSTGRES_USER='postgres'
+      - POSTGRES_PASSWORD='postgres'
+    #volumes:
+    #  - .:/app # Map existing src directory to container to rebuild on any src code file change
+    #  - /app/node_modules
     command: /usr/local/wait-for-it.sh --timeout=30 db:5432 -- npm run start:dev # Wait for DB to start
     restart: always
     depends_on:

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o kompose-factory
+    kompose.version: 1.19.0 (f63a961c)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: patient-record-web
+  name: patient-record-web
+spec:
+  ports:
+  - name: "8087"
+    port: 8087
+    targetPort: 8087
+  selector:
+    io.kompose.service: patient-record-web
+status:
+  loadBalancer: {}

@@ -32,25 +32,23 @@ const PORT = process.env.APP_PORT || 8080;
 //     .catch((e) => console.log(e))
 //     .finally(() => client.end());
 // };
-const Knex = require("knex");
+const Knex = require('knex');
 const knex = Knex({
   client: 'pg',
-  connection: { 
-    host: '142.1.46.70', 
-    user: 'postgres', 
-    password: 'postgres', 
-    database: 'bookings_db', 
+  connection: {
+    host: '142.1.46.70',
+    user: 'postgres',
+    password: 'postgres',
+    database: 'bookings_db',
     port: 8083
-    },
-
+  }
 });
 
 // Root resolver
 const root = {
-    message: () => 'Hello this is medical recording!',
-    medicalCondition: () => knex("bookings_info.allergy_tbl").select("*"),
+  message: () => 'Hello this is medical recording!',
+  medicalCondition: () => knex('bookings_info.allergy_tbl').select('*')
 };
-
 
 // Create an express server and a GraphQL endpoint
 const app = express();

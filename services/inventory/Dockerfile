@@ -5,13 +5,13 @@ FROM node:latest
 WORKDIR /usr/src/app
 
 # Install App deåpendencies
+COPY . .
 # Image just uses the dependencies in the package json file
-COPY package*.json ./
 
 RUN npm install
 
 # Bundle App
-COPY . .
+#COPY . .
 
 EXPOSE 8084
 #ADD https://raw.githubusercontent.com/nickjj/wait-until/v0.1.0/wait-until /usr/local/bin

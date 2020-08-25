@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o kompose-factory
+    kompose.version: 1.19.0 (f63a961c)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: patient-record-web
+  name: patient-record-web
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o kompose-factory
+        kompose.version: 1.19.0 (f63a961c)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: patient-record-web
+    spec:
+      containers:
+      - image: muhammadw123/patient-record-web
+        name: patient-record-web
+        ports:
+        - containerPort: 8087
+        resources: {}
+      restartPolicy: Always
+status: {}

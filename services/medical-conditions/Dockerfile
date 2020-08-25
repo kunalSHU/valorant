@@ -6,12 +6,13 @@ WORKDIR /usr/src/app
 
 # Install App deåpendencies
 # Image just uses the dependencies in the package json file
-COPY package*.json ./
+#COPY package*.json ./
+COPY . .
 
 RUN npm install
 
 # Bundle App
-COPY . .
+#COPY . .
 
 EXPOSE 8080
 #ADD https://raw.githubusercontent.com/nickjj/wait-until/v0.1.0/wait-until /usr/local/bin

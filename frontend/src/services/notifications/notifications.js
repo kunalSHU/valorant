@@ -1,25 +1,20 @@
-import SocketIOClient from "socket.io-client";
+import axios from "axios";
 
-import { API_GATEWAY_ENDPOINT } from "../config.js";
+import { API_GATEWAY_ENDPOINT, PROMISE_REQUEST_DELAY_MS } from "../config.js";
 
-let socketConnection;
-
-const getSocketConnection = () => {
-  if (socketConnection === undefined) {
-    socketConnection = SocketIOClient(`${API_GATEWAY_ENDPOINT}/notifications`, {
-      reconnectionDelayMax: 10000,
-      reconnectionAttempts: 20,
-      transports: ["websocket"]
-    });
-  }
-  return socketConnection;
-};
-
-export const sendMessage = (topic, message) => {
-  try {
-    const socketConnection = getSocketConnection();
-    socketConnection.emit(topic, JSON.stringify(message));
-  } catch (err) {
-    console.error(err);
-  }
+export const getAllNotifications = accountId => {
+  console.log(accountId);
+  return new Promise(resolve => {
+    setTimeout(() => {
+      axios
+        .get(`${API_GATEWAY_ENDPOINT}/notifications?accountId=${accountId}`)
+        .then(response => {
+          const data = response.data;
+          resolve(data);
+        })
+        .catch(errMessage => {
+          resolve(errMessage);
+        });
+    }, PROMISE_REQUEST_DELAY_MS);
+  });
 };

@@ -20,13 +20,31 @@ import {
 import {
   Menu as MenuIcon,
   Close as CloseIcon,
-  Input as InputIcon
+  Input as InputIcon,
+  NotificationsOutlined as NotificationsIcon,
 } from '@material-ui/icons';
 
 // Component styles
 import styles from './styles';
 
+import { getAllNotifications } from '../../../../services/notifications/notifications.js'
+
 class Topbar extends Component {
+
+  state = {
+    notifications: []
+  }
+
+  getAllNotifications = () => {
+    getAllNotifications(localStorage.getItem("accountId"))
+    .then((notifications) => {
+      this.setState({ notifications });
+      console.log(notifications)
+    })
+    .catch(errMessage => {
+      console.error(errMessage);
+    });
+  }
 
   handleSignOut = () => {
     const { history } = this.props;
@@ -63,6 +81,12 @@ class Topbar extends Component {
             >
               {title}
             </Typography>
+            <IconButton
+              className={classes.notificationsButton}
+              onClick={this.getAllNotifications}
+            >
+              <NotificationsIcon />
+            </IconButton>
             <IconButton
               className={classes.signOutButton}
               onClick={this.handleSignOut}

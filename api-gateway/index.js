@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
@@ -12,27 +13,22 @@ const { listenOnQueue } = require('./src/notifications/messaging-provider.js');
 
 const APP_PORT = process.env.APP_PORT || 8085;
 
-// Socketserver config
-const SOCKET_NOTIFICATIONS_ENDPOINT_PATH = process.env.SOCKET_NOTIFICATIONS_ENDPOINT_PATH || '/notifications';
-
 // Messaging Queue config
 const NOTIFICATION_QUEUE_NAME = process.env.NOTIFICATIONS_QUEUE_NAME || 'hello';
 const AMPQ_MESSAGING_BUS_ENDPOINT = process.env.AMPQ_MESSAGING_BUS_ENDPOINT || '142.1.46.70:8089';
 
 const app = express();
-const appServer = http.Server(app);
-const socketServer = socketio(appServer, {
-  transports: ['websocket']
-});
+
+const userNotifications = {};
 
 loadMiddlewareStack(app);
 
 // Load all gateway endpoints
 app.use('/', require('./src/routes/routes.js'));
 
-// Listen to all notificationssent to /notifications endpoint
-socketServer.of(SOCKET_NOTIFICATIONS_ENDPOINT_PATH).on('connection', (client) => {
-  onRequestAllNotifications(client);
+app.get('/notifications', (req, res) => {
+  const { accountId } = req.query;
+  res.status(httpStatusCode.OK).json(userNotifications[accountId]);
 });
 
 // Initialize RabbitMQ messagingsystem
@@ -50,7 +46,29 @@ rabbitMq.connect(`amqp://${AMPQ_MESSAGING_BUS_ENDPOINT}`, (connectionError, conn
       throw channelError;
     }
 
-    listenOnQueue(channel, NOTIFICATION_QUEUE_NAME);
+    channel.assertQueue(NOTIFICATION_QUEUE_NAME, { durable: false });
+    logger.info(`Waiting for messages from ${NOTIFICATION_QUEUE_NAME}`);
+
+    try {
+      channel.consume(NOTIFICATION_QUEUE_NAME, (message) => {
+        const messageContent = message.content.toString();
+
+        if (messageContent[0] === '{') {
+          const updatedAppointment = JSON.parse(messageContent);
+          const accountId = updatedAppointment.userid;
+
+          if (userNotifications[accountId] === undefined) {
+            userNotifications[accountId] = [];
+          }
+
+          userNotifications[accountId].push(updatedAppointment);
+        }
+
+        logger.info(`Recieved message from ${NOTIFICATION_QUEUE_NAME}: ${messageContent}`);
+      });
+    } catch (err) {
+      logger.error(`Error consuming in channel ${channel} from queue ${NOTIFICATION_QUEUE_NAME}`);
+    }
   });
 });
 
@@ -59,7 +77,7 @@ app.use('*', (req, res) => {
   return res.status(httpStatusCode.CLIENT_NOT_FOUND).json({ data: 'Route not found' });
 });
 
-const server = appServer
+const server = app
   .listen(APP_PORT, () => {
     logger.info(`API Gateway running on localhost:${APP_PORT} in ${process.env.NODE_ENV} mode`);
   })

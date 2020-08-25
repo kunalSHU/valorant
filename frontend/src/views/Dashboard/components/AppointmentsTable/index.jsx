@@ -219,7 +219,6 @@ class AppointmentsTable extends Component {
 
     return (
       <Portlet className={rootClassName}>
-        { showAppointments && !isLoading ? (
           <PortletHeader className={classes.portletHeader} noDivider>
             <PortletLabel
               subtitle={`${appointmentsTotal} in total`}
@@ -237,7 +236,6 @@ class AppointmentsTable extends Component {
               </Button>
             </PortletToolbar>
           </PortletHeader>
-        ) : null }
           
         <PerfectScrollbar>
           <PortletContent className={classes.portletContent} noPadding>

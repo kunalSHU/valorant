@@ -28,26 +28,16 @@ import {
   Store as StoreIcon
 } from '@material-ui/icons';
 
+// import { Status } from '../../../../../components';
+
 // Component styles
 import styles from './styles';
 
-const icons = {
-  order: {
-    icon: <PaymentIcon />,
-    color: 'blue'
-  },
-  user: {
-    icon: <PeopleIcon />,
-    color: 'red'
-  },
-  product: {
-    icon: <StoreIcon />,
-    color: 'green'
-  },
-  feature: {
-    icon: <CodeIcon />,
-    color: 'purple'
-  }
+const statusColors = {
+  'Completed': 'success',
+  'Upcoming': 'info',
+  'Awaiting Confirmation': 'warning',
+  'Cancelled': 'danger'
 };
 
 class NotificationList extends Component {

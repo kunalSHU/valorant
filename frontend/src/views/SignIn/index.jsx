@@ -90,9 +90,14 @@ class SignIn extends Component {
       retrieveBasicInfoByAccountId(
         LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ID)
       )
-      .then(() => {
+      .then((data) => {
+
         if (isAuthenticated === true) {
-          this.props.history.replace('/dashboard');
+          if (data === "Could not retrieve profile information") {
+            this.props.history.replace('/profile');
+          } else {
+            this.props.history.replace('/dashboard');
+          }
         } else {
           this.setState({
             isLoading: false,
@@ -103,6 +108,7 @@ class SignIn extends Component {
             }
           });
         }
+        
       })
       .catch((errMessage) => {
         this.setState({

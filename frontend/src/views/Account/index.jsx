@@ -35,7 +35,7 @@ class Account extends Component {
             container
             spacing={2}
           >
-            <Grid
+            {/* <Grid
               item
               lg={4}
               md={6}
@@ -53,7 +53,7 @@ class Account extends Component {
               xs={12}
             >
               <Export />
-            </Grid>
+            </Grid> */}
 
             <Grid
               item

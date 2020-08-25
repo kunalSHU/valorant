@@ -84,7 +84,9 @@ const root = {
           sex: sex
         });
       })
-      .then((response) => {});
+      .then((response) => {
+        console.log(response);
+      });
   }
 };
 

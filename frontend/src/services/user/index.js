@@ -3,17 +3,6 @@ import axios from "axios";
 import { API_GATEWAY_ENDPOINT, PROMISE_REQUEST_DELAY_MS } from "../config.js";
 import * as LocalStorageProvider from "../../utils/local-storage-provider.js";
 
-// TODO rename folder from user to account
-
-// TODO
-export const getAccountInfoByEmail = email => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(email);
-    }, 700);
-  });
-};
-
 export const authenticateUser = (emailAddress, password) => {
   LocalStorageProvider.setItem(
     LocalStorageProvider.LS_KEYS.IS_AUTHENTICATED,

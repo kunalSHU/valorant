@@ -8,6 +8,7 @@ ci-pipeline/ci-pipeline-data/*
 # Ignore generated test reports
 **/__tests__/**/report
 container-data/
+pgdata
 #################################
 
 # Logs

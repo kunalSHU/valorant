@@ -20,7 +20,7 @@ export const updateAppointmentStatus = (appointmentId, appointmentStatus) => {
           `
         })
         .then(response => {
-          resolve(true);
+          resolve(response);
         })
         .catch(errMessage => {
           resolve(errMessage);

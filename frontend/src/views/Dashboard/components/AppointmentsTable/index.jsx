@@ -46,7 +46,6 @@ import {
   getAllAppointmentsWithStatus, 
   updateAppointmentStatus 
 } from '../../../../services/booking/index.js';
-import { BorderAll } from '@material-ui/icons';
 
 const statusColors = {
   'Completed': 'success',
@@ -152,6 +151,8 @@ class AppointmentsTable extends Component {
 
   handleAppointmentAdded = (addedAppointmentInfo) => {
 
+    this.handleClose();
+
     const appointmentToBook = {
       appt_type: "In Person",
       begins_at: addedAppointmentInfo.appointmentDate,
@@ -162,10 +163,34 @@ class AppointmentsTable extends Component {
 
     bookAppointment(
       LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ID), appointmentToBook)
-    setTimeout(() => {
-      window.location.reload()
-    } ,3000)
-
+      .then(() => {
+        this.setState({ isLoading: true })
+        getAllAppointmentsByAccountId(LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ACCOUNT_ID))
+          .then(appointments => {
+            this.setState({
+              appointments: appointments,
+              appointmentsTotal: appointments.length,
+              openBookingModal: false,
+              isLoading: false,
+              showAppointments: true,
+            })
+          })
+          .catch(() => {
+            this.setState({
+              showAppointments: false,
+              isLoading: false,
+              openBookingModal: false
+            });
+          });
+      })
+      .catch((errMessage) => {
+        console.error(errMessage);
+        this.setState({
+          showAppointments: false,
+          isLoading: false,
+          openBookingModal: false
+        });
+      })
   }
 
   handleAppointmentDeleted = (appointmentId) => {

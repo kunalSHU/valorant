@@ -1,15 +1,10 @@
 /* eslint-disable security/detect-object-injection */
 const express = require('express');
-const http = require('http');
-const socketio = require('socket.io');
 const rabbitMq = require('amqplib/callback_api');
 
 const loadMiddlewareStack = require('./src/middlewares/middleware.js');
 const logger = require('./src/logger/logger.js');
 const httpStatusCode = require('./src/network-utils/http-status-code.js');
-
-const { onRequestAllNotifications } = require('./src/notifications/notification-events.js');
-const { listenOnQueue } = require('./src/notifications/messaging-provider.js');
 
 const APP_PORT = process.env.APP_PORT || 8085;
 

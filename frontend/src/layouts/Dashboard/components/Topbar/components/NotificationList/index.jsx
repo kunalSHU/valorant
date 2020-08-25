@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 // Externals
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import moment from 'moment';
 
 // Material helpers
 import { withStyles } from '@material-ui/core';
@@ -61,7 +62,7 @@ class NotificationList extends Component {
         {notifications.length > 0 ? (
           <Fragment>
             <div className={classes.header}>
-              <Typography variant="h6">User Notifications</Typography>
+              <Typography variant="h6">Appointment Notifications</Typography>
               <Typography
                 className={classes.subtitle}
                 variant="body2"
@@ -73,7 +74,7 @@ class NotificationList extends Component {
               <List component="div">
                 {notifications.map(notification => (
                   <Link
-                    key={notification.id}
+                    key={Math.random()}
                     to="#"
                   >
                     <ListItem
@@ -81,34 +82,16 @@ class NotificationList extends Component {
                       component="div"
                       onClick={onSelect}
                     >
-                      <ListItemIcon
-                        className={classes.listItemIcon}
-                        style={{ color: icons[notification.type].color }}
-                      >
-                        {icons[notification.type].icon}
-                      </ListItemIcon>
                       <ListItemText
                         classes={{ secondary: classes.listItemTextSecondary }}
-                        primary={notification.title}
-                        secondary={notification.when}
+                        primary={`Your appointment APPT-${notification.appointmentid} status has changed to ${notification.status_appt}`}
+                        secondary={moment(notification.begins_at).format('DD/MM/YYYY @ hh:mm A')}
                       />
-                      <ArrowForwardIosIcon className={classes.arrowForward} />
                     </ListItem>
                     <Divider />
                   </Link>
                 ))}
               </List>
-              <div className={classes.footer}>
-                <Button
-                  color="primary"
-                  component={Link}
-                  size="small"
-                  to="#"
-                  variant="contained"
-                >
-                  See all
-                </Button>
-              </div>
             </div>
           </Fragment>
         ) : (

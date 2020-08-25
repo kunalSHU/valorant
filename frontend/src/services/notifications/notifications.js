@@ -3,7 +3,6 @@ import axios from "axios";
 import { API_GATEWAY_ENDPOINT, PROMISE_REQUEST_DELAY_MS } from "../config.js";
 
 export const getAllNotifications = accountId => {
-  console.log(accountId);
   return new Promise(resolve => {
     setTimeout(() => {
       axios

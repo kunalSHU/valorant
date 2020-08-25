@@ -11,7 +11,9 @@ import { withStyles } from '@material-ui/core';
 
 // Material components
 import {
+  Badge,
   IconButton,
+  Popover,
   Toolbar,
   Typography
 } from '@material-ui/core';
@@ -20,20 +22,28 @@ import {
 import {
   Menu as MenuIcon,
   Close as CloseIcon,
-  Input as InputIcon,
   NotificationsOutlined as NotificationsIcon,
+  Input as InputIcon
 } from '@material-ui/icons';
+
+// Shared services
+import { getAllNotifications } from '../../../../services/notifications/notifications.js';
+
+// Custom components
+import { NotificationList } from './components';
 
 // Component styles
 import styles from './styles';
 
-import { getAllNotifications } from '../../../../services/notifications/notifications.js'
-
 class Topbar extends Component {
+  signal = true;
 
   state = {
-    notifications: []
-  }
+    notifications: [],
+    notificationsLimit: 4,
+    notificationsCount: 0,
+    notificationsEl: null
+  };
 
   getAllNotifications = () => {
     getAllNotifications(localStorage.getItem("accountId"))
@@ -53,6 +63,27 @@ class Topbar extends Component {
     history.push('/sign-in');
   };
 
+  componentDidMount() {
+    this.signal = true;
+  }
+
+  componentWillUnmount() {
+    this.signal = false;
+  }
+
+  handleShowNotifications = event => {
+    this.getAllNotifications();
+    this.setState({
+      notificationsEl: event.currentTarget
+    });
+  };
+
+  handleCloseNotifications = () => {
+    this.setState({
+      notificationsEl: null
+    });
+  };
+
   render() {
     const {
       classes,
@@ -61,8 +92,10 @@ class Topbar extends Component {
       isSidebarOpen,
       onToggleSidebar
     } = this.props;
+    const { notifications, notificationsCount, notificationsEl } = this.state;
 
     const rootClassName = classNames(classes.root, className);
+    const showNotifications = Boolean(notificationsEl);
 
     return (
       <Fragment>
@@ -83,9 +116,15 @@ class Topbar extends Component {
             </Typography>
             <IconButton
               className={classes.notificationsButton}
-              onClick={this.getAllNotifications}
+              onClick={this.handleShowNotifications}
             >
-              <NotificationsIcon />
+              <Badge
+                badgeContent={notificationsCount}
+                color="primary"
+                variant="dot"
+              >
+                <NotificationsIcon />
+              </Badge>
             </IconButton>
             <IconButton
               className={classes.signOutButton}
@@ -95,6 +134,24 @@ class Topbar extends Component {
             </IconButton>
           </Toolbar>
         </div>
+        <Popover
+          anchorEl={notificationsEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center'
+          }}
+          onClose={this.handleCloseNotifications}
+          open={showNotifications}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+        >
+          <NotificationList
+            notifications={notifications}
+            onSelect={this.handleCloseNotifications}
+          />
+        </Popover>
       </Fragment>
     );
   }
@@ -116,4 +173,7 @@ Topbar.defaultProps = {
 let newStyles;
 [Topbar, newStyles] = require('../../../../common/customizers').customizers.customizeComponent('Topbar', Topbar, styles);
 
-export default compose(withRouter, withStyles(newStyles))(Topbar);
+export default compose(
+  withRouter,
+  withStyles(newStyles)
+)(Topbar);

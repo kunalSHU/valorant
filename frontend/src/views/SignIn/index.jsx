@@ -79,6 +79,8 @@ class SignIn extends Component {
 
     const { email, password } = this.state.values;
 
+    console.log(password);
+
     authenticateUser(email, password)
     .then(({ isAuthenticated, errMessage }) => {
         if (isAuthenticated === true) {

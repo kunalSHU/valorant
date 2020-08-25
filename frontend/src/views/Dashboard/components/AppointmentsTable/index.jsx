@@ -219,7 +219,6 @@ class AppointmentsTable extends Component {
                   <TableHead>
                     <TableRow>
                       <TableCell>Appointment ID</TableCell>
-                      <TableCell align="left">Doctor</TableCell>
                       <TableCell align="left">Appointment Date</TableCell>
                       <TableCell align="left">Time</TableCell>
                       <TableCell align="left">Location</TableCell>
@@ -230,7 +229,6 @@ class AppointmentsTable extends Component {
                   <TableBody>
                     {appointments.map(({ 
                       appointmentid: appointmentId,
-                      doctor_full_name: doctorFullName,
                       begins_at: appointmentDateUnixTimestamp, 
                       status_appt: appointmentStatus, 
                       appt_type: appointmentLocation,
@@ -242,9 +240,6 @@ class AppointmentsTable extends Component {
                       >
                         <TableCell onClick={() => this.onAppointmentClicked(appointmentId)}>
                           {`APPT-${appointmentId}`}
-                        </TableCell>
-                        <TableCell className={classes.customerCell}>
-                          {doctorFullName || "Not Found"}
                         </TableCell>
                         <TableCell>
                           {moment.unix(appointmentDateUnixTimestamp / 1000).format('DD/MM/YYYY')}

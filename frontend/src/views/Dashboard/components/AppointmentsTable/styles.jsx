@@ -41,4 +41,7 @@ export default theme => ({
   status: {
     marginRight: theme.spacing(1)
   },
+  statusField: {
+    width: '100%'
+  }
 });

@@ -38,7 +38,7 @@ import {bookAppointment} from '../../../../services/booking/index'
 // Component styles
 import styles from './styles';
 
-import { getAllAppointmentsByAccountId } from '../../../../services/booking/index.js';
+import { getAllAppointmentsByAccountId, getAllAppointmentsWithStatus, updateAppointmentStatus } from '../../../../services/booking/index.js';
 
 const statusColors = {
   'Completed': 'success',
@@ -48,9 +48,9 @@ const statusColors = {
 };
 
 const appointmentStatuses = {
-  'upcoming': 'Approved',
-  'cancelled': 'Cancel',
-  'awaiting confirmation': 'Pending',
+  'Upcoming': 'Approved',
+  'Cancelled': 'Cancelled',
+  'Awaiting Confirmation': 'Pending',
 };
 
 class AppointmentsTable extends Component {
@@ -64,22 +64,60 @@ class AppointmentsTable extends Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
-    getAllAppointmentsByAccountId(localStorage.getItem('accountId'))
-      .then(appointments => {
-        console.log(appointments)
-        this.setState({
-          appointments: appointments,
-          appointmentsTotal: appointments.length,
-          isLoading: false,
-          showAppointments: true
+    
+    const accountRole = localStorage.getItem("accountRole");
+
+    if (accountRole === "patient") {
+      getAllAppointmentsByAccountId(localStorage.getItem('accountId'))
+        .then(appointments => {
+          console.log(appointments)
+          this.setState({
+            appointments: appointments,
+            appointmentsTotal: appointments.length,
+            isLoading: false,
+            showAppointments: true
+          })
         })
-      })
-      .catch(() => {
-        this.setState({
-          showAppointments: false,
-          isLoading: false
+        .catch(() => {
+          this.setState({
+            showAppointments: false,
+            isLoading: false
+          });
         });
-      });
+    } else if (accountRole) {
+      getAllAppointmentsWithStatus(['Cancelled', 'Awaiting Confirmation', 'Upcoming'])
+        .then(appointments => {
+          console.log(appointments)
+          this.setState({
+            appointments: appointments,
+            appointmentsTotal: appointments.length,
+            isLoading: false,
+            showAppointments: true
+          })
+        })
+        .catch(() => {
+          this.setState({
+            showAppointments: false,
+            isLoading: false
+          });
+        });
+    }
+  }
+
+  onChangeAppointmentStatus = (appointmentId, status) => {
+    const allAppointments = this.state.appointments;
+    for (let i = 0; i < this.state.appointments.length; i++) {
+      if (allAppointments[i].appointmentid === appointmentId) {
+        updateAppointmentStatus(appointmentId, status)
+        .then(() => {
+          allAppointments[i].status_appt = status;
+          this.setState({ appointments: allAppointments });
+        }).catch((errMessage) => {
+          console.error(errMessage);
+        });
+        break;
+      }
+    }   
   }
 
   onAppointmentClicked = (appointmentId) => {
@@ -193,7 +231,6 @@ class AppointmentsTable extends Component {
                       status_appt: appointmentStatus, 
                       appt_type: appointmentLocation,
                     }) => (
-                      (appointmentStatus !== 'Completed' && localStorage.getItem("accountRole") !== 'doctor') &&
                       <TableRow
                         className={classes.tableRow}
                         hover
@@ -211,20 +248,20 @@ class AppointmentsTable extends Component {
                         <TableCell>{moment.unix(appointmentDateUnixTimestamp / 1000).format("hh:mm A")}</TableCell>
                         <TableCell>{appointmentLocation}</TableCell>
 
-                        { localStorage.getItem("accountRole") === 'patient' ? 
+                        { localStorage.getItem("accountRole") === 'receptionist' ? 
                           (
                             <TableCell>
                               <TextField
                                 SelectProps={{ native: true }}
-                                className={classes.textField}
+                                className={classes.statusField}
                                 margin="dense"
-                                onChange={(e) => console.log(e.target.value)}
+                                onChange={(e) => this.onChangeAppointmentStatus(appointmentId, e.target.value)}
                                 select
-                                value={appointmentStatuses[appointmentStatus.toLowerCase()]}
+                                value={appointmentStatus}
                                 variant="outlined"
                               >
                                 {Object.keys(appointmentStatuses).map(status => (
-                                  <option key={status} value={appointmentStatuses[status]}>
+                                  <option key={status} value={status}>
                                     {appointmentStatuses[status]}
                                   </option>
                                 ))}

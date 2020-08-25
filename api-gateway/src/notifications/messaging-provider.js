@@ -9,12 +9,16 @@ const logger = require('../logger/logger.js');
  */
 const listenOnQueue = (channel, queueName) => {
   channel.assertQueue(queueName, { durable: false });
-  logger.info(`Waiting for messages from queue: ${queueName}`);
+  logger.info(`Waiting for messages from ${queueName}`);
 
-  channel.consume(queueName, (message) => {
-    const messageContent = message.content.toString();
-    logger.info(`Recieved message from ${queueName}: ${messageContent}`);
-  });
+  try {
+    channel.consume(queueName, (message) => {
+      const messageContent = message.content.toString();
+      logger.info(`Recieved message from ${queueName}: ${messageContent}`);
+    });
+  } catch (err) {
+    logger.error(`Error consuming in channel ${channel} from queue ${queueName}`);
+  }
 };
 
 module.exports = { listenOnQueue };

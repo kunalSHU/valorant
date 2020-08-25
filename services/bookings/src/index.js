@@ -111,6 +111,19 @@ const root = {
       allergyid: allergyid
     });
   },
+
+  updateAppointmentStatus: async ({ appointmentid, status_appt }) => {
+    const updatedAppointment = await knex('bookings_info.appointments_info_basic_tbl')
+      .where({ appointmentid: appointmentid })
+      .update({ status_appt: status_appt });
+
+    const selectedUpdatedStatusAppointment = await knex('bookings_info.appointments_info_basic_tbl')
+      .select('*')
+      .where({ appointmentid: appointmentid });
+
+    return selectedUpdatedStatusAppointment;
+  },
+
   newUserVitals: ({ vitalid, userid, bloodpressure, bloodtype, height, weight, dateChecked }) => {
     return knex('bookings_info.user_vitals_tbl').insert({
       vitalid: vitalid,

@@ -27,6 +27,11 @@ const schema = buildSchema(`
             status_appt: String
         ): Appointment!
 
+        updateAppointmentStatus(
+            appointmentid: Int
+            status_appt: String
+        ): [Appointment!]
+
         newQuestionaire(
             questionaireid: Int
             flu: Boolean

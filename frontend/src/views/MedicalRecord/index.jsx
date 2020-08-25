@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import * as LocalStorageProvider from '../../utils/local-storage-provider.js';
+
 // Externals
 import PropTypes from 'prop-types';
 
@@ -19,25 +21,10 @@ import { BasicInfo, Location, ConditionsList, WeightTracker, HeightTracker, Bloo
 const styles = theme => ({
   root: {
     padding: theme.spacing(4)
-  }
+  },
 });
 
 class MedicalRecord extends Component {
-  state = { 
-    shouldShowComponent: {
-      'BasicInfo': true,
-      'Location': true,
-    }
-  };
-
-  shouldRenderGridItem = (componentName, shouldRenderGridItem) => {
-    this.setState({ 
-      shouldShowComponent: {
-        componentName: shouldRenderGridItem 
-      }
-    })
-  }
-
 
   render() {
     const { classes } = this.props;
@@ -80,17 +67,16 @@ class MedicalRecord extends Component {
               <BloodType />
             </Grid>
             
-            { this.state.shouldShowComponent['BasicInfo'] && (
-              <Grid
-                item
-                lg="auto"
-                md="auto"
-                xl={4}
-                xs={12}
-              >
-                <BasicInfo shouldRenderGridItem={(shouldRenderGridItem) => this.shouldRenderGridItem('BasicInfo', shouldRenderGridItem)}/>
-              </Grid>
-            )}
+            <Grid
+              className={classes.gridItem}
+              item
+              lg={6}
+              md={6}
+              xl={4}
+              xs={12}
+            >
+              <BasicInfo />
+            </Grid>
 
             <Grid
               item
@@ -99,7 +85,7 @@ class MedicalRecord extends Component {
               xl={4}
               xs={12}
             >
-              <Location/>
+              <Location addressid={LocalStorageProvider.getItem(LocalStorageProvider.LS_KEYS.ADDRESS_ID)}/>
             </Grid>
             
             <Grid

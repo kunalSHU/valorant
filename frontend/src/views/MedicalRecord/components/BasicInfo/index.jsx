@@ -41,8 +41,8 @@ class BasicInfo extends Component {
     isLoading: false,
     isValid: false,
     values: {
-      firstName: 'John',
-      lastName: 'Doe',
+      firstName: ' ',
+      lastName: ' ',
       sex: sexes[0].label
     },
     empty: {},
@@ -76,8 +76,6 @@ class BasicInfo extends Component {
         isLoading: false,
         showForm: true
       })
-      
-      this.props.shouldRenderGridItem(true);
     })
     .catch((errMessage) => {
       console.error(errMessage)
@@ -85,8 +83,6 @@ class BasicInfo extends Component {
         isLoading: false, 
         showForm: false 
       })
-
-      this.props.shouldRenderGridItem(false);
     })
   }
 
@@ -110,92 +106,92 @@ class BasicInfo extends Component {
     const rootClassName = classNames(classes.root, className);
 
     return (
-      showForm ?
-      (
-        <Portlet
-          {...rest}
-          className={rootClassName}
-        >
-          <PortletHeader>
-            <PortletLabel
-              subtitle="Update your name and sex"
-              title="Basic Information"
-            />
-          </PortletHeader>
+        showForm ?
+        (
+          <Portlet
+            {...rest}
+            className={rootClassName}
+          >
+            <PortletHeader>
+              <PortletLabel
+                subtitle="Update your name and sex"
+                title="Basic Information"
+              />
+            </PortletHeader>
 
-          <PortletContent noPadding>
-            <form>
-              <div className={classes.field}>
-                <TextField
-                  className={classes.textField}
-                  error={this.state.values['firstName'] === '' ? true : false}
-                  helperText={this.state.values['firstName'] === '' ? 'First name cannot be empty' : null}
-                  label="First name"
-                  margin="dense"
-                  onChange={event =>
-                    this.handleFieldChange('firstName', event.target.value)
-                  }
-                  value={values.firstName}
-                  variant="outlined"
-                />
-                <TextField
-                  className={classes.textField}
-                  error={this.state.values['lastName'] === '' ? true : false}
-                  helperText={this.state.values['lastName'] === '' ? 'Last name cannot be empty' : null}
-                  label="Last name"
-                  margin="dense"
-                  onChange={event =>
-                    this.handleFieldChange('lastName', event.target.value)
-                  }
-                  value={values.lastName}
-                  variant="outlined"
-                />
-              </div>
-              <div className={classes.field}>
-                <TextField
-                  SelectProps={{ native: true }}
-                  className={classes.textField}
-                  label="Sex"
-                  margin="dense"
-                  onChange={event =>
-                    this.handleFieldChange('sex', event.target.value)
-                  }
-                  select
-                  value={values.sex}
-                  variant="outlined"
-                >
-                  {sexes.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
-              </div>
-            </form>
-          </PortletContent>
+            <PortletContent noPadding>
+              <form>
+                <div className={classes.field}>
+                  <TextField
+                    className={classes.textField}
+                    error={this.state.values['firstName'] === '' ? true : false}
+                    helperText={this.state.values['firstName'] === '' ? 'First name cannot be empty' : null}
+                    label="First name"
+                    margin="dense"
+                    onChange={event =>
+                      this.handleFieldChange('firstName', event.target.value)
+                    }
+                    value={values.firstName}
+                    variant="outlined"
+                  />
+                  <TextField
+                    className={classes.textField}
+                    error={this.state.values['lastName'] === '' ? true : false}
+                    helperText={this.state.values['lastName'] === '' ? 'Last name cannot be empty' : null}
+                    label="Last name"
+                    margin="dense"
+                    onChange={event =>
+                      this.handleFieldChange('lastName', event.target.value)
+                    }
+                    value={values.lastName}
+                    variant="outlined"
+                  />
+                </div>
+                <div className={classes.field}>
+                  <TextField
+                    SelectProps={{ native: true }}
+                    className={classes.textField}
+                    label="Sex"
+                    margin="dense"
+                    onChange={event =>
+                      this.handleFieldChange('sex', event.target.value)
+                    }
+                    select
+                    value={values.sex}
+                    variant="outlined"
+                  >
+                    {sexes.map(option => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </TextField>
+                </div>
+              </form>
+            </PortletContent>
 
-          <PortletFooter className={classes.portletFooter}>
+            <PortletFooter className={classes.portletFooter}>
 
-            <Button color="primary" disabled={!this.state.isValid} onClick={this.submitForm} variant="contained">
-              Update
-            </Button>
+              <Button color="primary" disabled={!this.state.isValid} onClick={this.submitForm} variant="contained">
+                Update
+              </Button>
 
-            { this.state.submitSuccess &&
-              <div className={classes.statusContainer}>
-                <Status className={classes.status} color="success" size="md"/>
-                <Typography variant="caption">
-                  Information has been updated
-                </Typography>
-              </div>
-            }
-          </PortletFooter>
-        </Portlet>
-      ) : (
-        isLoading &&
-        <div className={classes.progressWrapper}>
-          <CircularProgress className={classes.progress} />
-        </div>
-      )
+              { this.state.submitSuccess &&
+                <div className={classes.statusContainer}>
+                  <Status className={classes.status} color="success" size="md"/>
+                  <Typography variant="caption">
+                    Information has been updated
+                  </Typography>
+                </div>
+              }
+            </PortletFooter>
+          </Portlet>
+        ) : (
+          isLoading &&
+          <div className={classes.progressWrapper}>
+            <CircularProgress className={classes.progress} />
+          </div>
+        )
     );
   }
 }
@@ -203,7 +199,6 @@ class BasicInfo extends Component {
 BasicInfo.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  shouldRenderGridItem: PropTypes.func
 };
 
 let newStyles;

@@ -87,21 +87,6 @@ class BookAppointment extends Component {
             value={this.state.appointmentDate}
           />
 
-          <TextField
-            className={classes.field}
-            fullWidth
-            label="Additional Notes"
-            multiline
-            name="title"
-            onChange={this.handleFieldChange}
-            rows={5}
-            rowsMax={5}
-            value={this.state.appointmentNotes}
-            variant="outlined"
-          />
-
-          <Divider />
-
           <CardActions className={classes.actions}>
             {mode === "add" ? (
               <Button
@@ -125,14 +110,6 @@ class BookAppointment extends Component {
               Cancel
             </Button>
             
-            <IconButton
-              className={classes.deleteAppointmentButton}
-              edge="start" 
-              onClick={this.onAppointmentDelete}
-            >
-              <DeleteAppointmentIcon />
-            </IconButton>
-
           </CardActions>
 
         </PortletContent>

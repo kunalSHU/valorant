@@ -101,7 +101,7 @@ class NotificationList extends Component {
                   <div className={classes.progressWrapper}>
                     <CircularProgress />
                   </div>
-                  <Typography variant="h4">Getting all your notifications...</Typography>
+                  <Typography variant="h6">Getting all your notifications...</Typography>
                 </div>
               ) : (
                 <div>

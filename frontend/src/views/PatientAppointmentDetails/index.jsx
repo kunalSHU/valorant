@@ -72,16 +72,6 @@ class PatientAppointmentDetails extends Component {
 
             <Grid
               item
-              lg={12}
-              sm={12}
-              xl={12}
-              xs={12}
-            >
-              <Notes/>
-            </Grid>
-            
-            <Grid
-              item
               lg={6}
               md={6}
               xl={4}
